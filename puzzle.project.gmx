@@ -36,13 +36,19 @@
   <rooms name="rooms">
     <room>rooms\rm_puzzle</room>
   </rooms>
-  <constants number="6">
+  <constants number="12">
     <constant name="T_BROWN">0</constant>
     <constant name="T_BLUE">1</constant>
     <constant name="T_GREEN">2</constant>
     <constant name="T_YELLOW">3</constant>
     <constant name="T_PURPLE">4</constant>
     <constant name="T_ATK">5</constant>
+    <constant name="M_MOVE">1</constant>
+    <constant name="M_SMASH">2</constant>
+    <constant name="M_CASCADE">3</constant>
+    <constant name="M_ATK_COMBO">4</constant>
+    <constant name="M_ATK_RISE">5</constant>
+    <constant name="M_ATK_HIT">6</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

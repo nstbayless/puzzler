@@ -28,7 +28,7 @@
             <string>PUZ_WIDTH = 5;
 PUZ_HEIGHT = 5;
 PUZ_TYPE_N = 6;
-PUZ_C[T_BROWN] = make_color_rgb(194, 92, 59);
+PUZ_C[T_BROWN] = make_color_rgb(200, 64, 48);
 PUZ_C[T_BLUE] = c_blue;
 PUZ_C[T_GREEN] = c_green;
 PUZ_C[T_YELLOW] = c_yellow;
@@ -380,9 +380,14 @@ draw_set_colour(c_white);
 draw_set_alpha(1);
 
 draw_text(room_width-32,room_height-64,stat_swaps);
-if (mode==2 || mode == 3) {
+if (mode==M_SMASH || mode == M_CASCADE) {
     if (combo &gt; 0) {
         draw_text(room_width-128,room_height-64,"COMBO x" + string(combo));
+    }
+}
+if (mode==M_ATK_COMBO) {
+    if (combo &gt; 1) {
+        scr_draw_fancy_text(room_width/2,room_height-64, "COMBO x" + string(combo), 3)
     }
 }
 
@@ -450,9 +455,17 @@ panel_height = 100;
 
 for (i=0;i&lt;party_size;i++) {
     draw_y = room_height - 24;
+    if (mode&gt;=M_SMASH &amp;&amp; mode &lt;= M_ATK_HIT) {
+        if (pc_damage[i] &gt; 0)
+            draw_y -= 8;
+    }
     draw_x = panel_space + panel_width*i;
     draw_set_colour(PUZ_C[pc_type[i]])
     draw_rectangle(draw_x,draw_y,draw_x+panel_width-panel_space,draw_y+panel_height,false)
+    portrait_bevel = 4;
+    portrait_width = panel_width-panel_space-portrait_bevel*2;
+    scale = portrait_width/sprite_get_width(pc_sprite[i]);
+    draw_sprite_ext(pc_sprite[i],1,draw_x+portrait_bevel,draw_y+portrait_bevel,scale,scale,0,c_white,1)
     
     // damage text
     if (pc_damage[i]&gt;0) {

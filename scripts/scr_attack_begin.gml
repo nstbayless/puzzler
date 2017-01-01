@@ -1,7 +1,7 @@
 // executes after smashing complete
 // (mode 4)
 
-mode = 4;
+mode = M_ATK_COMBO;
 
 if (combo > 1) {
     for (i=0;i<party_size;i++) {
