@@ -36,7 +36,7 @@ PUZ_C[T_PURPLE] = c_purple;
 PUZ_C[T_ATK] = c_white;
 
 draw_mon_x = room_width/2;
-draw_mon_y = room_height/4;
+draw_mon_y = room_height/5;
 
 draw_puz_bev = 16;
 draw_puz_w = room_width-draw_puz_bev;
@@ -51,6 +51,8 @@ cur_sel = false;
 
 scr_board_randomize();
 scr_board_reset_smash();
+
+ATTACK_ANIM_MAX_T = 25;
 
 stat_swap_max = 3;
 stat_swaps = stat_swap_max;
@@ -146,31 +148,31 @@ scr_set_monster(0);
             <string>a_pc_sprite[0] = spr_NaOH;
 a_pc_name[0] = "NaOH"
 a_pc_hp[0] = 400;
-a_pc_atk[0] = 20;
+a_pc_atk[0] = 2;
 a_pc_type[0] = T_BLUE;
 
 a_pc_sprite[1] = spr_NaOH;
 a_pc_name[1] = "Irish"
 a_pc_hp[1] = 300;
-a_pc_atk[1] = 60;
+a_pc_atk[1] = 6;
 a_pc_type[1] = T_YELLOW;
 
 a_pc_sprite[2] = spr_NaOH;
 a_pc_name[2] = "Guy no. 3"
 a_pc_hp[2] = 500;
-a_pc_atk[2] = 30;
+a_pc_atk[2] = 3;
 a_pc_type[2] = T_BROWN;
 
 a_pc_sprite[3] = spr_NaOH;
 a_pc_name[3] = "The Queen"
 a_pc_hp[3] = 200;
-a_pc_atk[3] = 40;
+a_pc_atk[3] = 4;
 a_pc_type[3] = T_GREEN;
 
 a_pc_sprite[4] = spr_NaOH;
 a_pc_name[4] = "Sassy"
 a_pc_hp[4] = 300;
-a_pc_atk[4] = 30;
+a_pc_atk[4] = 3;
 a_pc_type[4] = T_GREEN;
 
 party_pc[0] = 0;
@@ -269,8 +271,55 @@ if (mode==3) {
 if (mode==4) {
     smash_timer--;
     if (smash_timer&lt;0) {
+        scr_attack_begin_animation();
+    }
+}
+if (mode==5) {
+    smash_timer--;
+    if (smash_timer&lt;0) {
         scr_attack_end();
     }
+}
+if (mode==6) {
+    smash_timer --;
+    if (smash_timer&lt;0) {
+        scr_turn_begin();
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>// animations
+
+for (i=0;i&lt;party_size;i++) {
+    if (draw_pc_damage_timer[i] &gt; 0) {
+        t = draw_pc_damage_timer[i];
+        draw_pc_damage_timer[i]--;
+        draw_pc_damage_scale[i] = (draw_pc_damage_scale[i] - 1)*((t-1)/t) + 1
+    } else {
+        draw_pc_damage_scale[i] = 1;
+    }
+}
+
+if (mon_hp &lt; mon_hp_residue) {
+    mon_hp_residue -= 0.01*(mon_hpmax);
 }
 </string>
           </argument>
@@ -339,10 +388,22 @@ if (mode==2 || mode == 3) {
 
 // draw monster
 
-draw_set_halign(fa_center)
-draw_sprite(mon_sprite,1,draw_mon_x,draw_mon_y);
+draw_x_offset = 0;
+draw_y_offset = 0;
+if (mode==6) {
+    p = smash_timer/anim_hit_max
+    draw_x_offset = random(1)*(p+1)*anim_hit_power/6
+    draw_y_offset = random(1)*(p+1)*anim_hit_power/6
+}
+
+draw_sprite(mon_sprite,1,draw_mon_x+draw_x_offset,draw_mon_y+draw_y_offset);
 draw_text(draw_mon_x,24,mon_name);
-draw_text(draw_mon_x,48,string(mon_hp) + " HP");
+
+// draw monster health bar
+
+draw_healthbar(8,draw_puz_y-32,room_width-8,draw_puz_y-8,100*mon_hp_residue/mon_hpmax,c_black,c_red,c_red,0,true,true);
+draw_healthbar(8,draw_puz_y-32,room_width-8,draw_puz_y-8,100*mon_hp/mon_hpmax,c_black,c_purple,c_purple,0,false,true);
+scr_draw_fancy_text(draw_mon_x,draw_puz_y - 20,string(mon_hp) + " HP",1);
 </string>
           </argument>
         </arguments>
@@ -395,7 +456,14 @@ for (i=0;i&lt;party_size;i++) {
     
     // damage text
     if (pc_damage[i]&gt;0) {
-        scr_draw_fancy_text(draw_x+panel_width/2,room_height-28,string(pc_damage[i]))
+        draw_atk_y = draw_y;
+        if (mode==5) {
+            // attack animation:
+            p = smash_timer/ATTACK_ANIM_MAX_T;
+            p = 0.5-0.5*cos(p*pi);
+            draw_atk_y = draw_y*p + (draw_mon_y+i*20)*(1-p);
+        }
+        scr_draw_fancy_text(draw_x+panel_width/2-panel_space/2,draw_atk_y,string(pc_damage[i]),draw_pc_damage_scale[i])
     }
 }
 </string>

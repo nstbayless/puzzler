@@ -18,8 +18,11 @@
     <script>scripts\scr_setup_party.gml</script>
     <script>scripts\scr_smash_orb_col.gml</script>
     <script>scripts\scr_smash.gml</script>
-    <script>scripts\scr_attack_begin.gml</script>
+    <script>scripts\scr_attack_end_animation.gml</script>
     <script>scripts\scr_attack_end.gml</script>
+    <script>scripts\scr_attack_begin_animation.gml</script>
+    <script>scripts\scr_attack_begin.gml</script>
+    <script>scripts\scr_turn_begin.gml</script>
     <script>scripts\scr_draw_fancy_text.gml</script>
     <script>scripts\scr_cascade.gml</script>
     <script>scripts\scr_board_reset_smash.gml</script>

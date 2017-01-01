@@ -5,3 +5,4 @@ mon_defense = a_mon_defense[m]
 mon_name = a_mon_name[m]
 
 mon_hp = mon_hpmax;
+mon_hp_residue = mon_hp;

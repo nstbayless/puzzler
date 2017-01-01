@@ -10,6 +10,8 @@ for (i=0;i<party_size;i++) {
     
     // attack value this turn:
     pc_damage[i] = 0;
+    draw_pc_damage_scale[i] = 0;
+    draw_pc_damage_timer[i] = 0;
 }
 
 party_hp = party_hpmax;
