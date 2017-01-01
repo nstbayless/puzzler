@@ -28,18 +28,22 @@
             <string>PUZ_WIDTH = 5;
 PUZ_HEIGHT = 5;
 PUZ_TYPE_N = 6;
-PUZ_C[0] = c_red;
-PUZ_C[1] = c_blue;
-PUZ_C[2] = c_green;
-PUZ_C[3] = c_yellow;
-PUZ_C[4] = c_purple;
-PUZ_C[5] = c_white;
+PUZ_C[T_BROWN] = make_color_rgb(194, 92, 59);
+PUZ_C[T_BLUE] = c_blue;
+PUZ_C[T_GREEN] = c_green;
+PUZ_C[T_YELLOW] = c_yellow;
+PUZ_C[T_PURPLE] = c_purple;
+PUZ_C[T_ATK] = c_white;
 
-draw_puz_w = room_width/2-64;
-draw_puz_h = room_width/2-64;
+draw_mon_x = room_width/2;
+draw_mon_y = room_height/4;
 
-draw_puz_x = room_width/2+64;
-draw_puz_y = (room_height - draw_puz_h)/2;
+draw_puz_bev = 16;
+draw_puz_w = room_width-draw_puz_bev;
+draw_puz_h = room_width-draw_puz_bev;
+
+draw_puz_x = draw_puz_bev/2;
+draw_puz_y = room_height/2-draw_puz_h/2+64;
 
 cur_x = 2;
 cur_y = 2;
@@ -53,6 +57,130 @@ stat_swaps = stat_swap_max;
 
 mode=1; //1: allow swapping. 2: smash orbs
 smash_timer = 0;
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>monsters</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>a_mon_sprite[0] = spr_mon_whale;
+a_mon_hpmax[0] = 1000;
+a_mon_defense[0] = 0;
+a_mon_name[0] = "Flying Whale"
+
+scr_set_monster(0);
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>party</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>a_pc_sprite[0] = spr_NaOH;
+a_pc_name[0] = "NaOH"
+a_pc_hp[0] = 400;
+a_pc_atk[0] = 20;
+a_pc_type[0] = T_BLUE;
+
+a_pc_sprite[1] = spr_NaOH;
+a_pc_name[1] = "Irish"
+a_pc_hp[1] = 300;
+a_pc_atk[1] = 60;
+a_pc_type[1] = T_YELLOW;
+
+a_pc_sprite[2] = spr_NaOH;
+a_pc_name[2] = "Guy no. 3"
+a_pc_hp[2] = 500;
+a_pc_atk[2] = 30;
+a_pc_type[2] = T_BROWN;
+
+a_pc_sprite[3] = spr_NaOH;
+a_pc_name[3] = "The Queen"
+a_pc_hp[3] = 200;
+a_pc_atk[3] = 40;
+a_pc_type[3] = T_GREEN;
+
+a_pc_sprite[4] = spr_NaOH;
+a_pc_name[4] = "Sassy"
+a_pc_hp[4] = 300;
+a_pc_atk[4] = 30;
+a_pc_type[4] = T_GREEN;
+
+party_pc[0] = 0;
+party_pc[1] = 1;
+party_pc[2] = 2;
+party_pc[3] = 3;
+
+party_size = 4;
+
+scr_setup_party();
 </string>
           </argument>
         </arguments>
@@ -138,6 +266,12 @@ if (mode==3) {
         scr_cascade();
     }
 }
+if (mode==4) {
+    smash_timer--;
+    if (smash_timer&lt;0) {
+        scr_attack_end();
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -191,13 +325,77 @@ if (mode==1) {
     }
 }
 
+// draw misc text
+
 draw_set_colour(c_white);
 draw_set_alpha(1);
 
-draw_text(room_width-32,room_height-32,stat_swaps);
+draw_text(room_width-32,room_height-64,stat_swaps);
 if (mode==2 || mode == 3) {
     if (combo &gt; 0) {
-        draw_text(room_width-128,room_height-32,"COMBO x" + string(combo));
+        draw_text(room_width-128,room_height-64,"COMBO x" + string(combo));
+    }
+}
+
+// draw monster
+
+draw_set_halign(fa_center)
+draw_sprite(mon_sprite,1,draw_mon_x,draw_mon_y);
+draw_text(draw_mon_x,24,mon_name);
+draw_text(draw_mon_x,48,string(mon_hp) + " HP");
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>party</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>panel_space = 16;
+panel_width = (room_width - panel_space)/party_size;
+panel_height = 100;
+
+for (i=0;i&lt;party_size;i++) {
+    draw_y = room_height - 24;
+    draw_x = panel_space + panel_width*i;
+    draw_set_colour(PUZ_C[pc_type[i]])
+    draw_rectangle(draw_x,draw_y,draw_x+panel_width-panel_space,draw_y+panel_height,false)
+    
+    // damage text
+    if (pc_damage[i]&gt;0) {
+        scr_draw_fancy_text(draw_x+panel_width/2,room_height-28,string(pc_damage[i]))
     }
 }
 </string>

@@ -7,12 +7,20 @@
   <sounds name="sound"/>
   <sprites name="sprites">
     <sprite>sprites\spr_orb</sprite>
+    <sprite>sprites\spr_mon_whale</sprite>
+    <sprite>sprites\spr_NaOH</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
   <scripts name="scripts">
+    <script>scripts\scr_set_monster.gml</script>
     <script>scripts\scr_cur_move.gml</script>
+    <script>scripts\scr_setup_party.gml</script>
+    <script>scripts\scr_smash_orb_col.gml</script>
     <script>scripts\scr_smash.gml</script>
+    <script>scripts\scr_attack_begin.gml</script>
+    <script>scripts\scr_attack_end.gml</script>
+    <script>scripts\scr_draw_fancy_text.gml</script>
     <script>scripts\scr_cascade.gml</script>
     <script>scripts\scr_board_reset_smash.gml</script>
     <script>scripts\scr_endturn.gml</script>
@@ -25,6 +33,14 @@
   <rooms name="rooms">
     <room>rooms\rm_puzzle</room>
   </rooms>
+  <constants number="6">
+    <constant name="T_BROWN">0</constant>
+    <constant name="T_BLUE">1</constant>
+    <constant name="T_GREEN">2</constant>
+    <constant name="T_YELLOW">3</constant>
+    <constant name="T_PURPLE">4</constant>
+    <constant name="T_ATK">5</constant>
+  </constants>
   <help>
     <rtf>help.rtf</rtf>
   </help>
