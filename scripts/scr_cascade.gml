@@ -22,5 +22,6 @@ if (clear_found) {
     // no cascading needed
     mode = 2;
     smash_timer = 15;
+    scr_board_reset_smash();
 }
 

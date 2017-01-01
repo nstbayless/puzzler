@@ -35,10 +35,10 @@ PUZ_C[3] = c_yellow;
 PUZ_C[4] = c_purple;
 PUZ_C[5] = c_white;
 
-draw_puz_w = room_width/2;
-draw_puz_h = room_width/2;
+draw_puz_w = room_width/2-64;
+draw_puz_h = room_width/2-64;
 
-draw_puz_x = room_width/2;
+draw_puz_x = room_width/2+64;
 draw_puz_y = (room_height - draw_puz_h)/2;
 
 cur_x = 2;
@@ -195,6 +195,11 @@ draw_set_colour(c_white);
 draw_set_alpha(1);
 
 draw_text(room_width-32,room_height-32,stat_swaps);
+if (mode==2 || mode == 3) {
+    if (combo &gt; 0) {
+        draw_text(room_width-128,room_height-32,"COMBO x" + string(combo));
+    }
+}
 </string>
           </argument>
         </arguments>
