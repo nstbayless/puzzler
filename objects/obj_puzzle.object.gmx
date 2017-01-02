@@ -56,6 +56,7 @@ scr_board_randomize();
 scr_board_reset_meta();
 
 ATTACK_ANIM_MAX_T = 25;
+SMASH_ANIM_MAX_T = 12;
 
 stat_swap_max = 3;
 stat_swaps = stat_swap_max;
@@ -328,6 +329,14 @@ for (i=0;i&lt;party_size;i++) {
     }
 }
 
+if (mode == M_SMASH) {
+    for (x_=0;x_&lt;PUZ_WIDTH;x_++)
+            for (y_=0;y_&lt;PUZ_WIDTH;y_++) {
+                if (clear[x_,y_])
+                    clear_timer[x_,y_] --;
+            }
+}
+
 if (mon_hp &lt; mon_hp_residue) {
     mon_hp_residue -= 0.01*(mon_hpmax);
 }
@@ -358,13 +367,18 @@ g_timer++;
             <string>// orbs
 for (x_=0;x_&lt;PUZ_WIDTH;x_++) {
     for (y_=0;y_&lt;PUZ_HEIGHT;y_++) {
-        if (clear[x_,y_])
-            continue;
+        cp = 1;
+        if (clear[x_,y_]) {
+            cp = clear_timer[x_,y_]/SMASH_ANIM_MAX_T;
+            cp = 1 - (1-cp)*(1-cp) // acceleration
+        }
+        if (cp&lt;=0)
+            cp = 0;
         type = board[x_,y_]
         col = PUZ_C[type];
         draw_x = (2*x_+1)*interval_x/2 + draw_puz_x;
         draw_y = (2*y_+1)*interval_y/2 + draw_puz_y;
-        if (type==mon_type &amp;&amp; !new[x_,y_]) {
+        if (type==mon_type &amp;&amp; !new[x_,y_] &amp;&amp; cp == 1) {
             print(mode);
             if (mode == M_MATK) {
                 draw_x += random(1)*4-2;
@@ -376,23 +390,33 @@ for (x_=0;x_&lt;PUZ_WIDTH;x_++) {
             draw_set_alpha(1);
             draw_set_colour(c_white);
         }
-        draw_sprite_ext(spr_orb,1,draw_x,draw_y,1,1,0,col,1)
+        if (cp == 1)
+            draw_sprite_ext(spr_orb,1,draw_x,draw_y,1,1,0,col,1)
+        else {
+            draw_set_colour(col);
+            draw_circle(draw_x,draw_y,32*cp,false)
+        }
     }
 }
 
 if (mode==1) {
     // cursor
-    draw_x = (2*cur_x+1)*interval_x/2 + draw_puz_x;
-    draw_y = (2*cur_y+1)*interval_y/2 + draw_puz_y;
+    draw_x = (2*cur_x+1)*interval_x/2 + draw_puz_x-1;
+    draw_y = (2*cur_y+1)*interval_y/2 + draw_puz_y-1;
     
+    draw_set_alpha(0.65)
     if (cur_sel)
         draw_set_colour(c_lime);
     else
-        draw_set_colour(c_orange);
-    
-    draw_set_alpha(0.65)
-    for (i=0;i&lt;5;i++) {
-        draw_circle(draw_x,draw_y,32-i/2,true);
+        draw_set_colour(c_white);
+    r_base = 33 + sin(g_timer/7)*2
+    for (i=0;i&lt;6;i++) {
+        draw_circle(draw_x,draw_y,r_base - i/2,true);
+    }
+    draw_set_colour(c_black);
+    if (i==0 || i==6) {
+        draw_circle(draw_x,draw_y,r_base,true);
+        draw_circle(draw_x,draw_y,r_base-3.5,true);
     }
 }
 

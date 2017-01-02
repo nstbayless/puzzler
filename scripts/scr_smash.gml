@@ -17,6 +17,7 @@ for (y_=0;y_<PUZ_WIDTH;y_++) {
                     if (board[x_smash,y_]!=type)
                         break;
                     clear[x_smash,y_] = true;
+                    clear_timer[x_smash,y_] = SMASH_ANIM_MAX_T;
                     smashed_h[x_smash,y_] = true;
                     smashes++;
                     scr_smash_orb_col(type);
@@ -32,6 +33,7 @@ for (y_=0;y_<PUZ_WIDTH;y_++) {
                     clear[x_,y_smash] = true;
                     smashed_v[x_,y_smash] = true;
                     smashes++;
+                    clear_timer[x_,y_smash] = SMASH_ANIM_MAX_T;
                     scr_smash_orb_col(type);
                 }                  
             }
