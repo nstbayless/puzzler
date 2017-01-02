@@ -27,6 +27,7 @@
       <script>scripts\scr_power_scan.gml</script>
       <script>scripts\scr_power_watermelon.gml</script>
     </scripts>
+    <script>scripts\scr_battle_begin.gml</script>
     <script>scripts\scr_set_power_counter.gml</script>
     <script>scripts\scr_set_monster.gml</script>
     <script>scripts\scr_cur_move.gml</script>
@@ -41,6 +42,7 @@
     <script>scripts\scr_attack_end.gml</script>
     <script>scripts\scr_attack_begin_animation.gml</script>
     <script>scripts\scr_attack_begin.gml</script>
+    <script>scripts\scr_checkdeath.gml</script>
     <script>scripts\scr_turn_begin.gml</script>
     <script>scripts\scr_board_reset_smash.gml</script>
     <script>scripts\scr_board_reset_meta.gml</script>
@@ -71,7 +73,7 @@
   <rooms name="rooms">
     <room>rooms\rm_puzzle</room>
   </rooms>
-  <constants number="13">
+  <constants number="15">
     <constant name="T_BROWN">0</constant>
     <constant name="T_BLUE">1</constant>
     <constant name="T_GREEN">2</constant>
@@ -85,6 +87,8 @@
     <constant name="M_ATK_RISE">5</constant>
     <constant name="M_ATK_HIT">6</constant>
     <constant name="M_MATK">7</constant>
+    <constant name="GM_BATTLE">1</constant>
+    <constant name="GM_CHARSEL_INIT">2</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

@@ -63,7 +63,7 @@ scr_board_randomize();
 
 ATTACK_ANIM_MAX_T = 25;
 SMASH_ANIM_MAX_T = 12;
-windfall_enabled = false;
+max_party_size = 4;
 
 power_counter_n = 0;
 combo = 0;
@@ -73,7 +73,10 @@ stat_swaps = stat_swap_max;
 
 mode=1; //1: allow swapping. 2: smash orbs
 smash_timer = 0;
+windfall_enabled = false;
 g_timer=0;
+
+game_mode = GM_CHARSEL_INIT;
 </string>
           </argument>
         </arguments>
@@ -114,14 +117,43 @@ g_timer=0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>a_mon_sprite[0] = spr_mon_whale;
-a_mon_hpmax[0] = 1000;
-a_mon_defense[0] = 0;
-a_mon_name[0] = "Flying Whale"
-a_mon_type[0] = T_PURPLE
-a_mon_atk[0] = 20;
+            <string>M = 0;
 
-scr_set_monster(0);
+a_mon_name[M] = "Flying Whale"
+a_mon_sprite[M] = spr_mon_whale;
+a_mon_hpmax[M] = 1000;
+a_mon_def[M] = 0;
+a_mon_type[M] = T_PURPLE
+a_mon_atk[M] = 20;
+
+M = 1;
+
+a_mon_name[M] = "Classmate"
+a_mon_sprite[M] = spr_orb
+a_mon_hpmax[M] = 200;
+a_mon_def[M] = 0;
+a_mon_type[M] = T_BROWN;
+a_mon_atk[M] = 10;
+
+M = 2;
+
+a_mon_name[M] = "Another Classmate"
+a_mon_sprite[M] = spr_orb
+a_mon_hpmax[M] = 400;
+a_mon_def[M] = 0;
+a_mon_type[M] = T_YELLOW;
+a_mon_atk[M] = 30;
+
+M = 3;
+
+a_mon_name[M] = "Yet Another Classmate"
+a_mon_sprite[M] = spr_orb
+a_mon_hpmax[M] = 700;
+a_mon_def[M] = 0;
+a_mon_type[M] = T_GREEN;
+a_mon_atk[M] = 30;
+
+scr_set_monster(1);
 </string>
           </argument>
         </arguments>
@@ -254,7 +286,7 @@ a_pc_type[1] = T_YELLOW;
 a_pc_power[1] = 1;
 
 a_pc_sprite[2] = spr_guy3;
-a_pc_name[2] = "Guy no. 3"
+a_pc_name[2] = "Guy \#3"
 a_pc_hp[2] = 500;
 a_pc_atk[2] = 3;
 a_pc_type[2] = T_BROWN;
@@ -271,7 +303,7 @@ a_pc_sprite[4] = spr_sassy;
 a_pc_name[4] = "Sassy"
 a_pc_hp[4] = 300;
 a_pc_atk[4] = 3;
-a_pc_type[4] = T_GREEN;
+a_pc_type[4] = T_PURPLE;
 a_pc_power[4] = 4;
 
 party_pc[0] = 0;
@@ -287,8 +319,101 @@ scr_turn_begin();
           </argument>
         </arguments>
       </action>
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>alt game mode setup</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>gm_csi_char[0] = 0;
+gm_csi_char_description[0] = "Shapeshifting Engineer"
+
+gm_csi_char[1] = 1;
+gm_csi_char_description[1] = "Ninja Billionaire"
+
+gm_csi_char[2] = 4;
+gm_csi_char_description[2] = "Impulsive Otaku"
+
+gm_csi_char[3] = 3;
+gm_csi_char_description[3] = "Cultivated Gossiper"
+</string>
+          </argument>
+        </arguments>
+      </action>
     </event>
     <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>612</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>-1</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_if_variable</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>0</kind>
+            <string>game_mode</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>GM_BATTLE</string>
+          </argument>
+          <argument>
+            <kind>4</kind>
+            <string>0</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>422</id>
+        <kind>1</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -412,7 +537,7 @@ if (mode==M_ATK_RISE) {
 if (mode==M_ATK_HIT) {
     smash_timer--;
     if (smash_timer&lt;0) {
-        scr_mon_attack_begin();
+        scr_checkdeath();
     }
 }
 if (mode==M_MATK) {
@@ -468,8 +593,114 @@ g_timer++;
           </argument>
         </arguments>
       </action>
+      <action>
+        <libid>1</libid>
+        <id>424</id>
+        <kind>2</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>421</id>
+        <kind>3</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (game_mode==GM_CHARSEL_INIT) {
+    if (keyboard_check_pressed(vk_left)) {
+        if (cur_pc_x &gt; 0)
+            cur_pc_x--;
+    }
+    if (keyboard_check_pressed(vk_right)) {
+        if (cur_pc_x &lt; 3)
+            cur_pc_x++;
+    }
+    if (keyboard_check_pressed(vk_enter)||keyboard_check_pressed(vk_space)||keyboard_check_pressed(ord('Z'))) {
+        game_mode = GM_BATTLE;
+        party_size = 1;
+        party_pc[0] = gm_csi_char[cur_pc_x]
+        scr_battle_begin();
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
     </event>
     <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>612</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>-1</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_if_variable</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>0</kind>
+            <string>game_mode</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>GM_BATTLE</string>
+          </argument>
+          <argument>
+            <kind>4</kind>
+            <string>0</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>422</id>
+        <kind>1</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -578,6 +809,8 @@ if (mode==6) {
 }
 
 draw_set_font(f_14);
+draw_set_halign(fa_center);
+draw_set_valign(fa_left);
 draw_sprite(mon_sprite,1,draw_mon_x+draw_x_offset,draw_mon_y+draw_y_offset);
 draw_text(draw_mon_x,24,mon_name);
 
@@ -627,7 +860,7 @@ scr_draw_fancy_text(draw_mon_x,draw_puz_y - 20,string(mon_hp) + " HP",1);
           <argument>
             <kind>1</kind>
             <string>panel_space = 16;
-panel_width = (room_width - panel_space)/party_size;
+panel_width = (room_width - panel_space)/max_party_size;
 panel_height = 100;
 
 // party hp bar
@@ -775,8 +1008,8 @@ for (i=0;i&lt;party_size;i++) {
     box_x = draw_puz_x+draw_puz_w/2;
     box_y = draw_puz_y+draw_puz_h/2;
     draw_rectangle(box_x-des_width/2,box_y-des_height/2,box_x+des_width/2,box_y+des_height/2,false);
-    col_atk = merge_color(PUZ_C[pc_type[pc]],c_white,0.5);
-    col_pow = merge_color(PUZ_C[power_type[pow]],c_white,0.5);
+    col_atk = merge_color(PUZ_C[pc_type[pc]],c_white,0.2);
+    col_pow = merge_color(PUZ_C[power_type[pow]],c_white,0.2);
     scr_draw_fancy_text_ext(box_x,box_y-des_height/2+16,f_16,col_atk,pc_name[pc]);
     scr_draw_fancy_text_ext(box_x,box_y-des_height/2+40,f_13,col_pow,"[" + power_name[pow] + "]")
     scr_draw_fancy_text_ext(box_x-des_width/2+2,box_y+des_height/2-16,f_13,col_pow,string(party_resource[power_type[pow]])+"/"+string(power_cost[pow]),fa_left)
@@ -789,6 +1022,86 @@ for (i=0;i&lt;party_size;i++) {
     draw_set_font(f_12);
     draw_text_ext(box_x-des_width/2+6,box_y-des_height/2+64,power_description[pow],16,des_width-12)
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>424</id>
+        <kind>2</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>421</id>
+        <kind>3</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>var panel_width = room_width/4;
+var panel_gap = 5;
+var card_bevel = 3;
+
+if (game_mode==GM_CHARSEL_INIT) {
+    for (i=0;i&lt;4;i++) {
+        var char = gm_csi_char[i];
+        var spr  = a_pc_sprite[char]
+        var col  = PUZ_C[a_pc_type[char]]
+        
+        var spr_width = panel_width-2*panel_gap-2*card_bevel
+        var scale = spr_width/sprite_get_width(spr)
+        var panel_height = sprite_get_height(spr)*scale+2*card_bevel
+        
+        var draw_x = panel_width*i+panel_gap
+        var draw_y = room_height/2 - panel_height/2;
+        if (cur_pc_x == i)
+            draw_y -= 24;
+        
+        draw_set_colour(col);
+        draw_set_alpha(1);
+        draw_rectangle(draw_x,draw_y,draw_x+panel_width-2*panel_gap,draw_y+panel_height,false)
+        draw_sprite_ext(spr,0,draw_x+card_bevel,draw_y+card_bevel,scale,scale,0,c_white,1);
+    }
+}
+
+scr_draw_fancy_text_ext(room_width/2,room_height/4,f_16,c_white,"Select your Character")
+
+var pc = gm_csi_char[cur_pc_x]
+scr_draw_fancy_text_ext(room_width/2,room_height/4+48,f_30,PUZ_C[a_pc_type[pc]],a_pc_name[pc])
+
+scr_draw_fancy_text_ext(room_width/2,room_height/2+80,f_13,c_gray,gm_csi_char_description[cur_pc_x])
 </string>
           </argument>
         </arguments>
