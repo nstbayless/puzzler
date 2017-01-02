@@ -9,10 +9,25 @@
     <sprite>sprites\spr_orb</sprite>
     <sprite>sprites\spr_mon_whale</sprite>
     <sprite>sprites\spr_NaOH</sprite>
+    <sprite>sprites\spr_guy3</sprite>
+    <sprite>sprites\spr_irish</sprite>
+    <sprite>sprites\spr_queen</sprite>
+    <sprite>sprites\spr_sassy</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
   <scripts name="scripts">
+    <scripts name="powers">
+      <script>scripts\scr_power_shapeshift.gml</script>
+      <script>scripts\scr_power_windfall.gml</script>
+      <script>scripts\scr_power_windfall_end.gml</script>
+      <script>scripts\scr_power_gossip.gml</script>
+      <script>scripts\scr_power_gossip_end.gml</script>
+      <script>scripts\scr_power_divide.gml</script>
+      <script>scripts\scr_power_scan.gml</script>
+      <script>scripts\scr_power_watermelon.gml</script>
+    </scripts>
+    <script>scripts\scr_set_power_counter.gml</script>
     <script>scripts\scr_set_monster.gml</script>
     <script>scripts\scr_cur_move.gml</script>
     <script>scripts\scr_setup_party.gml</script>
@@ -27,11 +42,13 @@
     <script>scripts\scr_attack_begin_animation.gml</script>
     <script>scripts\scr_attack_begin.gml</script>
     <script>scripts\scr_turn_begin.gml</script>
-    <script>scripts\scr_draw_fancy_text.gml</script>
     <script>scripts\scr_board_reset_smash.gml</script>
     <script>scripts\scr_board_reset_meta.gml</script>
     <script>scripts\scr_endturn.gml</script>
+    <script>scripts\scr_spawn_orb.gml</script>
     <script>scripts\scr_board_randomize.gml</script>
+    <script>scripts\scr_draw_fancy_text.gml</script>
+    <script>scripts\scr_draw_fancy_text_ext.gml</script>
     <script>scripts\print.gml</script>
   </scripts>
   <fonts name="fonts">

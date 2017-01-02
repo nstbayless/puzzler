@@ -45,6 +45,7 @@ if (smash_found) {
 } else {
     if (smashes>0) {
         smashes=0;
+        cascade_return_mode = M_SMASH;
         scr_set_mode(M_CASCADE)
         smash_timer = 0;
     } else {

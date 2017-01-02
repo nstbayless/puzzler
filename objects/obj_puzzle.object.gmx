@@ -45,18 +45,28 @@ draw_puz_h = room_width-draw_puz_bev;
 draw_puz_x = draw_puz_bev/2;
 draw_puz_y = room_height/2-draw_puz_h/2+64;
 
+draw_hpbar_y = draw_puz_y + draw_puz_h;
+draw_hpbar_height = 24;
+draw_hpbar_bevel = 8
+draw_resource_y = draw_hpbar_y + draw_hpbar_height+12;
+
 interval_x = draw_puz_w/(PUZ_WIDTH)
 interval_y = draw_puz_h/(PUZ_HEIGHT)
 
 cur_x = 2;
 cur_y = 2;
 cur_sel = false;
+cur_tray = false;
+cur_pc_x = 0;
 
 scr_board_randomize();
-scr_board_reset_meta();
 
 ATTACK_ANIM_MAX_T = 25;
 SMASH_ANIM_MAX_T = 12;
+windfall_enabled = false;
+
+power_counter_n = 0;
+combo = 0;
 
 stat_swap_max = 3;
 stat_swaps = stat_swap_max;
@@ -132,6 +142,83 @@ scr_set_monster(0);
         <arguments>
           <argument>
             <kind>1</kind>
+            <string>powers</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>a_power_name[0] = "Shapeshift"
+a_power_type[0] = T_BLUE;
+a_power_cost[0] = 8;
+a_power_description[0] = "All yellow orbs become blue."
+a_power_script[0] = scr_power_shapeshift
+
+a_power_name[1] = "Windfall"
+a_power_type[1] = T_PURPLE
+a_power_cost[1] = 12;
+a_power_description[1] = "Half of all new orbs are yellow for two turns."
+a_power_script[1] = scr_power_windfall;
+a_power_end_script[1] = scr_power_windfall_end;
+
+a_power_name[2] = "Divide by Zero"
+a_power_type[2] = T_BROWN
+a_power_cost[2] = 35;
+a_power_description[2] = "Clears board and deals 50% of enemy HP in damage."
+a_power_script[2] = scr_power_divide
+
+a_power_name[3] = "Gossip"
+a_power_type[3] = T_GREEN
+a_power_cost[3] = 16;
+a_power_description[3] = "All party members' powers become yellow for two turns."
+a_power_script[3] = scr_power_gossip
+a_power_end_script[3] = scr_power_gossip_end
+
+a_power_name[4] = "Scan"
+a_power_type[4] = T_PURPLE
+a_power_cost[4] = 24;
+a_power_description[4] = "Enemy defense is permanently halved."
+a_power_script[4] = scr_power_shapeshift
+
+a_power_name[25] = "Summon Watermelon"
+a_power_type[25] = T_GREEN
+a_power_cost[25] = 3;
+a_power_description[25] = "One random orb becomes green."
+a_power_script[25] = scr_power_shapeshift
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
             <string>party</string>
           </argument>
         </arguments>
@@ -157,30 +244,35 @@ a_pc_name[0] = "NaOH"
 a_pc_hp[0] = 400;
 a_pc_atk[0] = 2;
 a_pc_type[0] = T_BLUE;
+a_pc_power[0] = 0;
 
-a_pc_sprite[1] = spr_NaOH;
+a_pc_sprite[1] = spr_irish;
 a_pc_name[1] = "Irish"
 a_pc_hp[1] = 300;
 a_pc_atk[1] = 6;
 a_pc_type[1] = T_YELLOW;
+a_pc_power[1] = 1;
 
-a_pc_sprite[2] = spr_NaOH;
+a_pc_sprite[2] = spr_guy3;
 a_pc_name[2] = "Guy no. 3"
 a_pc_hp[2] = 500;
 a_pc_atk[2] = 3;
 a_pc_type[2] = T_BROWN;
+a_pc_power[2] = 2;
 
-a_pc_sprite[3] = spr_NaOH;
+a_pc_sprite[3] = spr_queen;
 a_pc_name[3] = "The Queen"
 a_pc_hp[3] = 200;
 a_pc_atk[3] = 4;
 a_pc_type[3] = T_GREEN;
+a_pc_power[3] = 3;
 
-a_pc_sprite[4] = spr_NaOH;
+a_pc_sprite[4] = spr_sassy;
 a_pc_name[4] = "Sassy"
 a_pc_hp[4] = 300;
 a_pc_atk[4] = 3;
 a_pc_type[4] = T_GREEN;
+a_pc_power[4] = 4;
 
 party_pc[0] = 0;
 party_pc[1] = 1;
@@ -190,6 +282,7 @@ party_pc[3] = 3;
 party_size = 4;
 
 scr_setup_party();
+scr_turn_begin();
 </string>
           </argument>
         </arguments>
@@ -213,34 +306,63 @@ scr_setup_party();
           <argument>
             <kind>1</kind>
             <string>if (mode==1) {
-    cur_sel = keyboard_check(vk_shift);
-    
-    if (keyboard_check_pressed(vk_left)) {
-        if (cur_x&gt;0) {
-            scr_cur_move(cur_x-1,cur_y)
+    if (cur_tray) {
+        // cursor in pc tray
+        if (keyboard_check_pressed(vk_up)) {
+            cur_tray = false;
         }
-    }
-    
-    if (keyboard_check_pressed(vk_right)) {
-        if (cur_x&lt;PUZ_WIDTH-1) {
-            scr_cur_move(cur_x+1,cur_y)
+        
+        if (keyboard_check_pressed(vk_left)) {
+            if (cur_pc_x &gt; 0)
+                cur_pc_x --;
         }
-    }
-    
-    if (keyboard_check_pressed(vk_up)) {
-        if (cur_y&gt;0) {
-            scr_cur_move(cur_x,cur_y-1)
+        
+        if (keyboard_check_pressed(vk_right)) {
+            if (cur_pc_x &lt; party_size - 1)
+                cur_pc_x ++;
         }
-    }
-    
-    if (keyboard_check_pressed(vk_down)) {
-        if (cur_y&lt;PUZ_HEIGHT-1) {
-            scr_cur_move(cur_x,cur_y+1)
+        
+        if (keyboard_check_pressed(vk_enter) || keyboard_check_pressed(ord('Z'))) {
+            // select pc power
+            if (power_cost[cur_pc_x] &lt;= party_resource[power_type[cur_pc_x]]) {
+                party_resource[power_type[cur_pc_x]] -= power_cost[cur_pc_x];
+                script_execute(power_script[cur_pc_x]);
+            }
         }
-    }
-    
-    if (keyboard_check_pressed(vk_space)) {
-        scr_endturn();
+    } else {
+        // cursor on board
+        cur_sel = keyboard_check(vk_shift);
+        
+        if (keyboard_check_pressed(vk_left)) {
+            if (cur_x&gt;0) {
+                scr_cur_move(cur_x-1,cur_y)
+            }
+        }
+        
+        if (keyboard_check_pressed(vk_right)) {
+            if (cur_x&lt;PUZ_WIDTH-1) {
+                scr_cur_move(cur_x+1,cur_y)
+            }
+        }
+        
+        if (keyboard_check_pressed(vk_up)) {
+            if (cur_y&gt;0) {
+                scr_cur_move(cur_x,cur_y-1)
+            }
+        }
+        
+        if (keyboard_check_pressed(vk_down)) {
+            if (cur_y&lt;PUZ_HEIGHT-1) {
+                scr_cur_move(cur_x,cur_y+1)
+            } else {
+                if (!swapstuck)
+                    cur_tray = true;
+            }
+        }
+        
+        if (keyboard_check_pressed(vk_space)) {
+            scr_endturn();
+        }
     }
 }
 </string>
@@ -288,7 +410,7 @@ if (mode==M_ATK_RISE) {
     }
 }
 if (mode==M_ATK_HIT) {
-    smash_timer --;
+    smash_timer--;
     if (smash_timer&lt;0) {
         scr_mon_attack_begin();
     }
@@ -379,7 +501,6 @@ for (x_=0;x_&lt;PUZ_WIDTH;x_++) {
         draw_x = (2*x_+1)*interval_x/2 + draw_puz_x;
         draw_y = (2*y_+1)*interval_y/2 + draw_puz_y;
         if (type==mon_type &amp;&amp; !new[x_,y_] &amp;&amp; cp == 1) {
-            print(mode);
             if (mode == M_MATK) {
                 draw_x += random(1)*4-2;
                 draw_y += random(1)*4-2;
@@ -401,22 +522,28 @@ for (x_=0;x_&lt;PUZ_WIDTH;x_++) {
 
 if (mode==1) {
     // cursor
-    draw_x = (2*cur_x+1)*interval_x/2 + draw_puz_x-1;
-    draw_y = (2*cur_y+1)*interval_y/2 + draw_puz_y-1;
-    
-    draw_set_alpha(0.65)
-    if (cur_sel)
-        draw_set_colour(c_lime);
-    else
-        draw_set_colour(c_white);
-    r_base = 33 + sin(g_timer/7)*2
-    for (i=0;i&lt;6;i++) {
-        draw_circle(draw_x,draw_y,r_base - i/2,true);
-    }
-    draw_set_colour(c_black);
-    if (i==0 || i==6) {
-        draw_circle(draw_x,draw_y,r_base,true);
-        draw_circle(draw_x,draw_y,r_base-3.5,true);
+    if (cur_tray) {
+        // cursor on tray
+        // renders stuff in party script 
+    } else {
+        // cursor on board
+        draw_x = (2*cur_x+1)*interval_x/2 + draw_puz_x-1;
+        draw_y = (2*cur_y+1)*interval_y/2 + draw_puz_y-1;
+        
+        draw_set_alpha(0.65)
+        if (cur_sel)
+            draw_set_colour(c_lime);
+        else
+            draw_set_colour(c_white);
+        r_base = 33 + sin(g_timer/7)*2
+        for (i=0;i&lt;6;i++) {
+            draw_circle(draw_x,draw_y,r_base - i/2,true);
+        }
+        draw_set_colour(c_black);
+        if (i==0 || i==6) {
+            draw_circle(draw_x,draw_y,r_base,true);
+            draw_circle(draw_x,draw_y,r_base-3.5,true);
+        }
     }
 }
 
@@ -504,16 +631,37 @@ panel_width = (room_width - panel_space)/party_size;
 panel_height = 100;
 
 // party hp bar
-draw_healthbar(8,draw_puz_y+draw_puz_h,room_width-8,draw_puz_y+draw_puz_h+24,100*party_hp/party_hpmax,c_black,c_green,c_green,0,true,true)
+draw_healthbar(draw_hpbar_bevel,draw_hpbar_y,room_width-draw_hpbar_bevel,draw_hpbar_y+draw_hpbar_height,100*party_hp/party_hpmax,c_black,c_green,c_green,0,true,true)
+draw_set_colour(c_white);
+scr_draw_fancy_text_ext(room_width/2,draw_hpbar_y+draw_hpbar_height/2,f_14,c_white,string(party_hp) + " HP")
 
+// resources
+resource_spacing = room_width*3/5 / (PUZ_TYPE_N - 1);
+for (i=0;i&lt;PUZ_TYPE_N - 1;i++) {
+    draw_x = resource_spacing*i + draw_hpbar_bevel + draw_hpbar_bevel;
+    draw_y = draw_resource_y;
+    scr_draw_fancy_text_ext(draw_x,draw_y,f_14, PUZ_C[i],party_resource[i]);
+}
+
+// party cards
 for (i=0;i&lt;party_size;i++) {
     draw_y = room_height - 24;
-    if (mode&gt;=M_SMASH &amp;&amp; mode &lt;= M_ATK_HIT) {
-        if (pc_damage[i] &gt; 0)
-            draw_y -= 8;
+    if (mode&gt;=M_SMASH &amp;&amp; mode &lt;= M_MATK) {
+        if (pc_damage[i] == 0)
+            draw_y += 12;
+    }
+    if (mode == M_MOVE) {
+        if (cur_tray &amp;&amp; cur_pc_x == i)
+            draw_y -= 64;
+        if (swapstuck) {
+            draw_y += 12;
+        }
     }
     draw_x = panel_space + panel_width*i;
     draw_set_colour(PUZ_C[pc_type[i]])
+    if (g_timer % 40 &gt; 30 &amp;&amp; party_resource[power_type[i]] &gt;= power_cost[i]) {
+        draw_set_colour(merge_colour(PUZ_C[power_type[i]],c_white,0.5))
+    }
     draw_rectangle(draw_x,draw_y,draw_x+panel_width-panel_space,draw_y+panel_height,false)
     portrait_bevel = 4;
     portrait_width = panel_width-panel_space-portrait_bevel*2;
@@ -521,9 +669,9 @@ for (i=0;i&lt;party_size;i++) {
     draw_sprite_ext(pc_sprite[i],1,draw_x+portrait_bevel,draw_y+portrait_bevel,scale,scale,0,c_white,1)
     
     // damage text
-    if (pc_damage[i]&gt;0) {
+    if (pc_damage[i]&gt;0 &amp;&amp; mode &lt;= M_ATK_RISE) {
         draw_atk_y = draw_y;
-        if (mode==5) {
+        if (mode==M_ATK_RISE) {
             // attack animation:
             p = smash_timer/ATTACK_ANIM_MAX_T;
             p = 0.5-0.5*cos(p*pi);
@@ -576,6 +724,70 @@ for (i=0;i&lt;party_size;i++) {
     if (mon_orb_shot_enabled[i]) {
         scr_draw_fancy_text(mon_orb_shot_x[i],mon_orb_shot_y[i],mon_orb_shot_power[i],1.3)
     }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>power descriptions</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (cur_tray) {
+    var pc = cur_pc_x
+    var pow = pc
+    draw_set_colour(c_black);
+    draw_set_alpha(0.8);
+    des_width = 300;
+    des_height = 300;
+    box_x = draw_puz_x+draw_puz_w/2;
+    box_y = draw_puz_y+draw_puz_h/2;
+    draw_rectangle(box_x-des_width/2,box_y-des_height/2,box_x+des_width/2,box_y+des_height/2,false);
+    col_atk = merge_color(PUZ_C[pc_type[pc]],c_white,0.5);
+    col_pow = merge_color(PUZ_C[power_type[pow]],c_white,0.5);
+    scr_draw_fancy_text_ext(box_x,box_y-des_height/2+16,f_16,col_atk,pc_name[pc]);
+    scr_draw_fancy_text_ext(box_x,box_y-des_height/2+40,f_13,col_pow,"[" + power_name[pow] + "]")
+    scr_draw_fancy_text_ext(box_x-des_width/2+2,box_y+des_height/2-16,f_13,col_pow,string(party_resource[power_type[pow]])+"/"+string(power_cost[pow]),fa_left)
+    scr_draw_fancy_text_ext(box_x+des_width/2-2,box_y+des_height/2-16,f_13,col_atk,"ATK: " + string(pc_atk[pc]),fa_right)
+    
+    draw_set_alpha(1);
+    draw_set_colour(c_white);
+    draw_set_halign(fa_left);
+    draw_set_valign(fa_top);
+    draw_set_font(f_12);
+    draw_text_ext(box_x-des_width/2+6,box_y-des_height/2+64,power_description[pow],16,des_width-12)
 }
 </string>
           </argument>

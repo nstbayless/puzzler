@@ -7,3 +7,6 @@ for (i=0; i < party_size; i++) {
         draw_pc_damage_timer[i] = 15;
     }
 }
+
+if (type != T_ATK)
+    party_resource[type]++;

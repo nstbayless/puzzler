@@ -14,6 +14,7 @@ with obj_puzzle {
         board[old_x,old_y] = tmp_type;
         
         stat_swaps --;
+        swapstuck = true;
         
         if (stat_swaps==0) {
             scr_endturn();
