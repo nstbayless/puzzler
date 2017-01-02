@@ -6,11 +6,13 @@ for (y_ = PUZ_HEIGHT-1; y_ >=0; y_--)
             clear_found = true;
             if (y_>0) {
                 clear[x_,y_] = clear[x_,y_-1];
+                new[x_,y_] = new[x_,y_-1];
                 clear[x_,y_-1] = true;
                 board[x_,y_] = board[x_,y_-1]
             } else {
                 board[x_,y_] = irandom(PUZ_TYPE_N-1);
                 clear[x_,y_] = false;
+                new[x_,y_] = true;
             }
         }
     }

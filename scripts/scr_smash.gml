@@ -2,10 +2,10 @@ smash_found = false;
 
 streak = 3;
 
-for (x_=0;x_<PUZ_WIDTH;x_++) {
+for (y_=0;y_<PUZ_WIDTH;y_++) {
     if (smash_found)
         break;
-    for (y_=0;y_<PUZ_HEIGHT;y_++) {
+    for (x_=0;x_<PUZ_HEIGHT;x_++) {
         if (smash_found)
             break;
         type = board[x_,y_];
@@ -43,10 +43,9 @@ if (smash_found) {
 } else {
     if (smashes>0) {
         smashes=0;
-        mode = 3;
+        scr_set_mode(M_CASCADE)
         smash_timer = 0;
     } else {
-        scr_board_reset_smash();
         scr_attack_begin(); //perform attack
     }
 }

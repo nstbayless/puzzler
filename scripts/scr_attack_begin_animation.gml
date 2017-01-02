@@ -8,7 +8,7 @@ for (i=0;i<party_size;i++) {
 
 if (any_damage) {
     smash_timer = ATTACK_ANIM_MAX_T; 
-    mode = M_ATK_RISE;
+    scr_set_mode(M_ATK_RISE);
 } else {
-    scr_turn_begin();
+    scr_mon_attack_begin();
 }

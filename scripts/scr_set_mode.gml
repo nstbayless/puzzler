@@ -1,0 +1,1 @@
+mode = argument0

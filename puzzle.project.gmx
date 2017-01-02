@@ -16,27 +16,45 @@
     <script>scripts\scr_set_monster.gml</script>
     <script>scripts\scr_cur_move.gml</script>
     <script>scripts\scr_setup_party.gml</script>
+    <script>scripts\scr_mon_attack_begin.gml</script>
+    <script>scripts\scr_mon_attack_update.gml</script>
+    <script>scripts\scr_set_mode.gml</script>
     <script>scripts\scr_smash_orb_col.gml</script>
     <script>scripts\scr_smash.gml</script>
+    <script>scripts\scr_cascade.gml</script>
     <script>scripts\scr_attack_end_animation.gml</script>
     <script>scripts\scr_attack_end.gml</script>
     <script>scripts\scr_attack_begin_animation.gml</script>
     <script>scripts\scr_attack_begin.gml</script>
     <script>scripts\scr_turn_begin.gml</script>
     <script>scripts\scr_draw_fancy_text.gml</script>
-    <script>scripts\scr_cascade.gml</script>
     <script>scripts\scr_board_reset_smash.gml</script>
+    <script>scripts\scr_board_reset_meta.gml</script>
     <script>scripts\scr_endturn.gml</script>
     <script>scripts\scr_board_randomize.gml</script>
     <script>scripts\print.gml</script>
   </scripts>
+  <fonts name="fonts">
+    <font>fonts\f_12</font>
+    <font>fonts\f_13</font>
+    <font>fonts\f_14</font>
+    <font>fonts\f_16</font>
+    <font>fonts\f_18</font>
+    <font>fonts\f_20</font>
+    <font>fonts\f_22</font>
+    <font>fonts\f_24</font>
+    <font>fonts\f_26</font>
+    <font>fonts\f_28</font>
+    <font>fonts\f_30</font>
+    <font>fonts\f_36</font>
+  </fonts>
   <objects name="objects">
     <object>objects\obj_puzzle</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_puzzle</room>
   </rooms>
-  <constants number="12">
+  <constants number="13">
     <constant name="T_BROWN">0</constant>
     <constant name="T_BLUE">1</constant>
     <constant name="T_GREEN">2</constant>
@@ -49,6 +67,7 @@
     <constant name="M_ATK_COMBO">4</constant>
     <constant name="M_ATK_RISE">5</constant>
     <constant name="M_ATK_HIT">6</constant>
+    <constant name="M_MATK">7</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

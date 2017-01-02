@@ -1,7 +1,7 @@
 // executes after smashing complete
 // (mode 4)
 
-mode = M_ATK_COMBO;
+scr_set_mode(M_ATK_COMBO);
 
 if (combo > 1) {
     for (i=0;i<party_size;i++) {
@@ -10,4 +10,6 @@ if (combo > 1) {
         draw_pc_damage_timer[i] = 20;
     }
     smash_timer = 25;
+} else {
+    smash_timer = 0;
 }
