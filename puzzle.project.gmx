@@ -7,6 +7,8 @@
   <sounds name="sound"/>
   <sprites name="sprites">
     <sprite>sprites\spr_orb</sprite>
+    <sprite>sprites\spr_cracks</sprite>
+    <sprite>sprites\spr_glow</sprite>
     <sprite>sprites\spr_mon_whale</sprite>
     <sprite>sprites\spr_NaOH</sprite>
     <sprite>sprites\spr_guy3</sprite>
@@ -27,12 +29,23 @@
       <script>scripts\scr_power_scan.gml</script>
       <script>scripts\scr_power_watermelon.gml</script>
     </scripts>
+    <scripts name="monster">
+      <script>scripts\scr_mon_classmate.gml</script>
+    </scripts>
+    <scripts name="cards">
+      <script>scripts\scr_card_doze.gml</script>
+      <script>scripts\scr_card_cheat.gml</script>
+      <script>scripts\scr_card_corrupt.gml</script>
+    </scripts>
+    <script>scripts\scr_mon_card_queue_pop.gml</script>
     <script>scripts\scr_battle_begin.gml</script>
     <script>scripts\scr_set_power_counter.gml</script>
     <script>scripts\scr_set_monster.gml</script>
     <script>scripts\scr_cur_move.gml</script>
     <script>scripts\scr_setup_party.gml</script>
     <script>scripts\scr_mon_attack_begin.gml</script>
+    <script>scripts\scr_mon_spellcard.gml</script>
+    <script>scripts\scr_mon_spell_update.gml</script>
     <script>scripts\scr_mon_attack_update.gml</script>
     <script>scripts\scr_set_mode.gml</script>
     <script>scripts\scr_smash_orb_col.gml</script>
@@ -45,12 +58,14 @@
     <script>scripts\scr_checkdeath.gml</script>
     <script>scripts\scr_turn_begin.gml</script>
     <script>scripts\scr_board_reset_smash.gml</script>
-    <script>scripts\scr_board_reset_meta.gml</script>
+    <script>scripts\scr_board_reset_encounter.gml</script>
+    <script>scripts\scr_board_reset_turn.gml</script>
     <script>scripts\scr_endturn.gml</script>
     <script>scripts\scr_spawn_orb.gml</script>
     <script>scripts\scr_board_randomize.gml</script>
     <script>scripts\scr_draw_fancy_text.gml</script>
     <script>scripts\scr_draw_fancy_text_ext.gml</script>
+    <script>scripts\f.gml</script>
     <script>scripts\print.gml</script>
   </scripts>
   <fonts name="fonts">
@@ -73,7 +88,7 @@
   <rooms name="rooms">
     <room>rooms\rm_puzzle</room>
   </rooms>
-  <constants number="15">
+  <constants number="16">
     <constant name="T_BROWN">0</constant>
     <constant name="T_BLUE">1</constant>
     <constant name="T_GREEN">2</constant>
@@ -87,6 +102,7 @@
     <constant name="M_ATK_RISE">5</constant>
     <constant name="M_ATK_HIT">6</constant>
     <constant name="M_MATK">7</constant>
+    <constant name="M_MSPELL">8</constant>
     <constant name="GM_BATTLE">1</constant>
     <constant name="GM_CHARSEL_INIT">2</constant>
   </constants>

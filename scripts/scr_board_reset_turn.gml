@@ -6,7 +6,6 @@ with obj_puzzle {
             clear[x_,y_] = false;
             smashed_h[x_,y_] = false;
             smashed_v[x_,y_] = false;
-            new[x_,y_] = false;
             monster_used[x_,y_] = false;
         }
 }

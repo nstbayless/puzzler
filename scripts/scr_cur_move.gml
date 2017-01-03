@@ -9,9 +9,15 @@ with obj_puzzle {
     cur_y = new_y;
     
     if (cur_sel) {
+        // swap gem type
         tmp_type = board[new_x,new_y];
         board[new_x,new_y] = board[old_x,old_y];
         board[old_x,old_y] = tmp_type;
+        
+        // swap minion status
+        tmp_minion = minion[new_x,new_y];
+        minion[new_x,new_y] = minion[old_x,old_y];
+        minion[old_x,old_y] = tmp_minion;
         
         stat_swaps --;
         swapstuck = true;

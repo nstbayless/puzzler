@@ -5,11 +5,11 @@ any_of_type = false;
 
 for (y_=PUZ_HEIGHT-1;y_>=0;y_--) {
     for (x_=0;x_<PUZ_WIDTH;x_++) {
-        if (board[x_,y_] == mon_type && !new[x_,y_] &&!monster_used[x_,y_]) {
+        if (minion[x_,y_]) {
             any_of_type = true;
         }
     }
 }
 
 if (!any_of_type)
-    scr_turn_begin();
+    scr_mon_spellcard();

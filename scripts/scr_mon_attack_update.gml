@@ -18,7 +18,7 @@ for (y_=PUZ_HEIGHT-1;y_>=0;y_--) {
     if (any_of_type) break;
     for (x_=0;x_<PUZ_WIDTH;x_++) {
         if (any_of_type) break;
-        if (board[x_,y_] == mon_type && !new[x_,y_] &&!monster_used[x_,y_]) {
+        if (minion[x_,y_] &&!monster_used[x_,y_]) {
             any_of_type = true;
             monster_used[x_,y_] = true;
             i=mon_orb_shots_n++;
@@ -37,5 +37,5 @@ if (any_of_type) {
     for (i=0;i<mon_orb_shots_n;i++)
         if (mon_orb_shot_enabled[i])
             exit;
-    scr_turn_begin();
+    scr_mon_spellcard();
 }

@@ -1,6 +1,7 @@
 stat_swaps = stat_swap_max;
 scr_set_mode(M_MOVE);
-scr_board_reset_meta();
+scr_board_reset_turn();
+round_counter++;
 
 swapstuck = false; // not stuck swapping
 for (i=0;i<party_size;i++) {

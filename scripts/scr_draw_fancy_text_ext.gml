@@ -1,7 +1,7 @@
 //scr_draw_fancy_text_ext(x,y,font,colour,text)
 
-var _x = argument[0];
-var _y = argument[1];
+var _x = f(argument[0]);
+var _y = f(argument[1]);
 var _font = argument[2];
 var _colour = argument[3];
 var _text = argument[4];
