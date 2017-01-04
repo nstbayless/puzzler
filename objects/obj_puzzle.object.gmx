@@ -95,6 +95,7 @@ combo = 0;
 
 stat_swap_max = 3;
 stat_swaps = stat_swap_max;
+suppress_show_power = false;
 
 mode=M_MOVE; //modes defined in macros
 smash_timer = 0;
@@ -503,9 +504,9 @@ tutorial_mode = 0
             <kind>1</kind>
             <string>// set up conditions on game load
 
-//scr_set_monster(1);
-//scr_battle_begin();
-game_mode = GM_CHARSEL_INIT
+scr_set_monster(1);
+scr_battle_begin();
+//game_mode = GM_CHARSEL_INIT
 </string>
           </argument>
         </arguments>
@@ -575,21 +576,25 @@ game_mode = GM_CHARSEL_INIT
         // cursor in pc tray
         if (keyboard_check_pressed(vk_up)) {
             cur_tray = false;
+            suppress_show_power = false;
         }
         
         if (keyboard_check_pressed(vk_left)) {
             if (cur_pc_x &gt; 0)
                 cur_pc_x --;
+            suppress_show_power = false;
         }
         
         if (keyboard_check_pressed(vk_right)) {
             if (cur_pc_x &lt; party_size - 1)
                 cur_pc_x ++;
+            suppress_show_power = false;
         }
         
         if (keyboard_check_pressed(vk_enter) || keyboard_check_pressed(ord('Z'))) {
             // select pc power
             if (power_cost[cur_pc_x] &lt;= party_resource[power_type[cur_pc_x]]) {
+                suppress_show_power = true;
                 party_resource[power_type[cur_pc_x]] -= power_cost[cur_pc_x];
                 script_execute(power_script[cur_pc_x]);
             }
@@ -1206,7 +1211,7 @@ var description = "";
 var box_p = 1;
 
 // draw power description:
-var draw_power = cur_tray;
+var draw_power = cur_tray &amp;&amp;!suppress_show_power;
 // draw monster spell card description:
 var draw_mspell = (mode == M_MSPELL &amp;&amp; smash_timer &gt; MSPELL_ANIM_VANISH_T)
 
@@ -1222,7 +1227,7 @@ if (draw_power || draw_mspell) {
     draw_rectangle(box_x-des_width/2,box_y-des_height/2 * box_p,box_x+des_width/2,box_y+des_height/2 * box_p,false);
 }
 
-if (cur_tray) {
+if (draw_power) {
     // draw pc stats
     var pc = cur_pc_x
     var pow = pc
