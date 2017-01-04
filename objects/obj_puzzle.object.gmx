@@ -28,12 +28,24 @@
             <string>PUZ_WIDTH = 5;
 PUZ_HEIGHT = 5;
 PUZ_TYPE_N = 6;
+
 PUZ_C[T_BROWN] = make_colour_hsv(10,240,160);
+S_BROWN = "brown"
+
 PUZ_C[T_BLUE] = c_blue;
+PUZ_S[T_BLUE] = "blue";
+
 PUZ_C[T_GREEN] = c_green;
+PUZ_S[T_GREEN] = "green";
+
 PUZ_C[T_YELLOW] = make_colour_rgb(255,190,0);
+PUZ_S[T_YELLOW] = "yellow"
+
 PUZ_C[T_PURPLE] = make_colour_hsv(240,200,255);
+PUZ_S[T_PURPLE] = "pink"
+
 PUZ_C[T_ATK] = make_colour_rgb(210,210,210);
+PUZ_S[T_ATK] = "white"
 
 PARTY_RESOURCE_N = PUZ_TYPE_N-1;
 
@@ -67,14 +79,15 @@ cur_sel = false;
 cur_tray = false;
 cur_pc_x = 0;
 
-scr_board_randomize();
-
 ATTACK_ANIM_MAX_T = 25;
 SMASH_ANIM_MAX_T = 12;
 MSPELL_ANIM_MAX_T = 90;
 MSPELL_ANIM_UNFOLD_T = 84;
 MSPELL_ANIM_VANISH_T = 25;
 CHANGE_TIMER_MAX = 15;
+TUT_MESSAGE_ANIM_MAX_T = 15;
+CARD_POP_QUEUE_MAX_T = 20;
+card_pop_queue_t = 0;
 max_party_size = 4;
 
 power_counter_n = 0;
@@ -133,13 +146,13 @@ game_mode = GM_BATTLE;
             <kind>1</kind>
             <string>M = 0;
 
-a_mon_name[M] = "Flying Whale"
+a_mon_name[M] = "Tutorial Whale"
 a_mon_sprite[M] = spr_mon_whale;
-a_mon_hpmax[M] = 1000;
+a_mon_hpmax[M] = 300;
 a_mon_def[M] = 0;
 a_mon_type[M] = T_PURPLE
-a_mon_atk[M] = 20;
-a_mon_card_scr[M] = scr_mon_classmate;
+a_mon_atk[M] = 4;
+a_mon_card_scr[M] = scr_mon_tutorial;
 
 M = 1;
 
@@ -230,6 +243,13 @@ a_card_name[C] = "Cheat"
 a_card_warmup[C] = 1;
 a_card_script[C] = scr_card_cheat
 a_card_description[C] = "Steals 3 of each resource."
+
+C = 3;
+
+a_card_name[C] = "Convert"
+a_card_warmup[C] = 3;
+a_card_script[C] = scr_card_convert
+a_card_description[C] = "Turns two orbs at random into minions."
 </string>
           </argument>
         </arguments>
@@ -372,14 +392,14 @@ a_pc_sprite[3] = spr_queen;
 a_pc_name[3] = "The Queen"
 a_pc_hp[3] = 200;
 a_pc_atk[3] = 4;
-a_pc_type[3] = T_GREEN;
+a_pc_type[3] = T_PURPLE;
 a_pc_power[3] = 3;
 
 a_pc_sprite[4] = spr_sassy;
 a_pc_name[4] = "Sassy"
 a_pc_hp[4] = 300;
 a_pc_atk[4] = 3;
-a_pc_type[4] = T_PURPLE;
+a_pc_type[4] = T_GREEN;
 a_pc_power[4] = 4;
 
 party_pc[0] = 0;
@@ -432,13 +452,15 @@ party_size = 2;
 gm_csi_char_description[0] = "Shapeshifting Engineer"
 
 gm_csi_char[1] = 1;
-gm_csi_char_description[1] = "Ninja Billionaire"
+gm_csi_char_description[1] = "Affluent Ninja"
 
 gm_csi_char[2] = 4;
 gm_csi_char_description[2] = "Impulsive Otaku"
 
 gm_csi_char[3] = 3;
 gm_csi_char_description[3] = "Cultivated Gossiper"
+
+tutorial_mode = 0
 </string>
           </argument>
         </arguments>
@@ -481,8 +503,9 @@ gm_csi_char_description[3] = "Cultivated Gossiper"
             <kind>1</kind>
             <string>// set up conditions on game load
 
-scr_set_monster(1);
-scr_battle_begin();
+//scr_set_monster(1);
+//scr_battle_begin();
+game_mode = GM_CHARSEL_INIT
 </string>
           </argument>
         </arguments>
@@ -547,7 +570,7 @@ scr_battle_begin();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (mode==1) {
+            <string>if (mode==M_MOVE) {
     if (cur_tray) {
         // cursor in pc tray
         if (keyboard_check_pressed(vk_up)) {
@@ -602,7 +625,10 @@ scr_battle_begin();
             }
         }
         
-        if (keyboard_check_pressed(vk_space)) {
+        var tutorial_skipban = false;
+        if (tutorial_mode &gt; 0 &amp;&amp; tutorial_mode &lt; 6)
+            tutorial_skipban = true;
+        if (keyboard_check_pressed(vk_space) &amp;&amp;! tutorial_skipban) {
             scr_endturn();
         }
     }
@@ -665,6 +691,8 @@ if (mode==M_MSPELL) {
     smash_timer--;
     scr_mon_spell_update();
 }
+
+scr_tutorial_update();
 </string>
           </argument>
         </arguments>
@@ -717,6 +745,8 @@ if (mon_hp &lt; mon_hp_residue) {
 }
 
 g_timer++;
+if (card_pop_queue_t &gt; 0)
+    card_pop_queue_t --;
 </string>
           </argument>
         </arguments>
@@ -777,8 +807,16 @@ g_timer++;
     if (keyboard_check_pressed(vk_enter)||keyboard_check_pressed(vk_space)||keyboard_check_pressed(ord('Z'))) {
         game_mode = GM_BATTLE;
         party_size = 1;
-        party_pc[0] = gm_csi_char[cur_pc_x]
+        var char_id = gm_csi_char[cur_pc_x]
+        tut_message = "";
+        tut_message_in_timer = 0;
+        tut_message_out_timer = 0;
+        tutorial_timer = 0;
+        tutorial_mode = 1;
+        party_pc[0] = char_id
+        scr_set_monster(0);
         scr_battle_begin();
+        scr_tutorial_begin();
     }
 }
 </string>
@@ -862,7 +900,8 @@ for (x_=0;x_&lt;PUZ_WIDTH;x_++) {
         var ct = change_timer[x_,y_]/CHANGE_TIMER_MAX
         if (ct &gt; 0) {
             // magic change animation
-            col = c_white;
+            if (!change_minion[x_,y_])
+                col = c_white;
             cp = (ct-0.5)*(ct-0.5)*2+0.5;
             if (cp&gt;= 1)
                 cp = 0.99;
@@ -934,10 +973,13 @@ if (mode==M_SMASH || mode == M_CASCADE) {
     }
 }
 if (mode==M_ATK_COMBO) {
-    if (combo &gt; 1) {
-        draw_set_alpha(1-smash_timer/20)
-        scr_draw_fancy_text(room_width/2-smash_timer,room_height-52, "COMBO x" + string(combo), 3)
-    }
+    draw_set_alpha(1-smash_timer/20)
+    var combo_str = "";
+    if (combo &gt; 1 &amp;&amp; !any_attack)
+        combo_str = "No Attack"
+    if (combo &gt; 1 &amp;&amp; any_attack)
+        combo_str = "COMBO x" + string(combo);
+    scr_draw_fancy_text(room_width/2-smash_timer,room_height-52, combo_str, 3)
 }
 
 draw_set_alpha(1);
@@ -967,7 +1009,8 @@ scr_draw_fancy_text(draw_mon_x,draw_mon_hpbar_y + 12,string(mon_hp) + " HP",1);
 card_height = floor(draw_mon_card_queue_bottom_y/mon_card_queue_n);
 card_width = card_height;
 for (i = 0; i &lt; mon_card_queue_n; i++) {
-    draw_y = card_height*(mon_card_queue_n - i - 1);
+    var fall_p = 1-card_pop_queue_t/CARD_POP_QUEUE_MAX_T // card falling animation
+    draw_y = card_height*(mon_card_queue_n - i - 2 + fall_p*fall_p);
     c = mon_card_queue[i];
     draw_set_colour(mon_card_colour);
     draw_rectangle(0,draw_y,card_width,draw_y + card_height,false)
@@ -1291,6 +1334,70 @@ var pc = gm_csi_char[cur_pc_x]
 scr_draw_fancy_text_ext(room_width/2,room_height/4+48,f_30,PUZ_C[a_pc_type[pc]],a_pc_name[pc])
 
 scr_draw_fancy_text_ext(room_width/2,room_height/2+80,f_13,c_gray,gm_csi_char_description[cur_pc_x])
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>tutorial overlay</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (tutorial_mode &gt; 0) {
+    var bevel = 30;
+    var draw_x1 = bevel;
+    var draw_x2 = room_width - bevel;
+    draw_set_font(f_10);
+    msg_thickness = string_height_ext(tut_message, 16, draw_x2 - draw_x1 - 16)-16;
+    
+    var p = 1;
+    if (tut_message_in_timer &gt; 0)
+        p = tut_message_in_timer / TUT_MESSAGE_ANIM_MAX_T
+    
+    var msg_thickness = 48;
+    var draw_y1 = (p-1)*msg_thickness;
+    
+    draw_set_colour(c_dkgray);
+    draw_set_alpha(0.8);
+    draw_rectangle(draw_x1,draw_y1,draw_x2,draw_y1+msg_thickness,false);
+    
+    draw_set_alpha(1);
+    draw_set_colour(make_colour_rgb(255,255,128));
+    draw_set_halign(fa_center);
+    draw_set_valign(fa_top);
+    draw_text_ext(room_width/2,f(draw_y1),tut_message,16,draw_x2 - draw_x1 - 16)
+}
 </string>
           </argument>
         </arguments>

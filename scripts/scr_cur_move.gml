@@ -26,4 +26,10 @@ with obj_puzzle {
             scr_endturn();
         }
     }
+    
+    // tutorial update:
+    if (tutorial_mode == 2)
+        tutorial_mode = 3;
+    if (tutorial_mode == 4 && cur_sel)
+        tutorial_mode = 5;
 }

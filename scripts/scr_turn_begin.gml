@@ -4,6 +4,8 @@ scr_board_reset_turn();
 round_counter++;
 
 swapstuck = false; // not stuck swapping
+any_attack = false;
+
 for (i=0;i<party_size;i++) {
     pc_damage[i] = 0;
 }
@@ -17,3 +19,10 @@ for (i=0;i<power_counter_n;i++) {
         }
     }
 }
+
+// tutorial update:
+
+if (tutorial_mode > 1 && tutorial_mode <= 7)
+    tutorial_mode = 8;
+if (tutorial_mode >= 9 && tutorial_mode <= 11)
+    tutorial_mode++;

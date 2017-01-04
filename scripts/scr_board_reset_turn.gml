@@ -7,5 +7,6 @@ with obj_puzzle {
             smashed_h[x_,y_] = false;
             smashed_v[x_,y_] = false;
             monster_used[x_,y_] = false;
+            change_minion[x_,y_] = false;
         }
 }

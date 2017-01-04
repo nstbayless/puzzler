@@ -5,6 +5,7 @@ for (i=0; i < party_size; i++) {
         pc_damage[i] += pc_atk[i];
         draw_pc_damage_scale[i] = 1.5;
         draw_pc_damage_timer[i] = 15;
+        any_attack = true;
     }
 }
 

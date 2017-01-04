@@ -31,13 +31,20 @@
     </scripts>
     <scripts name="monster">
       <script>scripts\scr_mon_classmate.gml</script>
+      <script>scripts\scr_mon_tutorial.gml</script>
     </scripts>
     <scripts name="cards">
       <script>scripts\scr_card_doze.gml</script>
       <script>scripts\scr_card_cheat.gml</script>
       <script>scripts\scr_card_corrupt.gml</script>
+      <script>scripts\scr_card_convert.gml</script>
+    </scripts>
+    <scripts name="tutorial">
+      <script>scripts\scr_tutorial_begin.gml</script>
+      <script>scripts\scr_tutorial_update.gml</script>
     </scripts>
     <script>scripts\scr_mon_card_queue_pop.gml</script>
+    <script>scripts\scr_encounter_begin.gml</script>
     <script>scripts\scr_battle_begin.gml</script>
     <script>scripts\scr_set_power_counter.gml</script>
     <script>scripts\scr_set_monster.gml</script>
@@ -60,15 +67,16 @@
     <script>scripts\scr_board_reset_smash.gml</script>
     <script>scripts\scr_board_reset_encounter.gml</script>
     <script>scripts\scr_board_reset_turn.gml</script>
+    <script>scripts\scr_board_randomize.gml</script>
     <script>scripts\scr_endturn.gml</script>
     <script>scripts\scr_spawn_orb.gml</script>
-    <script>scripts\scr_board_randomize.gml</script>
     <script>scripts\scr_draw_fancy_text.gml</script>
     <script>scripts\scr_draw_fancy_text_ext.gml</script>
     <script>scripts\f.gml</script>
     <script>scripts\print.gml</script>
   </scripts>
   <fonts name="fonts">
+    <font>fonts\f_10</font>
     <font>fonts\f_12</font>
     <font>fonts\f_13</font>
     <font>fonts\f_14</font>

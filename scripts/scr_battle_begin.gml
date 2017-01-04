@@ -5,13 +5,7 @@ with (obj_puzzle) {
     cur_pc_x = 0;
     cur_tray = false;
     scr_setup_party();
-    scr_board_reset_encounter();
-    round_counter = 0;
-    for (i = 0; i < mon_card_queue_n; i ++) {
-        mon_card_counter = i;
-        var c = script_execute(mon_card_scr);
-        mon_card_queue[i] = c;
-        card_warmup[i] = a_card_warmup[c]
-    }
+    scr_board_randomize();
+    scr_encounter_begin();
     scr_turn_begin();
 }
