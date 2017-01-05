@@ -43,33 +43,42 @@
       <script>scripts\scr_tutorial_begin.gml</script>
       <script>scripts\scr_tutorial_update.gml</script>
     </scripts>
-    <script>scripts\scr_mon_card_queue_pop.gml</script>
-    <script>scripts\scr_encounter_begin.gml</script>
-    <script>scripts\scr_battle_begin.gml</script>
-    <script>scripts\scr_set_power_counter.gml</script>
+    <scripts name="battles">
+      <script>scripts\scr_bat_prq_sat.gml</script>
+      <script>scripts\scr_bat_prq_irish.gml</script>
+    </scripts>
+    <scripts name="battle">
+      <scripts name="board">
+        <script>scripts\scr_board_randomize.gml</script>
+        <script>scripts\scr_board_reset_encounter.gml</script>
+        <script>scripts\scr_board_reset_turn.gml</script>
+        <script>scripts\scr_board_reset_smash.gml</script>
+      </scripts>
+      <script>scripts\scr_battle_begin.gml</script>
+      <script>scripts\scr_setup_party.gml</script>
+      <script>scripts\scr_encounter_begin.gml</script>
+      <script>scripts\scr_turn_begin.gml</script>
+      <script>scripts\scr_cur_move.gml</script>
+      <script>scripts\scr_endturn.gml</script>
+      <script>scripts\scr_smash.gml</script>
+      <script>scripts\scr_smash_orb_col.gml</script>
+      <script>scripts\scr_cascade.gml</script>
+      <script>scripts\scr_spawn_orb.gml</script>
+      <script>scripts\scr_attack_begin.gml</script>
+      <script>scripts\scr_attack_begin_animation.gml</script>
+      <script>scripts\scr_attack_end.gml</script>
+      <script>scripts\scr_attack_end_animation.gml</script>
+      <script>scripts\scr_checkdeath.gml</script>
+      <script>scripts\scr_mon_attack_begin.gml</script>
+      <script>scripts\scr_mon_attack_update.gml</script>
+      <script>scripts\scr_mon_spell_update.gml</script>
+      <script>scripts\scr_mon_spellcard.gml</script>
+      <script>scripts\scr_mon_card_queue_pop.gml</script>
+      <script>scripts\scr_set_power_counter.gml</script>
+    </scripts>
+    <script>scripts\scr_overworld_begin.gml</script>
     <script>scripts\scr_set_monster.gml</script>
-    <script>scripts\scr_cur_move.gml</script>
-    <script>scripts\scr_setup_party.gml</script>
-    <script>scripts\scr_mon_attack_begin.gml</script>
-    <script>scripts\scr_mon_spellcard.gml</script>
-    <script>scripts\scr_mon_spell_update.gml</script>
-    <script>scripts\scr_mon_attack_update.gml</script>
     <script>scripts\scr_set_mode.gml</script>
-    <script>scripts\scr_smash_orb_col.gml</script>
-    <script>scripts\scr_smash.gml</script>
-    <script>scripts\scr_cascade.gml</script>
-    <script>scripts\scr_attack_end_animation.gml</script>
-    <script>scripts\scr_attack_end.gml</script>
-    <script>scripts\scr_attack_begin_animation.gml</script>
-    <script>scripts\scr_attack_begin.gml</script>
-    <script>scripts\scr_checkdeath.gml</script>
-    <script>scripts\scr_turn_begin.gml</script>
-    <script>scripts\scr_board_reset_smash.gml</script>
-    <script>scripts\scr_board_reset_encounter.gml</script>
-    <script>scripts\scr_board_reset_turn.gml</script>
-    <script>scripts\scr_board_randomize.gml</script>
-    <script>scripts\scr_endturn.gml</script>
-    <script>scripts\scr_spawn_orb.gml</script>
     <script>scripts\scr_draw_fancy_text.gml</script>
     <script>scripts\scr_draw_fancy_text_ext.gml</script>
     <script>scripts\f.gml</script>
@@ -91,12 +100,13 @@
     <font>fonts\f_36</font>
   </fonts>
   <objects name="objects">
+    <object>objects\state</object>
     <object>objects\obj_puzzle</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_puzzle</room>
   </rooms>
-  <constants number="16">
+  <constants number="17">
     <constant name="T_BROWN">0</constant>
     <constant name="T_BLUE">1</constant>
     <constant name="T_GREEN">2</constant>
@@ -113,6 +123,7 @@
     <constant name="M_MSPELL">8</constant>
     <constant name="GM_BATTLE">1</constant>
     <constant name="GM_CHARSEL_INIT">2</constant>
+    <constant name="GM_OVERWORLD">3</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

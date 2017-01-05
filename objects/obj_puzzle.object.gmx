@@ -429,6 +429,63 @@ party_size = 2;
         <arguments>
           <argument>
             <kind>1</kind>
+            <string>battles</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>B = 0;
+
+a_battle_name[B] = "Tutorial"
+a_battle_prq[B] = scr_bat_prq_sat;
+a_battle_n[B] = 1;
+a_battle_mon[B,0] = 0;
+
+B = 1;
+
+a_battle_name[B] = "Board Meeting";
+a_battle_prq[B] = scr_bat_prq_irish;
+a_battle_mon_n[B] = 3;
+a_battle_mon[B,0] = 1;
+a_battle_mon[B,1] = 2;
+a_battle_mon[B,2] = 3;
+
+a_battle_n = B+1;
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
             <string>alt game mode setup</string>
           </argument>
         </arguments>
@@ -482,6 +539,52 @@ tutorial_mode = 0
         <arguments>
           <argument>
             <kind>1</kind>
+            <string>state</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>instance_create(0,0,state);
+
+for (i=0;i&lt;20;i++)
+    state.battle_complete[i] = false;
+
+state.start_char = 1;
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
             <string>startup</string>
           </argument>
         </arguments>
@@ -504,9 +607,10 @@ tutorial_mode = 0
             <kind>1</kind>
             <string>// set up conditions on game load
 
-scr_set_monster(1);
-scr_battle_begin();
-//game_mode = GM_CHARSEL_INIT
+//scr_set_monster(1);
+//scr_battle_begin();
+game_mode = GM_CHARSEL_INIT
+//scr_overworld_begin();
 </string>
           </argument>
         </arguments>
@@ -813,16 +917,26 @@ if (card_pop_queue_t &gt; 0)
         game_mode = GM_BATTLE;
         party_size = 1;
         var char_id = gm_csi_char[cur_pc_x]
+        state.start_char = char_id;
         tut_message = "";
         tut_message_in_timer = 0;
         tut_message_out_timer = 0;
-        tutorial_timer = 0;
-        tutorial_mode = 1;
         party_pc[0] = char_id
-        scr_set_monster(0);
-        scr_battle_begin();
-        scr_tutorial_begin();
+        scr_battle_begin(0);
     }
+}
+if (game_mode==GM_OVERWORLD) {
+    if (keyboard_check_pressed(vk_up)) {
+        overworld_sel = min(overworld_sel+1,battle_access_n-1);
+    }
+    if (keyboard_check_pressed(vk_down)) {
+        overworld_sel = max(overworld_sel-1,0);
+    }
+    if (keyboard_check_pressed(vk_enter)||keyboard_check_pressed(vk_space)||keyboard_check_pressed(ord('Z'))) {
+        scr_battle_begin(battle_access[overworld_sel])
+    }
+    var rate = 0.05;
+    overworld_scroll_y = overworld_scroll_y*(1-rate)+rate*overworld_sel;
 }
 </string>
           </argument>
@@ -1311,7 +1425,7 @@ if (draw_power || draw_mspell) {
 var panel_gap = 5;
 var card_bevel = 3;
 
-if (game_mode==GM_CHARSEL_INIT) {
+if (game_mode == GM_CHARSEL_INIT) {
     for (i=0;i&lt;4;i++) {
         var char = gm_csi_char[i];
         var spr  = a_pc_sprite[char]
@@ -1331,14 +1445,35 @@ if (game_mode==GM_CHARSEL_INIT) {
         draw_rectangle(draw_x,draw_y,draw_x+panel_width-2*panel_gap,draw_y+panel_height,false)
         draw_sprite_ext(spr,0,draw_x+card_bevel,draw_y+card_bevel,scale,scale,0,c_white,1);
     }
+    
+    scr_draw_fancy_text_ext(room_width/2,room_height/4,f_16,c_white,"Select your Character")
+
+    var pc = gm_csi_char[cur_pc_x]
+    scr_draw_fancy_text_ext(room_width/2,room_height/4+48,f_30,PUZ_C[a_pc_type[pc]],a_pc_name[pc])
+    
+    scr_draw_fancy_text_ext(room_width/2,room_height/2+80,f_13,c_gray,gm_csi_char_description[cur_pc_x])
 }
 
-scr_draw_fancy_text_ext(room_width/2,room_height/4,f_16,c_white,"Select your Character")
-
-var pc = gm_csi_char[cur_pc_x]
-scr_draw_fancy_text_ext(room_width/2,room_height/4+48,f_30,PUZ_C[a_pc_type[pc]],a_pc_name[pc])
-
-scr_draw_fancy_text_ext(room_width/2,room_height/2+80,f_13,c_gray,gm_csi_char_description[cur_pc_x])
+if (game_mode == GM_OVERWORLD) {
+    var card_width = 200;
+    var card_height = 100;
+    var card_sep = card_height+20;
+    for (i=0;i&lt;battle_access_n;i++) {
+        b = battle_access[i];
+        var draw_x = room_width/2 - card_width/2;
+        var draw_y = room_height/2 - card_sep*(i-overworld_scroll_y) - card_height/2
+        var back_col = make_colour_rgb(120,50,20);
+        if (i==overworld_sel)
+            back_col = make_colour_rgb(70,130,30);
+        draw_set_colour(back_col);
+        draw_rectangle(draw_x,draw_y,draw_x+card_width,draw_y+card_height,false);
+        var text_col = c_white;
+        if (!state.battle_complete[b])
+            text_col = c_yellow;
+        scr_draw_fancy_text_ext(draw_x+card_width/2,draw_y+card_height/2,f_16,text_col,a_battle_name[b])
+    }
+    scr_draw_fancy_text_ext(room_width/2,40,f_20,c_white,"Select Battle")
+}
 </string>
           </argument>
         </arguments>
