@@ -1,5 +1,7 @@
 party_hpmax = 0;
 
+var i = 0;
+
 for (i=0;i<party_size;i++) {
     m = party_pc[i];
     pc_sprite[i] = a_pc_sprite[m]
@@ -7,15 +9,9 @@ for (i=0;i<party_size;i++) {
     party_hpmax += a_pc_hp[m]
     pc_atk[i] = a_pc_atk[m]
     pc_type[i] = a_pc_type[m]
-    pc_power[i] = a_pc_power[m]
     
     // power
-    var pow = pc_power[i];
-    power_name[i] = a_power_name[pow];
-    power_type[i] = a_power_type[pow];
-    power_cost[i] = a_power_cost[pow];
-    power_description[i] = a_power_description[pow];
-    power_script[i] = a_power_script[pow];
+    scr_set_pc_power(i,a_pc_power[m])
     
     // attack value this turn:
     pc_damage[i] = 0;

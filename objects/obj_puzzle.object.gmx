@@ -43,8 +43,8 @@ PUZ_S[T_GREEN] = "green";
 PUZ_C[T_YELLOW] = make_colour_rgb(255,190,0);
 PUZ_S[T_YELLOW] = "yellow"
 
-PUZ_C[T_PURPLE] = make_colour_hsv(240,200,255);
-PUZ_S[T_PURPLE] = "pink"
+PUZ_C[T_PURPLE] = make_colour_hsv(200,200,255);
+PUZ_S[T_PURPLE] = "lavender"
 
 PUZ_C[T_ATK] = make_colour_rgb(210,210,210);
 PUZ_S[T_ATK] = "white"
@@ -247,7 +247,7 @@ a_mon_extra[M,1] = 3;
 
 M = 9;
 
-a_mon_name[M] = "H4ck the Comput3r!!"
+a_mon_name[M] = "H4ck the//Comput3r!!"
 a_mon_sprite[M] = spr_compy;
 a_mon_hpmax[M] = 230;
 a_mon_def[M] = 0;
@@ -262,7 +262,7 @@ M = 10;
 
 a_mon_name[M] = "Enormous Watermelon"
 a_mon_sprite[M] = spr_mon_watermelon;
-a_mon_hpmax[M] = 130;
+a_mon_hpmax[M] = 15;
 a_mon_def[M] = 40;
 a_mon_type[M] = T_GREEN;
 a_mon_atk[M] = 7;
@@ -271,6 +271,34 @@ a_mon_extra[M,0] = 3;
 a_mon_extra[M,1] = 0;
 a_mon_extra[M,2] = 2;
 a_mon_extra[M,3] = 3;
+
+M = 11;
+
+M = 12;
+
+a_mon_name[M] = "Visage of Pulchritude"
+a_mon_sprite[M] = spr_mon_visage;
+a_mon_hpmax[M] = 60;
+a_mon_def[M] = 12;
+a_mon_type[M] = T_PURPLE;
+a_mon_atk[M] = 4;
+a_mon_card_scr[M] = scr_mon_read_extra;
+a_mon_extra[M,0] = 2;
+a_mon_extra[M,1] = 0;
+a_mon_extra[M,2] = 3;
+
+M = 13;
+
+a_mon_name[M] = "Repugnant Countenance"
+a_mon_sprite[M] = spr_boardmember1;
+a_mon_hpmax[M] = 150;
+a_mon_def[M] = 0;
+a_mon_type[M] = T_BLUE;
+a_mon_atk[M] = 12;
+a_mon_card_scr[M] = scr_mon_read_extra;
+a_mon_extra[M,0] = 2;
+a_mon_extra[M,1] = 1;
+a_mon_extra[M,2] = 3;
 </string>
           </argument>
         </arguments>
@@ -381,15 +409,14 @@ a_card_description[C] = "Turns two orbs at random into minions."
             <string>a_power_name[0] = "Shapeshift"
 a_power_type[0] = T_BLUE;
 a_power_cost[0] = 8;
-a_power_description[0] = "All yellow orbs become blue."
+a_power_description[0] = "All " + PUZ_S[T_YELLOW] + " orbs become blue."
 a_power_script[0] = scr_power_shapeshift
 
 a_power_name[1] = "Windfall"
 a_power_type[1] = T_PURPLE
 a_power_cost[1] = 12;
-a_power_description[1] = "Half of all new orbs are yellow for two turns."
+a_power_description[1] = "1/3 of all new orbs are " + PUZ_S[T_YELLOW] + "."
 a_power_script[1] = scr_power_windfall;
-a_power_end_script[1] = scr_power_windfall_end;
 
 a_power_name[2] = "Divide by Zero"
 a_power_type[2] = T_BROWN
@@ -399,8 +426,8 @@ a_power_script[2] = scr_power_divide
 
 a_power_name[3] = "Gossip"
 a_power_type[3] = T_GREEN
-a_power_cost[3] = 16;
-a_power_description[3] = "All party members' powers become yellow for two turns."
+a_power_cost[3] = 12;
+a_power_description[3] = "Did you hear..? Yellow is the new purple. ## Lavender orbs all become " + PUZ_S[T_YELLOW] + ". ## If Sassy is nearby, she gains the power to summon watermelons."
 a_power_script[3] = scr_power_gossip
 a_power_end_script[3] = scr_power_gossip_end
 
@@ -536,7 +563,7 @@ a_pc_power[C_BRYAN] = 5;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>B = 0;
+            <string>B=0;
 
 a_battle_name[B] = "Tutorial"
 a_battle_prq[B] = scr_bat_prq_sat;
@@ -546,7 +573,7 @@ a_battle_wintext[B] = "Good job. Now the real fight begins!"
 a_battle_mon_n[B] = 1;
 a_battle_mon[B,0] = 0;
 
-B = 1;
+B++;
 
 a_battle_name[B] = "Irish's Lab";
 a_battle_prq[B] = scr_bat_prq_char;
@@ -559,7 +586,7 @@ a_battle_mon[B,0] = 7;
 a_battle_mon[B,1] = 8;
 a_battle_mon[B,2] = 9;
 
-B = 2;
+B++;
 
 a_battle_name[B] = "Board Meeting";
 a_battle_prq[B] = scr_bat_prq_char;
@@ -572,7 +599,7 @@ a_battle_mon[B,0] = 4;
 a_battle_mon[B,1] = 5;
 a_battle_mon[B,2] = 6;
 
-B = 3;
+B++;
 
 a_battle_name[B] = "School Greenhouse"
 a_battle_prq[B] = scr_bat_prq_char;
@@ -583,7 +610,19 @@ a_battle_wintext[B] = "Nicely done! That was one tough melon to crack. As a plus
 a_battle_mon_n[B] = 1;
 a_battle_mon[B,0] = 10;
 
-B = 4;
+B++;
+
+a_battle_name[B] = "Beauty Parlour"
+a_battle_prq[B] = scr_bat_prq_char;
+a_battle_extra[B,0] = C_QUEEN;
+a_battle_victory[B] = scr_vic_unlock_first;
+a_battle_description[B] = "You're hunting down a beautician who may have supernaturally good fashion sense. Might as well pawn a free manicure off her first."
+a_battle_wintext[B] = "Well done! His days of overpriced haircuts are over. Shame about the smashed mirror, though.##With that off your agenda, it's time to meet up with the other agent at school."
+a_battle_mon_n[B] = 2;
+a_battle_mon[B,0] = 12;
+a_battle_mon[B,1] = 13;
+
+B++;
 
 a_battle_name[B] = "Math Class"
 a_battle_prq[B] = scr_bat_prq_sat;
@@ -640,13 +679,13 @@ a_battle_n = B+1;
 gm_csi_char_description[0] = "Shapeshifting Engineer"
 
 gm_csi_char[1] = 1;
-gm_csi_char_description[1] = "Affluent Ninja"
+gm_csi_char_description[1] = "Affluent Blackbelt"
 
 gm_csi_char[2] = 4;
 gm_csi_char_description[2] = "Impulsive Otaku"
 
 gm_csi_char[3] = 3;
-gm_csi_char_description[3] = "Cultivated Gossiper"
+gm_csi_char_description[3] = "Gossipping Narcissist"
 
 tutorial_mode = 0
 </string>
@@ -740,12 +779,12 @@ state.start_char = 1;
 if (START_COND == 1) {
     // set up conditions on game load
     
-    party_pc[0] = C_SASSY;
-    party_pc[1] = 1;
-    party_pc[2] = 2;
-    party_pc[3] = 3;
+    party_pc[0] = C_QUEEN;
+    party_pc[1] = C_SASSY;
+    party_pc[2] = 3;
+    party_pc[3] = 4;
     
-    party_size = 1;
+    party_size = 2;
     state.start_char = party_pc[0];
     a_pc_atk[0] = 3000;
     scr_overworld_begin();
@@ -1411,14 +1450,14 @@ for (i=0;i&lt;PARTY_RESOURCE_N;i++) {
 
 // party cards
 for (i=0;i&lt;party_size;i++) {
-    draw_y = room_height - 48;
+    draw_y = room_height - 56;
     if (mode&gt;=M_SMASH &amp;&amp; mode &lt;= M_MATK) {
         if (pc_damage[i] == 0)
             draw_y += 12;
     }
     if (mode == M_MOVE) {
         if (cur_tray &amp;&amp; cur_pc_x == i)
-            draw_y -= 24;
+            draw_y -= 16;
         if (swapstuck) {
             draw_y += 12;
         }
@@ -1447,7 +1486,6 @@ for (i=0;i&lt;party_size;i++) {
         p=0;
         k = min(1,max(0,1-(smash_timer-ATTACK_DEF_DONE_T)/(ATTACK_DEF_MAX_T-ATTACK_DEF_DONE_T)));
         damage_displayed = f(k*pc_damage[i] + (1-k)*pc_damage_def_tmp[i]);
-        print(damage_displayed);
         if (pc_damage_def_tmp[i] &gt; 0)
             display_damage = true; // display damage even if zero, provided damage was originally &gt;0
     }
