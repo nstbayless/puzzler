@@ -1,6 +1,7 @@
 smash_found = false;
 
 streak = 3;
+var n_adjacent = 0;
 
 for (y_=0;y_<PUZ_WIDTH;y_++) {
     if (smash_found)
@@ -12,7 +13,7 @@ for (y_=0;y_<PUZ_WIDTH;y_++) {
         if (x_<=PUZ_WIDTH-streak && !smashed_h[x_,y_])
             if (board[x_+1,y_]==type && board[x_+2,y_]==type) {
                 smash_found = true;
-                combo++;
+                n_adjacent = 0;
                 for (x_smash = x_; x_smash < PUZ_WIDTH; x_smash++) {
                     if (board[x_smash,y_]!=type)
                         break;
@@ -20,13 +21,16 @@ for (y_=0;y_<PUZ_WIDTH;y_++) {
                     clear_timer[x_smash,y_] = SMASH_ANIM_MAX_T;
                     smashed_h[x_smash,y_] = true;
                     smashes++;
+                    n_adjacent++;
                     scr_smash_orb_col(type);
                 }
+                combo += n_adjacent-2;
             }
         if (y_<=PUZ_HEIGHT-streak && !smashed_v[x_,y_])
             if (board[x_,y_+1]==type && board[x_,y_+2]==type) {
                 smash_found = true;
                 combo++;
+                n_adjacent=0;
                 for (y_smash = y_; y_smash < PUZ_HEIGHT; y_smash++) {
                     if (board[x_,y_smash]!=type)
                         break;
@@ -34,8 +38,10 @@ for (y_=0;y_<PUZ_WIDTH;y_++) {
                     smashed_v[x_,y_smash] = true;
                     smashes++;
                     clear_timer[x_,y_smash] = SMASH_ANIM_MAX_T;
+                    n_adjacent++;
                     scr_smash_orb_col(type);
                 }                  
+                combo += n_adjacent-2;
             }
     }
 }

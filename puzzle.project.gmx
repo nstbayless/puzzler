@@ -26,6 +26,8 @@
       <sprite>sprites\spr_classmate1</sprite>
       <sprite>sprites\spr_boardmember1</sprite>
       <sprite>sprites\spr_mon_visage</sprite>
+      <sprite>sprites\spr_mon_janitor</sprite>
+      <sprite>sprites\spr_mon_grad</sprite>
     </sprites>
   </sprites>
   <backgrounds name="background"/>
@@ -54,6 +56,9 @@
       <script>scripts\scr_card_cheat.gml</script>
       <script>scripts\scr_card_corrupt.gml</script>
       <script>scripts\scr_card_convert.gml</script>
+      <script>scripts\scr_card_grow.gml</script>
+      <script>scripts\scr_card_repair.gml</script>
+      <script>scripts\scr_card_orbdamage.gml</script>
     </scripts>
     <scripts name="tutorial">
       <script>scripts\scr_tutorial_begin.gml</script>
@@ -114,6 +119,7 @@
     <script>scripts\scr_draw_fancy_text_ext.gml</script>
     <script>scripts\f.gml</script>
     <script>scripts\print.gml</script>
+    <script>scripts\array.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\f_10</font>

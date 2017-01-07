@@ -131,6 +131,91 @@ god_mode = false;
         <arguments>
           <argument>
             <kind>1</kind>
+            <string>spell cards</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>C = 0;
+
+a_card_name[C] = "Corrupt"
+a_card_script[C] = scr_card_corrupt
+a_card_description[C] = "Turns one orb at random into a minion."
+
+C = 1;
+
+a_card_name[C] = "Doze off"
+a_card_script[C] = scr_card_doze
+a_card_description[C] = "Heals 30 hit points"
+
+C = 2;
+
+a_card_name[C] = "Cheat"
+a_card_script[C] = scr_card_cheat
+a_card_description[C] = "Steals 3 of each resource."
+
+C = 3;
+
+a_card_name[C] = "Convert"
+a_card_script[C] = scr_card_convert
+a_card_description[C] = "Turns two orbs at random into minions."
+
+C = 4;
+
+a_card_name[C] = "Grow"
+a_card_script[C] = scr_card_grow
+a_card_description[C] = "Watermelon's maximum HP increases by 5"
+
+C++;
+SC_SELF_REPAIR = C;
+
+a_card_name[C] = "Self Repair"
+a_card_script[C] = scr_card_repair
+a_card_description[C] = "Heals 70 HP"
+
+C++
+SC_ACID_SPLASH = C;
+
+a_card_name[C] = "Acid Splash"
+a_card_script[C] = scr_card_orbdamage;
+a_card_type[C] = T_PURPLE;
+a_card_damage[C] = 30;
+a_card_description[C] = "Deals 30 damage for every " + PUZ_S[T_PURPLE] + " orb in the field."
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
             <string>monsters</string>
           </argument>
         </arguments>
@@ -231,8 +316,8 @@ a_mon_def[M] = 0;
 a_mon_type[M] = T_GREEN;
 a_mon_atk[M] = 10;
 a_mon_card_scr[M] = scr_mon_read_extra;
-a_mon_extra[M,0] = 1;
-a_mon_extra[M,1] = 3;
+a_mon_card_n[M] = 1;
+a_mon_card[M,0] = array(3,2);
 
 M = 8;
 
@@ -243,8 +328,11 @@ a_mon_def[M] = 0;
 a_mon_type[M] = T_YELLOW;
 a_mon_atk[M] = 25;
 a_mon_card_scr[M] = scr_mon_read_extra;
-a_mon_extra[M,0] = 1;
-a_mon_extra[M,1] = 3;
+a_mon_card_n[M] = 4;
+a_mon_card[M,0] = array(3,1);
+a_mon_card[M,1] = array(3,1);
+a_mon_card[M,2] = array(0,1);
+a_mon_card[M,3] = array(SC_SELF_REPAIR,4);
 
 M = 9;
 
@@ -255,9 +343,9 @@ a_mon_def[M] = 0;
 a_mon_type[M] = T_BLUE;
 a_mon_atk[M] = 20;
 a_mon_card_scr[M] = scr_mon_read_extra;
-a_mon_extra[M,0] = 2;
-a_mon_extra[M,1] = 3;
-a_mon_extra[M,2] = 2;
+a_mon_card_n[M] = 2;
+a_mon_card[M,0] = array(3,2);
+a_mon_card[M,1] = array(0,2);
 
 M = 10;
 
@@ -268,10 +356,10 @@ a_mon_def[M] = 50;
 a_mon_type[M] = T_GREEN;
 a_mon_atk[M] = 7;
 a_mon_card_scr[M] = scr_mon_read_extra;
-a_mon_extra[M,0] = 3;
-a_mon_extra[M,1] = 0;
-a_mon_extra[M,2] = 2;
-a_mon_extra[M,3] = 3;
+a_mon_card_n[M] = 3;
+a_mon_card[M,0] = array(0,1);
+a_mon_card[M,1] = array(4,2);
+a_mon_card[M,2] = array(3,2);
 
 M = 11;
 
@@ -283,10 +371,9 @@ a_mon_hpmax[M] = 60;
 a_mon_def[M] = 12;
 a_mon_type[M] = T_PURPLE;
 a_mon_atk[M] = 4;
-a_mon_card_scr[M] = scr_mon_read_extra;
-a_mon_extra[M,0] = 2;
-a_mon_extra[M,1] = 0;
-a_mon_extra[M,2] = 3;
+a_mon_card_n[M] = 2;
+a_mon_card[M,0] = array(0,1);
+a_mon_card[M,1] = array(3,2);
 
 M = 13;
 
@@ -297,37 +384,38 @@ a_mon_def[M] = 0;
 a_mon_type[M] = T_BLUE;
 a_mon_atk[M] = 12;
 a_mon_card_scr[M] = scr_mon_read_extra;
-a_mon_extra[M,0] = 2;
-a_mon_extra[M,1] = 1;
-a_mon_extra[M,2] = 3;
+a_mon_card_n[M] = 2;
+a_mon_card[M,0] = array(1,1);
+a_mon_card[M,1] = array(3,2);
 
 M = 14;
 
-a_mon_name[M] = "Janitor"
-a_mon_sprite[M] = spr_boardmember1;
-a_mon_hpmax[M] = 700;
+a_mon_name[M] = "Grad Student"
+a_mon_sprite[M] = spr_mon_grad;
+a_mon_hpmax[M] = 500;
 a_mon_def[M] = 60;
-a_mon_type[M] = T_BLUE;
-a_mon_atk[M] = 20;
+a_mon_type[M] = T_PURPLE;
+a_mon_atk[M] = 15;
 a_mon_card_scr[M] = scr_mon_read_extra;
-a_mon_extra[M,0] = 2;
-a_mon_extra[M,1] = 1;
-a_mon_extra[M,2] = 3;
+a_mon_card_n[M] = 3;
+a_mon_card[M,0] = array(SC_ACID_SPLASH,2);
+a_mon_card[M,1] = array(3,1);
+a_mon_card[M,2] = array(3,1);
 
-M = 16;
+M = 15;
 
 a_mon_name[M] = "Grad Student"
-a_mon_sprite[M] = spr_classmate1;
+a_mon_sprite[M] = spr_mon_grad;
 a_mon_hpmax[M] = 2300;
 a_mon_def[M] = 0;
 a_mon_type[M] = T_BROWN;
 a_mon_atk[M] = 32;
 a_mon_card_scr[M] = scr_mon_read_extra;
-a_mon_extra[M,0] = 2;
-a_mon_extra[M,1] = 1;
-a_mon_extra[M,2] = 0;
+a_mon_card_n[M] = 2;
+a_mon_card[M,0] = array(1,1);
+a_mon_card[M,1] = array(3,2);
 
-M = 17
+M = 16;
 
 a_mon_name[M] = "Dr. Greg Martin"
 a_mon_sprite[M] = spr_boardmember1;
@@ -336,77 +424,10 @@ a_mon_def[M] = 0;
 a_mon_type[M] = T_YELLOW;
 a_mon_atk[M] = 50;
 a_mon_card_scr[M] = scr_mon_read_extra;
-a_mon_extra[M,0] = 3;
-a_mon_extra[M,1] = 1;
-a_mon_extra[M,2] = 3;
-a_mon_extra[M,3] = 0;
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>605</id>
-        <kind>0</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>0</useapplyto>
-        <exetype>0</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>spell cards</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>C = 0;
-
-a_card_name[C] = "Corrupt"
-a_card_warmup[C] = 1;
-a_card_script[C] = scr_card_corrupt
-a_card_description[C] = "Turns one orb at random into a minion."
-
-C = 1;
-
-a_card_name[C] = "Doze off"
-a_card_warmup[C] = 2;
-a_card_script[C] = scr_card_doze
-a_card_description[C] = "Heals 30 hit points"
-
-C = 2;
-
-a_card_name[C] = "Cheat"
-a_card_warmup[C] = 1;
-a_card_script[C] = scr_card_cheat
-a_card_description[C] = "Steals 3 of each resource."
-
-C = 3;
-
-a_card_name[C] = "Convert"
-a_card_warmup[C] = 3;
-a_card_script[C] = scr_card_convert
-a_card_description[C] = "Turns two orbs at random into minions."
+a_mon_card_n[M] = 2;
+a_mon_card[M,0] = array(1,1);
+a_mon_card[M,1] = array(3,2);
+a_mon_card[M,1] = array(0,1);
 </string>
           </argument>
         </arguments>
@@ -450,7 +471,7 @@ a_card_description[C] = "Turns two orbs at random into minions."
             <string>a_power_name[0] = "Shapeshift"
 a_power_type[0] = T_BLUE;
 a_power_cost[0] = 8;
-a_power_description[0] = "All " + PUZ_S[T_YELLOW] + " orbs become blue."
+a_power_description[0] = "All " + PUZ_S[T_BLUE] + " orbs become" + PUZ_S[T_YELLOW]
 a_power_script[0] = scr_power_shapeshift
 a_power_passive[0] = false;
 
@@ -463,7 +484,7 @@ a_power_passive[1] = true;
 
 a_power_name[2] = "Divide by Zero"
 a_power_type[2] = T_BROWN
-a_power_cost[2] = 35;
+a_power_cost[2] = 27;
 a_power_description[2] = "Clears board and deals 50% of enemy HP in damage."
 a_power_script[2] = scr_power_divide
 a_power_passive[2] = false;
@@ -477,7 +498,7 @@ a_power_passive[3] = false;
 
 a_power_name[4] = "Scan"
 a_power_type[4] = T_PURPLE
-a_power_cost[4] = 24;
+a_power_cost[4] = 18;
 a_power_description[4] = "Enemy defense is permanently halved."
 a_power_script[4] = scr_power_scan
 a_power_passive[4] = false;
@@ -843,14 +864,13 @@ state.start_char = 1;
 if (START_COND == 1) {
     // set up conditions on game load
     
-    party_pc[0] = C_IRISH;
-    party_pc[1] = C_BRYAN;
-    party_pc[2] = 3;
+    party_pc[0] = C_NaOH;
+    party_pc[1] = C_IRISH;
+    party_pc[2] = C_GUY3;
     party_pc[3] = 4;
     god_mode = true;
-    party_size = 2;
+    party_size = 3;
     state.start_char = party_pc[0];
-    a_pc_atk[0] = 3000;
     scr_overworld_begin();
 }
 </string>
@@ -1375,29 +1395,6 @@ if (mode==1) {
     }
 }
 
-// draw misc text
-
-draw_set_colour(c_white);
-draw_set_alpha(1);
-draw_set_font(f_14);
-
-draw_text(room_width-32,room_height-64,stat_swaps);
-if (mode==M_SMASH || mode == M_CASCADE) {
-    if (combo &gt; 0) {
-        draw_text(room_width-128,room_height-64,"COMBO x" + string(combo));
-    }
-}
-if (mode==M_ATK_COMBO) {
-    draw_set_alpha(1-smash_timer/20)
-    var combo_str = "";
-    if (combo &gt; 1 &amp;&amp; !any_attack)
-        combo_str = "No Attack"
-    if (combo &gt; 1 &amp;&amp; any_attack)
-        combo_str = "COMBO x" + string(combo);
-    scr_draw_fancy_text(room_width/2-smash_timer,room_height-52, combo_str, 3)
-}
-
-
 // draw monster
 draw_set_alpha(1);
 
@@ -1557,6 +1554,31 @@ for (i=0;i&lt;party_size;i++) {
         draw_atk_y = draw_y*p + (draw_mon_y+i*20)*(1-p);
         scr_draw_fancy_text(draw_x+panel_width/2-panel_space/2,draw_atk_y-draw_pc_damage_timer[i]/2,damage_displayed,1.2)
     }
+}
+
+// draw misc text
+
+draw_set_colour(c_white);
+draw_set_alpha(1);
+draw_set_valign(fa_middle);
+draw_set_halign(fa_left);
+draw_set_font(f_14);
+
+if (mode == M_MOVE)
+    draw_text(room_width-32,room_height-64,stat_swaps);
+if (mode==M_SMASH || mode == M_CASCADE) {
+    if (combo &gt; 0) {
+        draw_text(room_width-128,room_height-64,"COMBO x" + string(combo));
+    }
+}
+if (mode==M_ATK_COMBO) {
+    draw_set_alpha(1-smash_timer/20)
+    var combo_str = "";
+    if (combo &gt; 1 &amp;&amp; !any_attack)
+        combo_str = "No Attack"
+    if (combo &gt; 1 &amp;&amp; any_attack)
+        combo_str = "COMBO x" + string(combo);
+    scr_draw_fancy_text(room_width/2-smash_timer,room_height-45, combo_str, 3)
 }
 </string>
           </argument>

@@ -1,1 +1,1 @@
-return 3;
+return array(3,3);
