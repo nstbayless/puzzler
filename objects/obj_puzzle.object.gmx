@@ -64,7 +64,7 @@ draw_puz_y = room_height/2-draw_puz_h/2+64;
 draw_hpbar_y = draw_puz_y + draw_puz_h;
 draw_hpbar_height = 24;
 draw_hpbar_bevel = 8
-draw_resource_y = draw_hpbar_y + draw_hpbar_height+12;
+draw_resource_y = draw_hpbar_y + draw_hpbar_height+8;
 
 draw_mon_hpbar_y = draw_puz_y-32;
 draw_mon_card_queue_bottom_y = draw_mon_hpbar_y-2
@@ -110,6 +110,7 @@ mon_card_queue_n = 5;
 
 game_mode = GM_BATTLE;
 game_message_n = 0;
+god_mode = false;
 </string>
           </argument>
         </arguments>
@@ -263,7 +264,7 @@ M = 10;
 a_mon_name[M] = "Enormous Watermelon"
 a_mon_sprite[M] = spr_mon_watermelon;
 a_mon_hpmax[M] = 15;
-a_mon_def[M] = 40;
+a_mon_def[M] = 50;
 a_mon_type[M] = T_GREEN;
 a_mon_atk[M] = 7;
 a_mon_card_scr[M] = scr_mon_read_extra;
@@ -411,37 +412,48 @@ a_power_type[0] = T_BLUE;
 a_power_cost[0] = 8;
 a_power_description[0] = "All " + PUZ_S[T_YELLOW] + " orbs become blue."
 a_power_script[0] = scr_power_shapeshift
+a_power_passive[0] = false;
 
 a_power_name[1] = "Windfall"
 a_power_type[1] = T_PURPLE
 a_power_cost[1] = 12;
-a_power_description[1] = "1/3 of all new orbs are " + PUZ_S[T_YELLOW] + "."
+a_power_description[1] = "30% of of all new orbs are " + PUZ_S[T_YELLOW] + "."
 a_power_script[1] = scr_power_windfall;
+a_power_passive[1] = true;
 
 a_power_name[2] = "Divide by Zero"
 a_power_type[2] = T_BROWN
 a_power_cost[2] = 35;
 a_power_description[2] = "Clears board and deals 50% of enemy HP in damage."
 a_power_script[2] = scr_power_divide
+a_power_passive[2] = false;
 
 a_power_name[3] = "Gossip"
 a_power_type[3] = T_GREEN
 a_power_cost[3] = 12;
-a_power_description[3] = "Did you hear..? Yellow is the new purple. ## Lavender orbs all become " + PUZ_S[T_YELLOW] + ". ## If Sassy is nearby, she gains the power to summon watermelons."
+a_power_description[3] = "Did you hear..? Yellow is the new purple! ## Lavender orbs all become " + PUZ_S[T_YELLOW] + ". ## If Sassy is nearby, she gains the power to summon watermelons."
 a_power_script[3] = scr_power_gossip
-a_power_end_script[3] = scr_power_gossip_end
+a_power_passive[3] = false;
 
 a_power_name[4] = "Scan"
 a_power_type[4] = T_PURPLE
 a_power_cost[4] = 24;
 a_power_description[4] = "Enemy defense is permanently halved."
 a_power_script[4] = scr_power_scan
+a_power_passive[4] = false;
+
+a_power_name[5] = "Snoozing"
+a_power_description[5] = "Bryan heals the party 1% HP per turn."
+a_power_script[5] = scr_power_snooze
+a_power_end_script[5] = scr_power_snooze_cont
+a_power_passive[5] = true;
 
 a_power_name[25] = "Summon Watermelon"
 a_power_type[25] = T_GREEN
 a_power_cost[25] = 3;
 a_power_description[25] = "One random orb becomes green."
 a_power_script[25] = scr_power_shapeshift
+a_power_passive[25] = false;
 </string>
           </argument>
         </arguments>
@@ -517,7 +529,7 @@ a_pc_atk[C_SASSY] = 3;
 a_pc_type[C_SASSY] = T_GREEN;
 a_pc_power[C_SASSY] = 4;
 
-a_pc_sprite[C_BRYAN] = spr_guy3;
+a_pc_sprite[C_BRYAN] = spr_bryan;
 a_pc_name[C_BRYAN] = "Bryan"
 a_pc_hp[C_BRYAN] = 500;
 a_pc_atk[C_BRYAN] = 1;
@@ -779,11 +791,11 @@ state.start_char = 1;
 if (START_COND == 1) {
     // set up conditions on game load
     
-    party_pc[0] = C_QUEEN;
-    party_pc[1] = C_SASSY;
+    party_pc[0] = C_IRISH;
+    party_pc[1] = C_BRYAN;
     party_pc[2] = 3;
     party_pc[3] = 4;
-    
+    god_mode = true;
     party_size = 2;
     state.start_char = party_pc[0];
     a_pc_atk[0] = 3000;
@@ -1450,7 +1462,7 @@ for (i=0;i&lt;PARTY_RESOURCE_N;i++) {
 
 // party cards
 for (i=0;i&lt;party_size;i++) {
-    draw_y = room_height - 56;
+    draw_y = room_height - 60;
     if (mode&gt;=M_SMASH &amp;&amp; mode &lt;= M_MATK) {
         if (pc_damage[i] == 0)
             draw_y += 12;
@@ -1458,13 +1470,13 @@ for (i=0;i&lt;party_size;i++) {
     if (mode == M_MOVE) {
         if (cur_tray &amp;&amp; cur_pc_x == i)
             draw_y -= 16;
-        if (swapstuck) {
-            draw_y += 12;
-        }
+        //if (swapstuck) {
+        //    draw_y += 12;
+        //} //swapstuck no longer exists
     }
     draw_x = panel_space + panel_width*i;
     draw_set_colour(PUZ_C[pc_type[i]])
-    if (g_timer % 40 &gt; 30 &amp;&amp; party_resource[power_type[i]] &gt;= power_cost[i]) {
+    if (g_timer % 40 &gt; 30 &amp;&amp; party_resource[power_type[i]] &gt;= power_cost[i] &amp;&amp;!power_passive[i]) {
         draw_set_colour(merge_colour(PUZ_C[power_type[i]],c_white,0.5))
     }
     draw_rectangle(draw_x,draw_y,draw_x+panel_width-panel_space,draw_y+panel_height,false)
@@ -1609,12 +1621,19 @@ if (draw_power) {
     var pow = pc
     var col_atk = merge_color(PUZ_C[pc_type[pc]],c_white,0.2);
     var col_pow = merge_color(PUZ_C[power_type[pow]],c_white,0.2);
+    if (power_passive[pow])
+        col_pow = c_white;
     scr_draw_fancy_text_ext(box_x,box_y-des_height/2+16,f_16,col_atk,pc_name[pc]);
     scr_draw_fancy_text_ext(box_x,box_y-des_height/2+40,f_13,col_pow,"[" + power_name[pow] + "]")
-    scr_draw_fancy_text_ext(box_x-des_width/2+2,box_y+des_height/2-16,f_13,col_pow,string(party_resource[power_type[pow]])+"/"+string(power_cost[pow]),fa_left)
+    var pow_string = "Potato"
+    if (!power_passive[pow])
+        pow_string = string(party_resource[power_type[pow]])+"/"+string(power_cost[pow]);
+    scr_draw_fancy_text_ext(box_x-des_width/2+2,box_y+des_height/2-16,f_13,col_pow,pow_string,fa_left)
     scr_draw_fancy_text_ext(box_x+des_width/2-2,box_y+des_height/2-16,f_13,col_atk,"ATK: " + string(pc_atk[pc]),fa_right)
     
     description = power_description[pow]
+    if (power_passive[pow])
+        description +="##(Potato abilities are passive effects)"
 }
 
 if (draw_mspell &amp;&amp; smash_timer &lt;= MSPELL_ANIM_UNFOLD_T) {
@@ -1794,7 +1813,7 @@ if (game_mode == GM_OVERWORLD) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (tutorial_mode &gt; 0) {
+            <string>if (tutorial_mode &gt; 0 &amp;&amp; tut_message!="") {
     var bevel = 30;
     var draw_x1 = bevel;
     var draw_x2 = room_width - bevel;

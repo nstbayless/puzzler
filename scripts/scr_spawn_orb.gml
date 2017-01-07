@@ -6,7 +6,7 @@ var t = irandom(PUZ_TYPE_N-1 - no_white);
 //special rules for spawning extra of a type:
 var se_type = T_YELLOW;
 var se_enabled = false;
-var se_amount = 0.5;
+var se_amount = 0.30;
 if (windfall_enabled) // Irish's special power
     se_enabled = true;
 if (tutorial_mode > 0) {

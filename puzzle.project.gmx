@@ -15,6 +15,7 @@
     <sprite>sprites\spr_irish</sprite>
     <sprite>sprites\spr_queen</sprite>
     <sprite>sprites\spr_sassy</sprite>
+    <sprite>sprites\spr_bryan</sprite>
     <sprite>sprites\spr_shield_large</sprite>
     <sprite>sprites\spr_shield_icon</sprite>
     <sprites name="monsters">
@@ -39,6 +40,8 @@
       <script>scripts\scr_power_gossip_end.gml</script>
       <script>scripts\scr_power_divide.gml</script>
       <script>scripts\scr_power_scan.gml</script>
+      <script>scripts\scr_power_snooze.gml</script>
+      <script>scripts\scr_power_snooze_cont.gml</script>
       <script>scripts\scr_power_watermelon.gml</script>
     </scripts>
     <scripts name="monster">
