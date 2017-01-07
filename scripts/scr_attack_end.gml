@@ -7,3 +7,5 @@ mon_hp_residue = mon_hp;
 mon_hp -= damage_dealt;
 
 scr_attack_end_animation();
+if (damage_dealt <= 0)
+    smash_timer = 0;

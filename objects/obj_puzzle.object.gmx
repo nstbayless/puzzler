@@ -81,8 +81,10 @@ cur_sel = false;
 cur_tray = false;
 cur_pc_x = 0;
 
-ATTACK_ANIM_MAX_T = 25;
 SMASH_ANIM_MAX_T = 12;
+ATTACK_ANIM_MAX_T = 25;
+ATTACK_DEF_MAX_T = 30;
+ATTACK_DEF_DONE_T = 10;
 MSPELL_ANIM_MAX_T = 90;
 MSPELL_ANIM_UNFOLD_T = 84;
 MSPELL_ANIM_VANISH_T = 25;
@@ -253,8 +255,22 @@ a_mon_type[M] = T_BLUE;
 a_mon_atk[M] = 20;
 a_mon_card_scr[M] = scr_mon_read_extra;
 a_mon_extra[M,0] = 2;
-a_mon_extra[M,1] = 2;
-a_mon_extra[M,2] = 3;
+a_mon_extra[M,1] = 3;
+a_mon_extra[M,2] = 2;
+
+M = 10;
+
+a_mon_name[M] = "Enormous Watermelon"
+a_mon_sprite[M] = spr_mon_watermelon;
+a_mon_hpmax[M] = 130;
+a_mon_def[M] = 40;
+a_mon_type[M] = T_GREEN;
+a_mon_atk[M] = 7;
+a_mon_card_scr[M] = scr_mon_read_extra;
+a_mon_extra[M,0] = 3;
+a_mon_extra[M,1] = 0;
+a_mon_extra[M,2] = 2;
+a_mon_extra[M,3] = 3;
 </string>
           </argument>
         </arguments>
@@ -392,7 +408,7 @@ a_power_name[4] = "Scan"
 a_power_type[4] = T_PURPLE
 a_power_cost[4] = 24;
 a_power_description[4] = "Enemy defense is permanently halved."
-a_power_script[4] = scr_power_shapeshift
+a_power_script[4] = scr_power_scan
 
 a_power_name[25] = "Summon Watermelon"
 a_power_type[25] = T_GREEN
@@ -558,6 +574,17 @@ a_battle_mon[B,2] = 6;
 
 B = 3;
 
+a_battle_name[B] = "School Greenhouse"
+a_battle_prq[B] = scr_bat_prq_char;
+a_battle_extra[B,0] = C_SASSY;
+a_battle_victory[B] = scr_vic_unlock_first;
+a_battle_description[B] = "Looks like the Queen's been gossiping again. Naturally this means giant watermelons are popping up everywhere. Better smash 'em before you get blamed for it."
+a_battle_wintext[B] = "Nicely done! That was one tough melon to crack. As a plus, you now know what you'll be eating during lunch break."
+a_battle_mon_n[B] = 1;
+a_battle_mon[B,0] = 10;
+
+B = 4;
+
 a_battle_name[B] = "Math Class"
 a_battle_prq[B] = scr_bat_prq_sat;
 a_battle_victory[B] = scr_vic_unlock_classroom;
@@ -708,21 +735,21 @@ state.start_char = 1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// set up conditions on game load
-
-party_pc[0] = 1;
-party_pc[1] = 0;
-party_pc[2] = 2;
-party_pc[3] = 3;
-
-party_size = 1;
-
-state.start_char = party_pc[0];
-
-//scr_set_monster(1);
-//scr_battle_begin();
-//game_mode = GM_CHARSEL_INIT
-scr_overworld_begin();
+            <string>if (START_COND == 0)
+    game_mode = GM_CHARSEL_INIT;
+if (START_COND == 1) {
+    // set up conditions on game load
+    
+    party_pc[0] = C_SASSY;
+    party_pc[1] = 1;
+    party_pc[2] = 2;
+    party_pc[3] = 3;
+    
+    party_size = 1;
+    state.start_char = party_pc[0];
+    a_pc_atk[0] = 3000;
+    scr_overworld_begin();
+}
 </string>
           </argument>
         </arguments>
@@ -917,6 +944,12 @@ if (mode==M_ATK_COMBO) {
 if (mode==M_ATK_RISE) {
     smash_timer--;
     if (smash_timer&lt;0) {
+        scr_attack_def();
+    }
+}
+if (mode==M_ATK_DEF) {
+    smash_timer--;
+    if (smash_timer&lt;0) {
         scr_attack_end();
     }
 }
@@ -1095,10 +1128,7 @@ else if (game_mode==GM_OVERWORLD &amp;&amp;! no_input) {
             <string>if (game_message_n &gt; 0) {
     //dismiss message:
     if (scr_input_select()) {
-        game_message_n--;
-        for (var i = 0;i&lt;game_message_n;i++) {
-            game_message[i] = game_message[i+1]
-        }
+        scr_pop_message();
     }
 }
 </string>
@@ -1264,24 +1294,32 @@ if (mode==M_ATK_COMBO) {
     scr_draw_fancy_text(room_width/2-smash_timer,room_height-52, combo_str, 3)
 }
 
-draw_set_alpha(1);
+
 // draw monster
+draw_set_alpha(1);
 
 draw_x_offset = 0;
 draw_y_offset = 0;
-if (mode==6) {
-    p = smash_timer/anim_hit_max
+if (mode==M_ATK_HIT) {
+    p = smash_timer/anim_hit_max;
     draw_x_offset = random(1)*(p+1)*anim_hit_power/6
     draw_y_offset = random(1)*(p+1)*anim_hit_power/6
 }
 
 draw_sprite(mon_sprite,1,draw_mon_x+draw_x_offset,draw_mon_y+draw_y_offset);
 
+draw_set_alpha(1);
 // draw monster health bar
 
 draw_healthbar(8,draw_mon_hpbar_y,room_width-8,draw_mon_hpbar_y+24,100*mon_hp_residue/mon_hpmax,c_black,c_red,c_red,0,true,true);
 draw_healthbar(8,draw_mon_hpbar_y,room_width-8,draw_mon_hpbar_y+24,100*mon_hp/mon_hpmax,c_black,PUZ_C[mon_type],PUZ_C[mon_type],0,false,true);
 scr_draw_fancy_text(draw_mon_x,draw_mon_hpbar_y + 12,string(mon_hp) + " HP",1);
+
+// draw monster stats
+if (mon_def &gt; 0) {
+    draw_sprite(spr_shield_icon,0,room_width-20,draw_mon_hpbar_y-20);
+    scr_draw_fancy_text_ext(room_width-20,draw_mon_hpbar_y-20,f_13,c_white,string(mon_def));
+}
 
 // draw card queue
 card_height = floor(draw_mon_card_queue_bottom_y/mon_card_queue_n);
@@ -1297,6 +1335,16 @@ for (i = 0; i &lt; mon_card_queue_n; i++) {
     scr_draw_fancy_text_ext(f(card_width/2),f(draw_y + card_height/2),f_12,c_red,string_char_at(a_card_name[c],0));
     scr_draw_fancy_text_ext(card_width,draw_y + card_height+3,f_12,c_white,card_warmup[i],fa_right,fa_bottom);
 }
+
+if (mode==M_ATK_DEF) {
+    // draw shield
+    p = smash_timer/ATTACK_DEF_MAX_T
+    p = 1-(p-0.5)*(p-.5)*4
+    draw_set_alpha(p);
+    draw_sprite(spr_shield_large,0,draw_mon_x,draw_mon_y-30);
+}
+
+draw_set_alpha(1);
 
 // monster's name
 draw_set_font(f_14);
@@ -1387,15 +1435,25 @@ for (i=0;i&lt;party_size;i++) {
     draw_sprite_ext(pc_sprite[i],1,draw_x+portrait_bevel,draw_y+portrait_bevel,scale,scale,0,c_white,1)
     
     // damage text
-    if (pc_damage[i]&gt;0 &amp;&amp; mode &lt;= M_ATK_RISE) {
-        draw_atk_y = draw_y;
-        if (mode==M_ATK_RISE) {
-            // attack animation:
-            p = smash_timer/ATTACK_ANIM_MAX_T;
-            p = 0.5-0.5*cos(p*pi);
-            draw_atk_y = draw_y*p + (draw_mon_y+i*20)*(1-p);
-        }
-        scr_draw_fancy_text(draw_x+panel_width/2-panel_space/2,draw_atk_y-draw_pc_damage_timer[i]/2,string(pc_damage[i]),1.2)
+    var damage_displayed = pc_damage[i];
+    var display_damage = damage_displayed &gt; 0;
+    var p = 1;
+    if (mode==M_ATK_RISE) {
+        // attack animation:
+        p = smash_timer/ATTACK_ANIM_MAX_T;
+        p = 0.5-0.5*cos(p*pi);
+    }
+    if (mode==M_ATK_DEF) {
+        p=0;
+        k = min(1,max(0,1-(smash_timer-ATTACK_DEF_DONE_T)/(ATTACK_DEF_MAX_T-ATTACK_DEF_DONE_T)));
+        damage_displayed = f(k*pc_damage[i] + (1-k)*pc_damage_def_tmp[i]);
+        print(damage_displayed);
+        if (pc_damage_def_tmp[i] &gt; 0)
+            display_damage = true; // display damage even if zero, provided damage was originally &gt;0
+    }
+    if (mode &lt;= M_ATK_DEF &amp;&amp; display_damage) {
+        draw_atk_y = draw_y*p + (draw_mon_y+i*20)*(1-p);
+        scr_draw_fancy_text(draw_x+panel_width/2-panel_space/2,draw_atk_y-draw_pc_damage_timer[i]/2,damage_displayed,1.2)
     }
 }
 </string>
@@ -1765,6 +1823,9 @@ if (game_mode == GM_OVERWORLD) {
             <string>// game message overlay
 if (game_message_n &gt; 0) {
     var str = game_message[0];
+    var msg_sprite = game_message_image[0];
+    var do_sprite = msg_sprite!=-1;
+    var image_sink = 32;
     if (str!="") {
         var sep = 17;
         var wbev = 0;
@@ -1776,10 +1837,15 @@ if (game_message_n &gt; 0) {
         draw_set_alpha(0.95);
         draw_rectangle(wbev,hbev,room_width-wbev,room_height-hbev,false);
         draw_set_halign(fa_center);
-        draw_set_valign(fa_center);
+        if (!do_sprite)
+            draw_set_valign(fa_middle);
+        else
+            draw_set_valign(fa_top);
         draw_set_colour(c_white);
         draw_set_alpha(1);
-        draw_text_ext(room_width/2,room_height/2,str,sep,wdesc);
+        draw_text_ext(room_width/2,room_height/2 + do_sprite*image_sink,str,sep,wdesc);
+        if (do_sprite)
+            draw_sprite(msg_sprite,0,room_width/2-sprite_get_width(msg_sprite)/2,room_height/2+image_sink - 10 - sprite_get_height(msg_sprite))
     }
 }
 </string>

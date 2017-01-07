@@ -2,6 +2,7 @@
 <assets>
   <Configs name="configs">
     <Config>Configs\Default</Config>
+    <Config>Configs\Test</Config>
   </Configs>
   <NewExtensions/>
   <sounds name="sound"/>
@@ -9,16 +10,21 @@
     <sprite>sprites\spr_orb</sprite>
     <sprite>sprites\spr_cracks</sprite>
     <sprite>sprites\spr_glow</sprite>
-    <sprite>sprites\spr_mon_whale</sprite>
     <sprite>sprites\spr_NaOH</sprite>
     <sprite>sprites\spr_guy3</sprite>
     <sprite>sprites\spr_irish</sprite>
     <sprite>sprites\spr_queen</sprite>
     <sprite>sprites\spr_sassy</sprite>
-    <sprite>sprites\spr_classmate1</sprite>
-    <sprite>sprites\spr_boardmember1</sprite>
-    <sprite>sprites\spr_lathe</sprite>
-    <sprite>sprites\spr_compy</sprite>
+    <sprite>sprites\spr_shield_large</sprite>
+    <sprite>sprites\spr_shield_icon</sprite>
+    <sprites name="monsters">
+      <sprite>sprites\spr_lathe</sprite>
+      <sprite>sprites\spr_mon_watermelon</sprite>
+      <sprite>sprites\spr_compy</sprite>
+      <sprite>sprites\spr_mon_whale</sprite>
+      <sprite>sprites\spr_classmate1</sprite>
+      <sprite>sprites\spr_boardmember1</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -80,6 +86,7 @@
       <script>scripts\scr_attack_begin_animation.gml</script>
       <script>scripts\scr_attack_end.gml</script>
       <script>scripts\scr_attack_end_animation.gml</script>
+      <script>scripts\scr_attack_def.gml</script>
       <script>scripts\scr_checkdeath.gml</script>
       <script>scripts\scr_mon_attack_begin.gml</script>
       <script>scripts\scr_mon_attack_update.gml</script>
@@ -89,6 +96,7 @@
       <script>scripts\scr_set_power_counter.gml</script>
     </scripts>
     <script>scripts\scr_push_message.gml</script>
+    <script>scripts\scr_pop_message.gml</script>
     <script>scripts\scr_char_unlock.gml</script>
     <script>scripts\scr_input_select.gml</script>
     <script>scripts\scr_overworld_begin.gml</script>
@@ -121,7 +129,7 @@
   <rooms name="rooms">
     <room>rooms\rm_puzzle</room>
   </rooms>
-  <constants number="23">
+  <constants number="24">
     <constant name="T_BROWN">0</constant>
     <constant name="T_BLUE">1</constant>
     <constant name="T_GREEN">2</constant>
@@ -133,9 +141,10 @@
     <constant name="M_CASCADE">3</constant>
     <constant name="M_ATK_COMBO">4</constant>
     <constant name="M_ATK_RISE">5</constant>
-    <constant name="M_ATK_HIT">6</constant>
-    <constant name="M_MATK">7</constant>
-    <constant name="M_MSPELL">8</constant>
+    <constant name="M_ATK_DEF">6</constant>
+    <constant name="M_ATK_HIT">7</constant>
+    <constant name="M_MATK">8</constant>
+    <constant name="M_MSPELL">9</constant>
     <constant name="GM_BATTLE">1</constant>
     <constant name="GM_CHARSEL_INIT">2</constant>
     <constant name="GM_OVERWORLD">3</constant>

@@ -1,1 +1,1 @@
-mon_def/=2;
+mon_def = f(mon_def/2);
