@@ -15,9 +15,7 @@ with (obj_puzzle) {
     cur_tray = false;
     scr_setup_party();
     scr_board_randomize();
-    scr_board_reset_encounter();
     scr_encounter_begin();
-    scr_turn_begin();
     // check tutorial
     if (battle_id == 0)
         scr_tutorial_begin();

@@ -10,6 +10,8 @@ if (mon_hp<=0) {
         if (battle_mon_p >= a_battle_mon_n[battle_id]) {
             state.battle_complete[battle_id] = true;
             //battle ended
+            scr_push_message(a_battle_wintext[battle_id])
+            script_execute(a_battle_victory[battle_id])
             scr_overworld_begin();
             exit;
         }
@@ -17,8 +19,7 @@ if (mon_hp<=0) {
     }
     //setup next fight:
     scr_set_monster(mon_next_id);
-    scr_board_reset_encounter(); // clear minions
-    scr_turn_begin();
+    scr_encounter_begin();
 } else {
     scr_mon_attack_begin();
 }

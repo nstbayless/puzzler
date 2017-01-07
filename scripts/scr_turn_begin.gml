@@ -1,3 +1,9 @@
+// check for TPK
+if (party_hp <=0) {
+    scr_overworld_begin();
+    exit;
+}
+
 stat_swaps = stat_swap_max;
 scr_set_mode(M_MOVE);
 scr_board_reset_turn();

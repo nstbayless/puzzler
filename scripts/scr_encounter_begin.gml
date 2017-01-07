@@ -9,3 +9,5 @@ for (i = 0; i < mon_card_queue_n; i ++) {
 }
 // initialize falling animation
 card_pop_queue_t = CARD_POP_QUEUE_MAX_T;
+
+scr_turn_begin();

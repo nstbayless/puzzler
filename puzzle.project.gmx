@@ -15,6 +15,10 @@
     <sprite>sprites\spr_irish</sprite>
     <sprite>sprites\spr_queen</sprite>
     <sprite>sprites\spr_sassy</sprite>
+    <sprite>sprites\spr_classmate1</sprite>
+    <sprite>sprites\spr_boardmember1</sprite>
+    <sprite>sprites\spr_lathe</sprite>
+    <sprite>sprites\spr_compy</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -32,6 +36,7 @@
     <scripts name="monster">
       <script>scripts\scr_mon_classmate.gml</script>
       <script>scripts\scr_mon_tutorial.gml</script>
+      <script>scripts\scr_mon_read_extra.gml</script>
     </scripts>
     <scripts name="cards">
       <script>scripts\scr_card_doze.gml</script>
@@ -44,10 +49,17 @@
       <script>scripts\scr_tutorial_update.gml</script>
     </scripts>
     <scripts name="battles">
-      <script>scripts\scr_bat_prq_sat.gml</script>
-      <script>scripts\scr_bat_prq_irish.gml</script>
+      <scripts name="prerequisites">
+        <script>scripts\scr_bat_prq_char.gml</script>
+        <script>scripts\scr_bat_prq_sat.gml</script>
+      </scripts>
+      <scripts name="victory">
+        <script>scripts\scr_vic_none.gml</script>
+        <script>scripts\scr_vic_unlock_first.gml</script>
+        <script>scripts\scr_vic_unlock_classroom.gml</script>
+      </scripts>
     </scripts>
-    <scripts name="battle">
+    <scripts name="in_battle">
       <scripts name="board">
         <script>scripts\scr_board_randomize.gml</script>
         <script>scripts\scr_board_reset_encounter.gml</script>
@@ -76,6 +88,9 @@
       <script>scripts\scr_mon_card_queue_pop.gml</script>
       <script>scripts\scr_set_power_counter.gml</script>
     </scripts>
+    <script>scripts\scr_push_message.gml</script>
+    <script>scripts\scr_char_unlock.gml</script>
+    <script>scripts\scr_input_select.gml</script>
     <script>scripts\scr_overworld_begin.gml</script>
     <script>scripts\scr_set_monster.gml</script>
     <script>scripts\scr_set_mode.gml</script>
@@ -106,7 +121,7 @@
   <rooms name="rooms">
     <room>rooms\rm_puzzle</room>
   </rooms>
-  <constants number="17">
+  <constants number="23">
     <constant name="T_BROWN">0</constant>
     <constant name="T_BLUE">1</constant>
     <constant name="T_GREEN">2</constant>
@@ -124,6 +139,12 @@
     <constant name="GM_BATTLE">1</constant>
     <constant name="GM_CHARSEL_INIT">2</constant>
     <constant name="GM_OVERWORLD">3</constant>
+    <constant name="C_NaOH">0</constant>
+    <constant name="C_IRISH">1</constant>
+    <constant name="C_GUY3">2</constant>
+    <constant name="C_QUEEN">3</constant>
+    <constant name="C_SASSY">4</constant>
+    <constant name="C_BRYAN">5</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>
