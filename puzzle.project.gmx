@@ -62,6 +62,8 @@
     <scripts name="battles">
       <scripts name="prerequisites">
         <script>scripts\scr_bat_prq_char.gml</script>
+        <script>scripts\scr_bat_prq_prev.gml</script>
+        <script>scripts\scr_bat_prq_first_complete.gml</script>
         <script>scripts\scr_bat_prq_sat.gml</script>
       </scripts>
       <scripts name="victory">

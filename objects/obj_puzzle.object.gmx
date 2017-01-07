@@ -300,6 +300,46 @@ a_mon_card_scr[M] = scr_mon_read_extra;
 a_mon_extra[M,0] = 2;
 a_mon_extra[M,1] = 1;
 a_mon_extra[M,2] = 3;
+
+M = 14;
+
+a_mon_name[M] = "Janitor"
+a_mon_sprite[M] = spr_boardmember1;
+a_mon_hpmax[M] = 700;
+a_mon_def[M] = 60;
+a_mon_type[M] = T_BLUE;
+a_mon_atk[M] = 20;
+a_mon_card_scr[M] = scr_mon_read_extra;
+a_mon_extra[M,0] = 2;
+a_mon_extra[M,1] = 1;
+a_mon_extra[M,2] = 3;
+
+M = 16;
+
+a_mon_name[M] = "Grad Student"
+a_mon_sprite[M] = spr_classmate1;
+a_mon_hpmax[M] = 2300;
+a_mon_def[M] = 0;
+a_mon_type[M] = T_BROWN;
+a_mon_atk[M] = 32;
+a_mon_card_scr[M] = scr_mon_read_extra;
+a_mon_extra[M,0] = 2;
+a_mon_extra[M,1] = 1;
+a_mon_extra[M,2] = 0;
+
+M = 17
+
+a_mon_name[M] = "Dr. Greg Martin"
+a_mon_sprite[M] = spr_boardmember1;
+a_mon_hpmax[M] = 5700;
+a_mon_def[M] = 0;
+a_mon_type[M] = T_YELLOW;
+a_mon_atk[M] = 50;
+a_mon_card_scr[M] = scr_mon_read_extra;
+a_mon_extra[M,0] = 3;
+a_mon_extra[M,1] = 1;
+a_mon_extra[M,2] = 3;
+a_mon_extra[M,3] = 0;
 </string>
           </argument>
         </arguments>
@@ -637,7 +677,7 @@ a_battle_mon[B,1] = 13;
 B++;
 
 a_battle_name[B] = "Math Class"
-a_battle_prq[B] = scr_bat_prq_sat;
+a_battle_prq[B] = scr_bat_prq_first_complete;
 a_battle_victory[B] = scr_vic_unlock_classroom;
 a_battle_description[B] = "It's vitally important for your plans that you pass this course. Unfortunately it is pretty tricky..."
 a_battle_wintext[B] = "Nicely done! Now that the competition has been eliminated, you're sure to pass this course with flying colours. Dr. Greg scales on a bell curve, right?"
@@ -645,6 +685,18 @@ a_battle_mon_n[B] = 3;
 a_battle_mon[B,0] = 1;
 a_battle_mon[B,1] = 2;
 a_battle_mon[B,2] = 3;
+
+B++;
+
+a_battle_name[B] = "Greg's Lab"
+a_battle_prq[B] = scr_bat_prq_prev;
+a_battle_victory[B] = scr_vic_unlock_classroom;
+a_battle_description[B] = "You have to get to Dr. Greg before the others do!"
+a_battle_wintext[B] = "Great job! Unfortunately, that's all of the game programmed so far :("
+a_battle_mon_n[B] = 3;
+a_battle_mon[B,0] = 14;
+a_battle_mon[B,1] = 15;
+a_battle_mon[B,2] = 16;
 
 a_battle_n = B+1;
 </string>
