@@ -38,6 +38,10 @@ _pointer_x_prev = mouse_x;
 _pointer_y_prev = mouse_y;
 
 t_since_down = 0;
+tap_count = 0;
+
+TAP_WANDER = 16;
+DOUBLE_TAP_WANDER = 23;
 </string>
           </argument>
         </arguments>
@@ -86,13 +90,21 @@ if (mouse_check_button_pressed(mb_left)) {
 
 pointer_released = false;
 pointer_tap = false;
+pointer_double_tap = false;
 
 if (mouse_check_button_released(mb_left)) {
     pointer_down = false;
     pointer_released = true;
-    if (t_since_down&lt;=7)
+    if (t_since_down&lt;=7 &amp;&amp; point_distance(mouse_x,mouse_y,pointer_start_x,pointer_start_y) &lt;= TAP_WANDER) {
         pointer_tap = true;
+        tap_count++;
+        if (tap_count == 2)
+            pointer_double_tap = true;
+    }
 }
+
+if (t_since_down &gt;= 15)
+    tap_count = 0;
 </string>
           </argument>
         </arguments>

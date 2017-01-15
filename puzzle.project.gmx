@@ -112,6 +112,7 @@
         <script>scripts\scr_board_reset_smash.gml</script>
       </scripts>
       <script>scripts\scr_battle_begin.gml</script>
+      <script>scripts\scr_use_power.gml</script>
       <script>scripts\scr_setup_party.gml</script>
       <script>scripts\scr_set_pc_power.gml</script>
       <script>scripts\scr_encounter_begin.gml</script>
