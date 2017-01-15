@@ -146,6 +146,7 @@
     <script>scripts\scr_draw_fancy_text_ext.gml</script>
     <script>scripts\f.gml</script>
     <script>scripts\print.gml</script>
+    <script>scripts\in_range.gml</script>
     <script>scripts\array.gml</script>
     <script>scripts\g.gml</script>
   </scripts>
@@ -166,13 +167,14 @@
     <font>fonts\f_36</font>
   </fonts>
   <objects name="objects">
+    <object>objects\input</object>
     <object>objects\state</object>
     <object>objects\obj_puzzle</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_puzzle</room>
   </rooms>
-  <constants number="26">
+  <constants number="28">
     <constant name="T_BROWN">0</constant>
     <constant name="T_BLUE">1</constant>
     <constant name="T_GREEN">2</constant>
@@ -199,6 +201,8 @@
     <constant name="C_SASSY">4</constant>
     <constant name="C_BRYAN">5</constant>
     <constant name="C_KAZZAM">6</constant>
+    <constant name="IN_KEYS">1</constant>
+    <constant name="IN_POINT">2</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

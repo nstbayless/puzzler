@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>-1000</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -1016,6 +1016,7 @@ gm_csi_char_n = 6;
 
 gm_csi_sel = irandom(gm_csi_char_n-1);
 gm_csi_scroll = gm_csi_sel;
+gm_csi_card_spacing = room_width/4;
 
 tutorial_mode = 0
 </string>
@@ -1205,6 +1206,57 @@ no_input = game_message_n &gt; 0;
           <argument>
             <kind>1</kind>
             <string>if (mode==M_MOVE &amp;&amp; !no_input) {
+    if (input.input_mode == IN_POINT &amp;&amp; (input.pointer_down || input.pointer_released)) {
+        if (in_range(input.pointer_start_x,draw_puz_x,draw_puz_x+draw_puz_w)) {
+            if (in_range(input.pointer_start_y,draw_puz_y,draw_puz_y+draw_puz_h)) {
+                x_start = f((input.pointer_start_x-draw_puz_x)/interval_x)
+                y_start = f((input.pointer_start_y-draw_puz_y)/interval_y)
+                x_start = min(max(0,x_start),PUZ_WIDTH-1)
+                y_start = min(max(0,y_start),PUZ_HEIGHT-1)
+                offset_x[x_start,y_start] = (mouse_x - input.pointer_start_x)/interval_x
+                offset_y[x_start,y_start] = (mouse_y - input.pointer_start_y)/interval_y
+                touched[x_start,y_start] = true;
+                
+                //snap to axes:
+                var free_f = 1;
+                var dist = point_distance(0,0,offset_x[x_start,y_start],offset_y[x_start,y_start]);
+                var thresh = 1/4;
+                if (dist &gt; thresh)
+                    free_f = thresh / dist
+                if (abs(offset_x[x_start,y_start]) &gt; abs(offset_y[x_start,y_start]))
+                    offset_y[x_start,y_start] *= free_f;
+                else
+                    offset_x[x_start,y_start] *= free_f;
+                    
+                //maximum distance: 
+                if (abs(offset_x[x_start,y_start]) &gt; 1)
+                    offset_x[x_start,y_start]/=abs(offset_x[x_start,y_start])
+                if (abs(offset_y[x_start,y_start]) &gt; 1)
+                    offset_y[x_start,y_start]/=abs(offset_y[x_start,y_start])
+                    
+                // board boundaries:
+                if (x_start == 0)
+                    offset_x[x_start,y_start] = max(offset_x[x_start,y_start],0);
+                if (x_start == PUZ_WIDTH-1)
+                    offset_x[x_start,y_start] = min(offset_x[x_start,y_start],0);
+                if (y_start == 0)
+                    offset_y[x_start,y_start] = max(offset_y[x_start,y_start],0);
+                if (y_start == PUZ_HEIGHT-1)
+                    offset_y[x_start,y_start] = min(offset_y[x_start,y_start],0);
+                                                        
+                // move cursor:
+                if (input.pointer_released &amp;&amp; dist &gt; 0.73) {
+                    cur_sel = true;
+                    cur_x = x_start;
+                    cur_y = y_start;
+                    if (abs(offset_x[x_start,y_start]) &gt; abs(offset_y[x_start,y_start]))
+                        scr_cur_move(x_start + sign(offset_x[x_start,y_start]),y_start)
+                    else
+                        scr_cur_move(x_start,y_start + sign(offset_y[x_start,y_start]))
+                }
+            }
+        }
+    }
     if (cur_tray) {
         // cursor in pc tray
         if (keyboard_check_pressed(vk_up)) {
@@ -1375,18 +1427,18 @@ for (i=0;i&lt;party_size;i++) {
     }
 }
 
-if (mode == M_SMASH) {
-    for (x_=0;x_&lt;PUZ_WIDTH;x_++)
-            for (y_=0;y_&lt;PUZ_WIDTH;y_++) {
-                if (clear[x_,y_])
-                    clear_timer[x_,y_] --;
-            }
-}
-
 for (x_ = 0;x_ &lt; PUZ_WIDTH; x_++) {
     for (y_ = 0;y_ &lt; PUZ_WIDTH; y_++) {
         if (change_timer[x_,y_] &gt; 0)
             change_timer[x_,y_] --;
+        if (mode == M_SMASH)
+            if (clear[x_,y_])
+                clear_timer[x_,y_] --;
+        if (!touched[x_,y_]) {
+            offset_x[x_,y_]/=2;
+            offset_y[x_,y_]/=2;
+        }
+        touched[x_,y_] = false;
     }
 }
 
@@ -1446,14 +1498,21 @@ if (card_pop_queue_t &gt; 0)
           <argument>
             <kind>1</kind>
             <string>if (game_mode==GM_CHARSEL_INIT &amp;&amp;! no_input) {
-    gm_csi_scroll = (0.95)*gm_csi_scroll + (0.05)*gm_csi_sel;
+    if (input.input_mode==IN_KEYS)
+        gm_csi_scroll = (0.95)*gm_csi_scroll + (0.05)*gm_csi_sel;
+    else if (input.pointer_down &amp;&amp; in_range(input.pointer_start_y,room_height/2 - 150, room_height/2 + 150))
+        gm_csi_scroll -= input.delta_x/(gm_csi_card_spacing)
+    if (input.pointer_pressed &amp;&amp; in_range(input.pointer_start_y,room_height/2 - 70, room_height/2 + 70)) {
+        gm_csi_sel = f((mouse_x + gm_csi_scroll * gm_csi_card_spacing - room_width/2)/(gm_csi_card_spacing)+0.5)
+    }
+    var tapped_on = input.pointer_tap &amp;&amp; in_range(input.pointer_start_y,room_height/2 - 70, room_height/2 + 70)
     if (keyboard_check_pressed(vk_left)) {
         gm_csi_sel--;
     }
     if (keyboard_check_pressed(vk_right)) {
         gm_csi_sel++;
     }
-    if (scr_input_select()) {
+    if (scr_input_select() || tapped_on) {
         game_mode = GM_BATTLE;
         party_size = 1;
         var char_id = gm_csi_char[g(gm_csi_sel,gm_csi_char_n)]
@@ -1497,7 +1556,7 @@ else if (game_mode==GM_OVERWORLD &amp;&amp;! no_input) {
             <kind>1</kind>
             <string>if (game_message_n &gt; 0) {
     //dismiss message:
-    if (scr_input_select()) {
+    if (scr_input_select(0,0,room_width,room_height)) {
         scr_pop_message();
     }
 }
@@ -1577,8 +1636,8 @@ for (x_=0;x_&lt;PUZ_WIDTH;x_++) {
             cp = 0;
         type = board[x_,y_]
         col = PUZ_C[type];
-        draw_x = floor((2*x_+1)*interval_x/2 + draw_puz_x);
-        draw_y = floor((2*y_+1)*interval_y/2 + draw_puz_y);
+        draw_x = floor(x_*interval_x + draw_puz_x + interval_x/2) + offset_x[x_,y_]*interval_x;
+        draw_y = floor(y_*interval_y + draw_puz_y + interval_y/2) + offset_y[x_,y_]*interval_y;
         var ct = change_timer[x_,y_]/CHANGE_TIMER_MAX
         if (ct &gt; 0) {
             // magic change animation
@@ -1620,7 +1679,7 @@ for (x_=0;x_&lt;PUZ_WIDTH;x_++) {
     }
 }
 
-if (mode==1) {
+if (mode==1 &amp;&amp; input.input_mode == IN_KEYS) {
     // cursor
     if (cur_tray) {
         // cursor on tray

@@ -9,5 +9,8 @@ with obj_puzzle {
             minion[x_,y_] = false;
             change_timer[x_,y_] = 0
             monster_used[x_,y_] = false;
+            offset_x[x_,y_] = 0;
+            offset_y[x_,y_] = 0;
+            touched[x_,y_] = 0;
         }
 }
