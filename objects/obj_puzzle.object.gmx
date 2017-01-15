@@ -1018,6 +1018,11 @@ gm_csi_sel = irandom(gm_csi_char_n-1);
 gm_csi_scroll = gm_csi_sel;
 gm_csi_card_spacing = room_width/4;
 
+gm_ovr_card_height = 100;
+gm_ovr_card_width = 250;
+gm_ovr_card_sep = gm_ovr_card_height+20;
+gm_ovr_card_y_base = room_height/2 - gm_ovr_card_height/2
+
 tutorial_mode = 0
 </string>
           </argument>
@@ -1530,9 +1535,23 @@ else if (game_mode==GM_OVERWORLD &amp;&amp;! no_input) {
     }
     if (scr_input_select()) {
         scr_battle_begin(battle_access[overworld_sel])
+    } else {
+        var rate = 0.05;
+        if (input.input_mode==IN_KEYS)
+            overworld_scroll_y = overworld_scroll_y*(1-rate)+rate*overworld_sel;
+        if (input.pointer_down)
+            overworld_scroll_y += input.delta_y/gm_ovr_card_height
+        if (input.pointer_pressed || input.pointer_tap) {
+            if (in_range(mouse_x,room_width/2 - gm_ovr_card_width/2,room_width/2 + gm_ovr_card_width/2)) {
+                overworld_sel = f(-(mouse_y - gm_ovr_card_y_base - overworld_scroll_y*gm_ovr_card_sep)/gm_ovr_card_sep+1)
+            }
+            overworld_sel = median(0,overworld_sel,battle_access_n-1)
+        }
+        
+        if (input.pointer_tap)
+            scr_battle_begin(battle_access[overworld_sel])
     }
-    var rate = 0.05;
-    overworld_scroll_y = overworld_scroll_y*(1-rate)+rate*overworld_sel;
+        
 }
 </string>
           </argument>
@@ -2131,22 +2150,19 @@ if (game_mode == GM_CHARSEL_INIT) {
 }
 
 if (game_mode == GM_OVERWORLD) {
-    var card_width = 250;
-    var card_height = 100;
-    var card_sep = card_height+20;
     for (i=0;i&lt;battle_access_n;i++) {
         b = battle_access[i];
-        var draw_x = room_width/2 - card_width/2;
-        var draw_y = room_height/2 - card_sep*(i-overworld_scroll_y) - card_height/2
+        var draw_x = room_width/2 - gm_ovr_card_width/2;
+        var draw_y = gm_ovr_card_y_base - gm_ovr_card_sep*(i-overworld_scroll_y);
         var back_col = make_colour_rgb(120,50,20);
         if (i==overworld_sel)
             back_col = make_colour_rgb(200,230,30);
         draw_set_colour(back_col);
-        draw_rectangle(draw_x,draw_y,draw_x+card_width,draw_y+card_height,false);
+        draw_rectangle(draw_x,draw_y,draw_x+gm_ovr_card_width,draw_y+gm_ovr_card_height,false);
         var text_col = c_white;
         if (!state.battle_complete[b])
             text_col = c_yellow;
-        scr_draw_fancy_text_ext(draw_x+card_width/2,draw_y+card_height/2,f_16,text_col,a_battle_name[b])
+        scr_draw_fancy_text_ext(draw_x+gm_ovr_card_width/2,draw_y+gm_ovr_card_height/2,f_16,text_col,a_battle_name[b])
     }
     scr_draw_fancy_text_ext(room_width/2,40,f_20,c_white,"Select Battle")
     
