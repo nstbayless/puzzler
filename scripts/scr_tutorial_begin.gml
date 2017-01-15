@@ -1,5 +1,5 @@
 // tutorial whale's difficulty is constant w.r.t. character
-mon_hpmax = 20 * pc_atk[0];
+mon_hpmax = 25 * pc_atk[0];
 mon_hp = mon_hpmax;
 
 //special pattern

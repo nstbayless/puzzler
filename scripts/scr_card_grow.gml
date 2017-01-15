@@ -1,2 +1,2 @@
-mon_maxhp+=5
+mon_hpmax+=5
 mon_hp+=5

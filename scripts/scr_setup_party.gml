@@ -20,7 +20,3 @@ for (i=0;i<party_size;i++) {
 }
 
 party_hp = party_hpmax;
-
-for (i = 0; i < PARTY_RESOURCE_N;i++) {
-    party_resource[i] = 0;
-}

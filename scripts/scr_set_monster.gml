@@ -1,5 +1,6 @@
 m = argument0;
 mon_sprite = a_mon_sprite[m]
+mon_bg = a_mon_bg[m]
 mon_hpmax = a_mon_hpmax[m]
 mon_def = a_mon_def[m]
 mon_name = a_mon_name[m]

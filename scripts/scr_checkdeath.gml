@@ -11,7 +11,7 @@ if (mon_hp<=0) {
             state.battle_complete[battle_id] = true;
             //battle ended
             scr_push_message(a_battle_wintext[battle_id])
-            script_execute(a_battle_victory[battle_id])
+            script_execute(a_battle_victory[battle_id],battle_id)
             scr_overworld_begin();
             exit;
         }

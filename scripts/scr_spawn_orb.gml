@@ -26,4 +26,8 @@ if (se_enabled) {
     }
 }
 
-return t;
+var gem = (random(100)<2+gem_fairness_counter);
+gem_fairness_counter++;
+if (gem)
+    gem_fairness_counter = 0;
+return array(t,gem);

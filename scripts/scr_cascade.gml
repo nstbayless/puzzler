@@ -9,8 +9,11 @@ for (y_ = PUZ_HEIGHT-1; y_ >=0; y_--)
                 minion[x_,y_] = minion[x_,y_-1];
                 clear[x_,y_-1] = true;
                 board[x_,y_] = board[x_,y_-1]
+                gem[x_,y_] = gem[x_,y_-1]
             } else {
-                board[x_,y_] = scr_spawn_orb();
+                a_ = scr_spawn_orb();
+                board[x_,y_] = a_[0]
+                gem[x_,y_] = a_[1]
                 clear[x_,y_] = false;
                 minion[x_,y_] = false;
             }

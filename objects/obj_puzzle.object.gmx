@@ -196,6 +196,75 @@ a_card_script[C] = scr_card_orbdamage;
 a_card_type[C] = T_PURPLE;
 a_card_damage[C] = 30;
 a_card_description[C] = "Deals 30 damage for every " + PUZ_S[T_PURPLE] + " orb in the field."
+
+C++;
+SC_SHAPESHIFT = C;
+
+a_card_name[C] = "Shapeshift"
+a_card_script[C] = scr_card_orbreplace;
+a_card_type_from[C] = T_PURPLE;
+a_card_type_to[C] = T_BLUE;
+a_card_description[C] = "Purple orbs become Blue."
+
+C++;
+SC_SINMACH = C;
+
+a_card_name[C] = "Sinister Machinery"
+a_card_script[C] = scr_card_orbcorrupt;
+a_card_type[C] = T_BLUE;
+a_card_description[C] = "All blue orbs become minions."
+
+C++;
+SC_MANIPULATE = C;
+
+a_card_name[C] = "Manipulate"
+a_card_script[C] = scr_card_orbcorrupt;
+a_card_type[C] = T_YELLOW;
+a_card_description[C] = "All yellow orbs become minions."
+
+C++;
+SC_SPINKICK = C;
+
+a_card_name[C] = "Spin Kick!"
+a_card_script[C] = scr_card_attack;
+a_card_type[C] = T_ATK;
+a_card_damage[C] = 30;
+a_card_description[C] = "Deals 50 damage."
+
+C++;
+SC_EMBEZZLE = C;
+
+a_card_name[C] = "Embezzle"
+a_card_script[C] = scr_card_orbvanish;
+a_card_type[C] = T_ATK;
+a_card_description[C] = "All white orbs disappear!"
+
+C++;
+SC_STANCE=C;
+
+a_card_name[C] = "Karate Stance"
+a_card_script[C] = scr_card_updef;
+a_card_type[C] = T_ATK;
+a_card_damage[C] = 15;
+a_card_description[C] = "DEF increases by 15."
+
+C++;
+SC_MARTINI=C;
+
+a_card_name[C] = "Refreshing Martini"
+a_card_script[C] = scr_card_heal;
+a_card_type[C] = T_ATK;
+a_card_damage[C] = 100;
+a_card_description[C] = "Heals 100 hit points."
+
+C++;
+SC_WATERMELON=C;
+
+a_card_name[C] = "Summon Watermelon"
+a_card_script[C] = scr_power_watermelon
+a_card_description[C] = "Turns one orb randomly into a watermelon"
+
+C++;
 </string>
           </argument>
         </arguments>
@@ -236,7 +305,19 @@ a_card_description[C] = "Deals 30 damage for every " + PUZ_S[T_PURPLE] + " orb i
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>M = 0;
+            <string>for (i=0;i&lt;100;i++) {
+    a_mon_name[i] = "Missingo"
+    a_mon_sprite[i] = spr_mon_whale;
+    a_mon_bg[i] = spr_empty;
+    a_mon_scale[i] = 1;
+    a_mon_hpmax[i] = 1;
+    a_mon_def[i] = 0;
+    a_mon_type[i] = T_ATK;
+    a_mon_atk[i] = 1;
+    a_mon_card_scr[i] = scr_mon_classmate;
+}
+
+M = 0;
 
 a_mon_name[M] = "Tutorial Whale"
 a_mon_sprite[M] = spr_mon_whale;
@@ -322,8 +403,8 @@ a_mon_card[M,0] = array(3,2);
 M = 8;
 
 a_mon_name[M] = "Rampaging Useless Robot"
-a_mon_sprite[M] = spr_lathe;
-a_mon_hpmax[M] = 115;
+a_mon_sprite[M] = spr_mon_robo;
+a_mon_hpmax[M] = 100;
 a_mon_def[M] = 0;
 a_mon_type[M] = T_YELLOW;
 a_mon_atk[M] = 25;
@@ -338,7 +419,7 @@ M = 9;
 
 a_mon_name[M] = "H4ck the//Comput3r!!"
 a_mon_sprite[M] = spr_compy;
-a_mon_hpmax[M] = 230;
+a_mon_hpmax[M] = 170;
 a_mon_def[M] = 0;
 a_mon_type[M] = T_BLUE;
 a_mon_atk[M] = 20;
@@ -348,6 +429,20 @@ a_mon_card[M,0] = array(3,2);
 a_mon_card[M,1] = array(0,2);
 
 M = 10;
+
+a_mon_name[M] = "Large Watermelon"
+a_mon_sprite[M] = spr_mon_watermelon_small;
+a_mon_hpmax[M] = 85;
+a_mon_def[M] = 0;
+a_mon_type[M] = T_GREEN;
+a_mon_atk[M] = 5;
+a_mon_card_scr[M] = scr_mon_read_extra;
+a_mon_card_n[M] = 3;
+a_mon_card[M,0] = array(0,1);
+a_mon_card[M,1] = array(4,2);
+a_mon_card[M,2] = array(3,2);
+
+M = 11;
 
 a_mon_name[M] = "Enormous Watermelon"
 a_mon_sprite[M] = spr_mon_watermelon;
@@ -361,8 +456,6 @@ a_mon_card[M,0] = array(0,1);
 a_mon_card[M,1] = array(4,2);
 a_mon_card[M,2] = array(3,2);
 
-M = 11;
-
 M = 12;
 
 a_mon_name[M] = "Visage of Pulchritude"
@@ -371,6 +464,7 @@ a_mon_hpmax[M] = 60;
 a_mon_def[M] = 12;
 a_mon_type[M] = T_PURPLE;
 a_mon_atk[M] = 4;
+a_mon_card_scr[M] = scr_mon_read_extra;
 a_mon_card_n[M] = 2;
 a_mon_card[M,0] = array(0,1);
 a_mon_card[M,1] = array(3,2);
@@ -390,43 +484,128 @@ a_mon_card[M,1] = array(3,2);
 
 M = 14;
 
-a_mon_name[M] = "Grad Student"
-a_mon_sprite[M] = spr_mon_grad;
-a_mon_hpmax[M] = 500;
-a_mon_def[M] = 60;
+a_mon_name[M] = "Chemical Spill"
+a_mon_sprite[M] = spr_mon_spill;
+a_mon_hpmax[M] = 200;
+a_mon_def[M] = 0;
 a_mon_type[M] = T_PURPLE;
-a_mon_atk[M] = 15;
+a_mon_atk[M] = 40;
 a_mon_card_scr[M] = scr_mon_read_extra;
-a_mon_card_n[M] = 3;
-a_mon_card[M,0] = array(SC_ACID_SPLASH,2);
-a_mon_card[M,1] = array(3,1);
-a_mon_card[M,2] = array(3,1);
+a_mon_card_n[M] = 2;
+a_mon_card[M,0] = array(0,1);
+a_mon_card[M,1] = array(3,2);
 
 M = 15;
 
 a_mon_name[M] = "Grad Student"
 a_mon_sprite[M] = spr_mon_grad;
-a_mon_hpmax[M] = 2300;
-a_mon_def[M] = 0;
-a_mon_type[M] = T_BROWN;
-a_mon_atk[M] = 32;
+a_mon_hpmax[M] = 500;
+a_mon_def[M] = 30;
+a_mon_type[M] = T_PURPLE;
+a_mon_atk[M] = 15;
 a_mon_card_scr[M] = scr_mon_read_extra;
-a_mon_card_n[M] = 2;
-a_mon_card[M,0] = array(1,1);
+a_mon_card_n[M] = 3;
+a_mon_card[M,0] = array(SC_ACID_SPLASH,2);
 a_mon_card[M,1] = array(3,2);
+a_mon_card[M,2] = array(0,1);
 
 M = 16;
 
-a_mon_name[M] = "Dr. Greg Martin"
-a_mon_sprite[M] = spr_boardmember1;
-a_mon_hpmax[M] = 5700;
+a_mon_name[M] = "NaOH"
+a_mon_sprite[M] = spr_mon_NaOH;
+a_mon_hpmax[M] = 800;
 a_mon_def[M] = 0;
+a_mon_type[M] = T_BLUE;
+a_mon_atk[M] = 20;
+a_mon_card_scr[M] = scr_mon_read_extra;
+a_mon_card_n[M] = 3;
+a_mon_card[M,0] = array(SC_SHAPESHIFT,2);
+a_mon_card[M,1] = array(SC_SINMACH,1);
+a_mon_card[M,2] = array(3,1);
+
+M = 17;
+
+a_mon_name[M] = "Irish"
+a_mon_sprite[M] = spr_mon_irish;
+a_mon_hpmax[M] = 300;
+a_mon_def[M] = 100;
 a_mon_type[M] = T_YELLOW;
 a_mon_atk[M] = 50;
 a_mon_card_scr[M] = scr_mon_read_extra;
+a_mon_card_n[M] = 6;
+a_mon_card[M,0] = array(SC_MANIPULATE,1);
+a_mon_card[M,1] = array(SC_SPINKICK,1);
+a_mon_card[M,2] = array(SC_EMBEZZLE,1);
+a_mon_card[M,3] = array(3,1);
+a_mon_card[M,4] = array(SC_STANCE,1);
+a_mon_card[M,5] = array(SC_MARTINI,1);
+
+M = 18;
+
+a_mon_name[M] = "Sassy Chae-Chae HUH!!"
+a_mon_sprite[M] = spr_mon_sassy;
+a_mon_hpmax[M] = 500;
+a_mon_def[M] = 0;
+a_mon_type[M] = T_GREEN;
+a_mon_atk[M] = 30;
+a_mon_card_scr[M] = scr_mon_read_extra;
+a_mon_card_n[M] = 3;
+a_mon_card[M,0] = array(SC_WATERMELON,1);
+a_mon_card[M,1] = array(3,1);
+a_mon_card[M,2] = array(SC_WATERMELON,1);
+
+M = 19;
+
+a_mon_name[M] = "The Queen"
+a_mon_sprite[M] = spr_mon_queen;
+a_mon_hpmax[M] = 300;
+a_mon_def[M] = 80;
+a_mon_type[M] = T_GREEN;
+a_mon_atk[M] = 30;
+a_mon_card_scr[M] = scr_mon_read_extra;
+a_mon_card_n[M] = 3;
+a_mon_card[M,0] = array(3,1);
+a_mon_card[M,1] = array(3,1);
+a_mon_card[M,2] = array(0,1);
+
+M = 34;
+
+a_mon_name[M] = "Write Report"
+a_mon_sprite[M] = spr_mon_desk;
+a_mon_hpmax[M] = 320;
+a_mon_atk[M] = 10;
+a_mon_def[M] = 0;
+a_mon_type[M] = T_BROWN;
+a_mon_card_scr[M] = scr_mon_read_extra;
+a_mon_card_n[M] = 1;
+a_mon_card[M,0] = array(0,2);
+
+M = 35;
+
+a_mon_name[M] = "Superpowered Rebel!"
+a_mon_sprite[M] = spr_mon_rebel1;
+a_mon_bg[M] = spr_mon_rebel1_bg;
+a_mon_hpmax[M] = 700;
+a_mon_def[M] = 0;
+a_mon_type[M] = T_YELLOW;
+a_mon_atk[M] = 15;
+a_mon_card_scr[M] = scr_mon_read_extra;
 a_mon_card_n[M] = 2;
-a_mon_card[M,0] = array(1,1);
-a_mon_card[M,1] = array(3,2);
+a_mon_card[M,0] = array(3,3);
+a_mon_card[M,1] = array(0,2);
+
+M = 36;
+
+a_mon_name[M] = "Another Superpowered Rebel!"
+a_mon_sprite[M] = spr_mon_rebel1;
+a_mon_bg[M] = spr_mon_rebel1_bg;
+a_mon_hpmax[M] = 1100;
+a_mon_def[M] = 0;
+a_mon_type[M] = T_YELLOW;
+a_mon_atk[M] = 15;
+a_mon_card_scr[M] = scr_mon_read_extra;
+a_mon_card_n[M] = 2;
+a_mon_card[M,0] = array(3,2);
 a_mon_card[M,1] = array(0,1);
 </string>
           </argument>
@@ -469,52 +648,51 @@ a_mon_card[M,1] = array(0,1);
           <argument>
             <kind>1</kind>
             <string>a_power_name[0] = "Shapeshift"
-a_power_type[0] = T_BLUE;
-a_power_cost[0] = 8;
+a_power_cost[0] = 2
 a_power_description[0] = "All " + PUZ_S[T_BLUE] + " orbs become" + PUZ_S[T_YELLOW]
 a_power_script[0] = scr_power_shapeshift
-a_power_passive[0] = false;
+a_power_passive[0] = false
 
 a_power_name[1] = "Windfall"
-a_power_type[1] = T_PURPLE
-a_power_cost[1] = 12;
 a_power_description[1] = "30% of of all new orbs are " + PUZ_S[T_YELLOW] + "."
-a_power_script[1] = scr_power_windfall;
-a_power_passive[1] = true;
+a_power_script[1] = scr_power_windfall
+a_power_passive[1] = true
 
 a_power_name[2] = "Divide by Zero"
-a_power_type[2] = T_BROWN
-a_power_cost[2] = 27;
+a_power_cost[2] = 6
 a_power_description[2] = "Clears board and deals 50% of enemy HP in damage."
 a_power_script[2] = scr_power_divide
-a_power_passive[2] = false;
+a_power_passive[2] = false
 
 a_power_name[3] = "Gossip"
-a_power_type[3] = T_GREEN
-a_power_cost[3] = 12;
-a_power_description[3] = "Did you hear..? Yellow is the new purple! ## Lavender orbs all become " + PUZ_S[T_YELLOW] + ". ## If Sassy is nearby, she gains the power to summon watermelons."
+a_power_cost[3] = 2
+a_power_description[3] = "Did you hear..? Yellow is the new purple! ## Yellow orbs all become " + PUZ_S[T_PURPLE] + ". ## If Special Agent Sassy is nearby, she gains the power to summon watermelons."
 a_power_script[3] = scr_power_gossip
-a_power_passive[3] = false;
+a_power_passive[3] = false
 
 a_power_name[4] = "Scan"
-a_power_type[4] = T_PURPLE
-a_power_cost[4] = 18;
+a_power_cost[4] = 4
 a_power_description[4] = "Enemy defense is permanently halved."
 a_power_script[4] = scr_power_scan
-a_power_passive[4] = false;
+a_power_passive[4] = false
 
 a_power_name[5] = "Snoozing"
 a_power_description[5] = "Bryan heals the party 1% HP per turn."
 a_power_script[5] = scr_power_snooze
 a_power_end_script[5] = scr_power_snooze_cont
-a_power_passive[5] = true;
+a_power_passive[5] = true
+
+a_power_name[6] = "Confusing Pun"
+a_power_description[6] = "Enemy giggles uncontrollably.##Their next spellcard is postponed 4 turns."
+a_power_cost[6] = 3
+a_power_script[6] = scr_power_pun
+a_power_passive[6] = false;
 
 a_power_name[25] = "Summon Watermelon"
-a_power_type[25] = T_GREEN
-a_power_cost[25] = 3;
+a_power_cost[25] = 1
 a_power_description[25] = "One random orb becomes green."
-a_power_script[25] = scr_power_shapeshift
-a_power_passive[25] = false;
+a_power_script[25] = scr_power_watermelon
+a_power_passive[25] = false
 </string>
           </argument>
         </arguments>
@@ -571,7 +749,7 @@ a_pc_power[C_IRISH] = 1;
 
 a_pc_sprite[C_GUY3] = spr_guy3;
 a_pc_name[C_GUY3] = "Guy \#3"
-a_pc_hp[C_GUY3] = 500;
+a_pc_hp[C_GUY3] = 450;
 a_pc_atk[C_GUY3] = 3;
 a_pc_type[C_GUY3] = T_BROWN;
 a_pc_power[C_GUY3] = 2;
@@ -596,6 +774,13 @@ a_pc_hp[C_BRYAN] = 500;
 a_pc_atk[C_BRYAN] = 1;
 a_pc_type[C_BRYAN] = T_GREEN;
 a_pc_power[C_BRYAN] = 5;
+
+a_pc_sprite[C_KAZZAM] = spr_kazzam;
+a_pc_name[C_KAZZAM] = "Dr. Kazzam"
+a_pc_hp[C_KAZZAM] = 300;
+a_pc_atk[C_KAZZAM] = 6;
+a_pc_type[C_KAZZAM] = T_PURPLE;
+a_pc_power[C_KAZZAM] = 6;
 </string>
           </argument>
         </arguments>
@@ -680,8 +865,9 @@ a_battle_extra[B,0] = C_SASSY;
 a_battle_victory[B] = scr_vic_unlock_first;
 a_battle_description[B] = "Looks like the Queen's been gossiping again. Naturally this means giant watermelons are popping up everywhere. Better smash 'em before you get blamed for it."
 a_battle_wintext[B] = "Nicely done! That was one tough melon to crack. As a plus, you now know what you'll be eating during lunch break."
-a_battle_mon_n[B] = 1;
+a_battle_mon_n[B] = 2;
 a_battle_mon[B,0] = 10;
+a_battle_mon[B,1] = 11;
 
 B++;
 
@@ -711,13 +897,61 @@ B++;
 
 a_battle_name[B] = "Greg's Lab"
 a_battle_prq[B] = scr_bat_prq_prev;
-a_battle_victory[B] = scr_vic_unlock_classroom;
+a_battle_victory[B] = scr_vic_unlock_greglab;
 a_battle_description[B] = "You have to get to Dr. Greg before the others do!"
-a_battle_wintext[B] = "Great job! Unfortunately, that's all of the game programmed so far :("
-a_battle_mon_n[B] = 3;
+a_battle_wintext[B] = "You've successfully snuck into the lab.##Unfortunately, those pesky meddlers have already arrived.##Unfortunately, you all got tossed out of the lab for the ruckus you caused. So, looks like it's time for a showdown, which you can continue at Starbucks or something.##You're going to need backup!"
+a_battle_mon_n[B] = 2;
 a_battle_mon[B,0] = 14;
 a_battle_mon[B,1] = 15;
-a_battle_mon[B,2] = 16;
+
+B++;
+
+a_battle_name[B] = "Starbucks" // (A-team ver)
+a_battle_prq[B] = scr_bat_prq_adversaries;
+a_battle_extra[B,0] = 0;
+a_battle_victory[B] = scr_vic_none;
+a_battle_description[B] = "Agents Sassy and The Queen are always one step ahead of you! Why are they so bent on impeding your research? It's time to show them what for. At Starbucks."
+a_battle_wintext[B] = "Whew! Unfortunately that's all the game that's been programmed so far :(##Thanks for playing!"
+a_battle_mon_n[B] = 2;
+a_battle_mon[B,0] = 18;
+a_battle_mon[B,1] = 19;
+
+B++;
+
+a_battle_name[B] = "Starbucks" // (Royals ver)
+a_battle_prq[B] = scr_bat_prq_adversaries;
+a_battle_extra[B,0] = 0;
+a_battle_victory[B] = scr_vic_none;
+a_battle_unlock_char[B] = C_KAZZAM
+a_battle_description[B] = "Irish and NaOH sure are some suspicious characters, poking around in Dr. Greg's lab where they really ought not to. What are they plot-plotting?##It's time for a Starbucks Showdown."
+a_battle_wintext[B] = "Whew! Unfortunately that's all the game that's been programmed so far :(##Thanks for playing!"
+a_battle_mon_n[B] = 2;
+a_battle_mon[B,0] = 16;
+a_battle_mon[B,1] = 17;
+
+B++
+
+a_battle_name[B] = "Bureau"
+a_battle_prq[B] = scr_bat_prq_char;
+a_battle_extra[B,0] = C_KAZZAM;
+a_battle_victory[B] = scr_vic_unlock_first;
+a_battle_description[B] = "As an auspicious government agent, you used to get into a lot of adventures. These days seem pretty dull, though. Sigh. Guess it's time to write another report."
+a_battle_wintext[B] = "Nicely done! You wrote that report with pizzazz, and just in time! There's a lot of commotion going on outside. Maybe you should check it out? Better enlist one of your lackeys to help."
+a_battle_mon_n[B] = 1;
+a_battle_mon[B,0] = 34;
+
+B++
+
+a_battle_name[B] = "HQ"
+a_battle_prq[B] = scr_bat_prq_char;
+a_battle_extra[B,0] = C_KAZZAM;
+a_battle_victory[B] = scr_vic_unlock_extra
+a_battle_unlock_char[B] = C_QUEEN;
+a_battle_description[B] = "Would you believe your luck? Those pesky rebels seem to be launching an all-out assault on your headquarters, just as your shift ended! Guess it's time to show those wusses the door.##To their faces!##Because their faces will be going through the door, forcefully.##(This pun is totally great.)"
+a_battle_wintext[B] = "Haha, yes, they definitely saw the door. Yup. They'll remember the sting of your sharp wit for years to come.##And also the sting of your rapier in their faces, but, you know. Puns and all.##Puns are great.##Anyway..."
+a_battle_mon_n[B] = 1;
+a_battle_mon[B,0] = 35;
+a_battle_mon[B,1] = 36;
 
 a_battle_n = B+1;
 </string>
@@ -760,17 +994,28 @@ a_battle_n = B+1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>gm_csi_char[0] = 0;
-gm_csi_char_description[0] = "Shapeshifting Engineer"
+            <string>gm_csi_char[0] = C_IRISH;
+gm_csi_char_description[0] = "Affluent Blackbelt"
 
-gm_csi_char[1] = 1;
-gm_csi_char_description[1] = "Affluent Blackbelt"
+gm_csi_char[1] = C_NaOH;
+gm_csi_char_description[1] = "Metamorphic Engineer"
 
-gm_csi_char[2] = 4;
-gm_csi_char_description[2] = "Impulsive Otaku"
+gm_csi_char[2] = C_GUY3;
+gm_csi_char_description[2] = "Assistant Mathematician"
 
-gm_csi_char[3] = 3;
+gm_csi_char[3] = C_QUEEN;
 gm_csi_char_description[3] = "Gossipping Narcissist"
+
+gm_csi_char[4] = C_SASSY;
+gm_csi_char_description[4] = "Impulsive Otaku"
+
+gm_csi_char[5] = C_KAZZAM;
+gm_csi_char_description[5] = "Uproarious Comissary"
+
+gm_csi_char_n = 6;
+
+gm_csi_sel = irandom(gm_csi_char_n-1);
+gm_csi_scroll = gm_csi_sel;
 
 tutorial_mode = 0
 </string>
@@ -864,12 +1109,12 @@ state.start_char = 1;
 if (START_COND == 1) {
     // set up conditions on game load
     
-    party_pc[0] = C_NaOH;
-    party_pc[1] = C_IRISH;
-    party_pc[2] = C_GUY3;
-    party_pc[3] = 4;
-    god_mode = true;
-    party_size = 3;
+    party_pc[0] = C_KAZZAM;
+    party_pc[1] = C_SASSY;
+    party_pc[2] = C_QUEEN;
+    party_pc[3] = C_BRYAN;
+    //god_mode = true;
+    party_size = 2;
     state.start_char = party_pc[0];
     scr_overworld_begin();
 }
@@ -981,9 +1226,9 @@ no_input = game_message_n &gt; 0;
         
         if (keyboard_check_pressed(vk_enter) || keyboard_check_pressed(ord('Z'))) {
             // select pc power
-            if (power_cost[cur_pc_x] &lt;= party_resource[power_type[cur_pc_x]]) {
+            if (power_cost[cur_pc_x] &lt;= gem_n) {
                 suppress_show_power = true;
-                party_resource[power_type[cur_pc_x]] -= power_cost[cur_pc_x];
+                gem_n -= power_cost[cur_pc_x];
                 script_execute(power_script[cur_pc_x]);
             }
         }
@@ -1089,6 +1334,9 @@ if (mode==M_MATK) {
 if (mode==M_MSPELL) {
     smash_timer--;
     scr_mon_spell_update();
+}
+if (mode==M_PREMOVE) {
+    scr_turn_begin();
 }
 
 scr_tutorial_update();
@@ -1198,18 +1446,17 @@ if (card_pop_queue_t &gt; 0)
           <argument>
             <kind>1</kind>
             <string>if (game_mode==GM_CHARSEL_INIT &amp;&amp;! no_input) {
+    gm_csi_scroll = (0.95)*gm_csi_scroll + (0.05)*gm_csi_sel;
     if (keyboard_check_pressed(vk_left)) {
-        if (cur_pc_x &gt; 0)
-            cur_pc_x--;
+        gm_csi_sel--;
     }
     if (keyboard_check_pressed(vk_right)) {
-        if (cur_pc_x &lt; 3)
-            cur_pc_x++;
+        gm_csi_sel++;
     }
     if (scr_input_select()) {
         game_mode = GM_BATTLE;
         party_size = 1;
-        var char_id = gm_csi_char[cur_pc_x]
+        var char_id = gm_csi_char[g(gm_csi_sel,gm_csi_char_n)]
         state.start_char = char_id;
         party_pc[0] = char_id
         scr_battle_begin(0);
@@ -1355,7 +1602,12 @@ for (x_=0;x_&lt;PUZ_WIDTH;x_++) {
             draw_set_colour(c_white);
         }
         if (cp == 1) {
-            draw_sprite_ext(spr_orb,1,draw_x,draw_y,1,1,0,col,1)
+            // draw orb
+            var spr_to_draw = spr_orb;
+            if (gem[x_,y_]) spr_to_draw = spr_gem_base;
+            draw_sprite_ext(spr_to_draw,1,draw_x,draw_y,1,1,0,col,1)
+            if (gem[x_,y_])
+                draw_sprite_ext(spr_gem_spec,1,draw_x,draw_y,1,1,0,c_white,1)
             if (draw_minion_effect) {
                 draw_set_colour(c_white)
                 //draw_sprite(spr_cracks,1,draw_x,draw_y);
@@ -1405,7 +1657,8 @@ if (mode==M_ATK_HIT) {
     draw_x_offset = random(1)*(p+1)*anim_hit_power/6
     draw_y_offset = random(1)*(p+1)*anim_hit_power/6
 }
-
+// draw monster
+draw_sprite(mon_bg,1,draw_mon_x,draw_mon_y);
 draw_sprite(mon_sprite,1,draw_mon_x+draw_x_offset,draw_mon_y+draw_y_offset);
 
 draw_set_alpha(1);
@@ -1499,15 +1752,20 @@ panel_height = 100;
 // party hp bar
 draw_healthbar(draw_hpbar_bevel,draw_hpbar_y,room_width-draw_hpbar_bevel,draw_hpbar_y+draw_hpbar_height,100*party_hp/party_hpmax,c_black,c_green,c_green,0,true,true)
 draw_set_colour(c_white);
+draw_set_alpha(1);
 scr_draw_fancy_text_ext(room_width/2,draw_hpbar_y+draw_hpbar_height/2,f_14,c_white,string(party_hp) + " HP")
 
-// resources
-resource_spacing = room_width*3/5 / (PUZ_TYPE_N - 1);
-for (i=0;i&lt;PARTY_RESOURCE_N;i++) {
-    draw_x = resource_spacing*i + draw_hpbar_bevel + draw_hpbar_bevel;
-    draw_y = draw_resource_y;
-    scr_draw_fancy_text_ext(draw_x,draw_y,f_14, PUZ_C[i],party_resource[i]);
-}
+// gem bar
+var gem_spacing = 16;
+var gem_offset = draw_hpbar_bevel+2
+var gem_max_w = room_width/3;
+if (gem_n*gem_spacing &gt; gem_max_w)
+    gem_spacing = gem_max_w/gem_n;
+for(i=gem_n-1;i&gt;=0;i--){
+    draw_x = f(gem_spacing*i+gem_offset)
+    draw_y = draw_hpbar_y
+    draw_sprite(spr_gem_icon,0,draw_x,draw_y);
+}  
 
 // party cards
 for (i=0;i&lt;party_size;i++) {
@@ -1525,8 +1783,8 @@ for (i=0;i&lt;party_size;i++) {
     }
     draw_x = panel_space + panel_width*i;
     draw_set_colour(PUZ_C[pc_type[i]])
-    if (g_timer % 40 &gt; 30 &amp;&amp; party_resource[power_type[i]] &gt;= power_cost[i] &amp;&amp;!power_passive[i]) {
-        draw_set_colour(merge_colour(PUZ_C[power_type[i]],c_white,0.5))
+    if (g_timer % 50 &gt; 35 &amp;&amp; gem_n &gt;= power_cost[i] &amp;&amp;!power_passive[i]) {
+        draw_set_colour(merge_colour(PUZ_C[pc_type[i]],c_white,0.5))
     }
     draw_rectangle(draw_x,draw_y,draw_x+panel_width-panel_space,draw_y+panel_height,false)
     portrait_bevel = 4;
@@ -1694,15 +1952,16 @@ if (draw_power) {
     var pc = cur_pc_x
     var pow = pc
     var col_atk = merge_color(PUZ_C[pc_type[pc]],c_white,0.2);
-    var col_pow = merge_color(PUZ_C[power_type[pow]],c_white,0.2);
-    if (power_passive[pow])
-        col_pow = c_white;
+    var col_pow = col_atk;
     scr_draw_fancy_text_ext(box_x,box_y-des_height/2+16,f_16,col_atk,pc_name[pc]);
     scr_draw_fancy_text_ext(box_x,box_y-des_height/2+40,f_13,col_pow,"[" + power_name[pow] + "]")
-    var pow_string = "Potato"
-    if (!power_passive[pow])
-        pow_string = string(party_resource[power_type[pow]])+"/"+string(power_cost[pow]);
-    scr_draw_fancy_text_ext(box_x-des_width/2+2,box_y+des_height/2-16,f_13,col_pow,pow_string,fa_left)
+    if (!power_passive[pow]) {
+        draw_set_colour(c_white);
+        for (var i=0;i&lt; power_cost[pow];i++) {
+            draw_sprite(spr_gem_icon,0,box_x-des_width/2+2+20*i,box_y+des_height/2-26)
+        }
+    } else
+        scr_draw_fancy_text_ext(box_x-des_width/2+2,box_y+des_height/2-16,f_13,col_pow,"Potato",fa_left)
     scr_draw_fancy_text_ext(box_x+des_width/2-2,box_y+des_height/2-16,f_13,col_atk,"ATK: " + string(pc_atk[pc]),fa_right)
     
     description = power_description[pow]
@@ -1781,7 +2040,9 @@ var panel_gap = 5;
 var card_bevel = 3;
 
 if (game_mode == GM_CHARSEL_INIT) {
-    for (i=0;i&lt;4;i++) {
+    var disp_n = 4;
+    for (j=f(gm_csi_scroll)-disp_n;j&lt;f(gm_csi_scroll)+disp_n;j++) {
+        var i = g(j,gm_csi_char_n);
         var char = gm_csi_char[i];
         var spr  = a_pc_sprite[char]
         var col  = PUZ_C[a_pc_type[char]]
@@ -1790,9 +2051,9 @@ if (game_mode == GM_CHARSEL_INIT) {
         var scale = spr_width/sprite_get_width(spr)
         var panel_height = sprite_get_height(spr)*scale+2*card_bevel
         
-        var draw_x = panel_width*i+panel_gap
+        var draw_x = room_width/2 + panel_width*(j-gm_csi_scroll-0.5)
         var draw_y = room_height/2 - panel_height/2;
-        if (cur_pc_x == i)
+        if (gm_csi_sel == j)
             draw_y -= 24;
         
         draw_set_colour(col);
@@ -1803,14 +2064,15 @@ if (game_mode == GM_CHARSEL_INIT) {
     
     scr_draw_fancy_text_ext(room_width/2,room_height/4,f_16,c_white,"Select your Character")
 
-    var pc = gm_csi_char[cur_pc_x]
+    var csel = g(gm_csi_sel,gm_csi_char_n);
+    var pc = gm_csi_char[csel]
     scr_draw_fancy_text_ext(room_width/2,room_height/4+48,f_30,PUZ_C[a_pc_type[pc]],a_pc_name[pc])
     
-    scr_draw_fancy_text_ext(room_width/2,room_height/2+80,f_13,c_gray,gm_csi_char_description[cur_pc_x])
+    scr_draw_fancy_text_ext(room_width/2,room_height/2+80,f_13,c_gray,gm_csi_char_description[csel])
 }
 
 if (game_mode == GM_OVERWORLD) {
-    var card_width = 200;
+    var card_width = 250;
     var card_height = 100;
     var card_sep = card_height+20;
     for (i=0;i&lt;battle_access_n;i++) {
@@ -1819,7 +2081,7 @@ if (game_mode == GM_OVERWORLD) {
         var draw_y = room_height/2 - card_sep*(i-overworld_scroll_y) - card_height/2
         var back_col = make_colour_rgb(120,50,20);
         if (i==overworld_sel)
-            back_col = make_colour_rgb(70,130,30);
+            back_col = make_colour_rgb(200,230,30);
         draw_set_colour(back_col);
         draw_rectangle(draw_x,draw_y,draw_x+card_width,draw_y+card_height,false);
         var text_col = c_white;
@@ -1839,7 +2101,7 @@ if (game_mode == GM_OVERWORLD) {
     draw_set_font(f_12);
     var desc_height = string_height_ext(str,sep,wdesc)
     draw_set_colour(c_dkgray);
-    draw_set_alpha(0.5);
+    draw_set_alpha(0.8);
     draw_rectangle(wbev,room_height-desc_height,room_width-wbev,room_height,false);
     draw_set_halign(fa_left);
     draw_set_valign(fa_bottom);
@@ -1977,6 +2239,9 @@ if (game_message_n &gt; 0) {
         draw_text_ext(room_width/2,room_height/2 + do_sprite*image_sink,str,sep,wdesc);
         if (do_sprite)
             draw_sprite(msg_sprite,0,room_width/2-sprite_get_width(msg_sprite)/2,room_height/2+image_sink - 10 - sprite_get_height(msg_sprite))
+        draw_set_valign(fa_bottom);
+        draw_set_colour(c_dkgray);
+        draw_text(room_width/2,room_height,"[Press ENTER or Z to Dismiss]")
     }
 }
 </string>

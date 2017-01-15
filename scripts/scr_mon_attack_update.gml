@@ -4,7 +4,7 @@ for (i=0;i<mon_orb_shots_n;i++) {
     if (!mon_orb_shot_enabled[i])
         continue;
     mon_orb_shot_y[i] += mon_orb_shot_v[i]
-    mon_orb_shot_v[i] += 0.3;
+    mon_orb_shot_v[i] += 0.35;
     if (mon_orb_shot_y[i] > draw_puz_y+draw_puz_h+32) {
         mon_orb_shot_enabled[i]=false;
         party_hp -= mon_orb_shot_power[i];
@@ -27,6 +27,8 @@ for (y_=PUZ_HEIGHT-1;y_>=0;y_--) {
             mon_orb_shot_v[i] = 0;
             mon_orb_shot_power[i] = mon_atk;
             mon_orb_shot_enabled[i] = true;
+            if (board[x_,y_] == mon_type)
+                mon_orb_shot_power[i]*=2; // elemental bonus
         }
     }
 }

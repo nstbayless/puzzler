@@ -19,6 +19,11 @@ with obj_puzzle {
         minion[new_x,new_y] = minion[old_x,old_y];
         minion[old_x,old_y] = tmp_minion;
         
+        //swap gem status
+        tmp_gem = gem[new_x,new_y]
+        gem[new_x,new_y] = gem[old_x,old_y];
+        gem[old_x,old_y] = tmp_gem;
+        
         stat_swaps --;
         swapstuck = true;
         

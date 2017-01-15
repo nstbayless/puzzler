@@ -13,6 +13,7 @@ with (obj_puzzle) {
     cur_y = 2;
     cur_pc_x = 0;
     cur_tray = false;
+    gem_n=0;
     scr_setup_party();
     scr_board_randomize();
     scr_encounter_begin();

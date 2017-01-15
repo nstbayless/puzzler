@@ -7,7 +7,10 @@
   <NewExtensions/>
   <sounds name="sound"/>
   <sprites name="sprites">
+    <sprite>sprites\spr_empty</sprite>
     <sprite>sprites\spr_orb</sprite>
+    <sprite>sprites\spr_gem_spec</sprite>
+    <sprite>sprites\spr_gem_base</sprite>
     <sprite>sprites\spr_cracks</sprite>
     <sprite>sprites\spr_glow</sprite>
     <sprite>sprites\spr_NaOH</sprite>
@@ -16,11 +19,17 @@
     <sprite>sprites\spr_queen</sprite>
     <sprite>sprites\spr_sassy</sprite>
     <sprite>sprites\spr_bryan</sprite>
+    <sprite>sprites\spr_kazzam</sprite>
     <sprite>sprites\spr_shield_large</sprite>
     <sprite>sprites\spr_shield_icon</sprite>
+    <sprite>sprites\spr_gem_icon</sprite>
     <sprites name="monsters">
+      <sprites name="bg">
+        <sprite>sprites\spr_mon_rebel1_bg</sprite>
+      </sprites>
       <sprite>sprites\spr_lathe</sprite>
       <sprite>sprites\spr_mon_watermelon</sprite>
+      <sprite>sprites\spr_mon_watermelon_small</sprite>
       <sprite>sprites\spr_compy</sprite>
       <sprite>sprites\spr_mon_whale</sprite>
       <sprite>sprites\spr_classmate1</sprite>
@@ -28,6 +37,14 @@
       <sprite>sprites\spr_mon_visage</sprite>
       <sprite>sprites\spr_mon_janitor</sprite>
       <sprite>sprites\spr_mon_grad</sprite>
+      <sprite>sprites\spr_mon_spill</sprite>
+      <sprite>sprites\spr_mon_NaOH</sprite>
+      <sprite>sprites\spr_mon_irish</sprite>
+      <sprite>sprites\spr_mon_sassy</sprite>
+      <sprite>sprites\spr_mon_queen</sprite>
+      <sprite>sprites\spr_mon_robo</sprite>
+      <sprite>sprites\spr_mon_desk</sprite>
+      <sprite>sprites\spr_mon_rebel1</sprite>
     </sprites>
   </sprites>
   <backgrounds name="background"/>
@@ -44,6 +61,7 @@
       <script>scripts\scr_power_scan.gml</script>
       <script>scripts\scr_power_snooze.gml</script>
       <script>scripts\scr_power_snooze_cont.gml</script>
+      <script>scripts\scr_power_pun.gml</script>
       <script>scripts\scr_power_watermelon.gml</script>
     </scripts>
     <scripts name="monster">
@@ -59,6 +77,12 @@
       <script>scripts\scr_card_grow.gml</script>
       <script>scripts\scr_card_repair.gml</script>
       <script>scripts\scr_card_orbdamage.gml</script>
+      <script>scripts\scr_card_orbreplace.gml</script>
+      <script>scripts\scr_card_orbcorrupt.gml</script>
+      <script>scripts\scr_card_orbvanish.gml</script>
+      <script>scripts\scr_card_attack.gml</script>
+      <script>scripts\scr_card_updef.gml</script>
+      <script>scripts\scr_card_heal.gml</script>
     </scripts>
     <scripts name="tutorial">
       <script>scripts\scr_tutorial_begin.gml</script>
@@ -70,10 +94,13 @@
         <script>scripts\scr_bat_prq_prev.gml</script>
         <script>scripts\scr_bat_prq_first_complete.gml</script>
         <script>scripts\scr_bat_prq_sat.gml</script>
+        <script>scripts\scr_vic_unlock_extra.gml</script>
+        <script>scripts\scr_bat_prq_adversaries.gml</script>
       </scripts>
       <scripts name="victory">
         <script>scripts\scr_vic_none.gml</script>
         <script>scripts\scr_vic_unlock_first.gml</script>
+        <script>scripts\scr_vic_unlock_greglab.gml</script>
         <script>scripts\scr_vic_unlock_classroom.gml</script>
       </scripts>
     </scripts>
@@ -92,7 +119,7 @@
       <script>scripts\scr_cur_move.gml</script>
       <script>scripts\scr_endturn.gml</script>
       <script>scripts\scr_smash.gml</script>
-      <script>scripts\scr_smash_orb_col.gml</script>
+      <script>scripts\scr_smash_orb.gml</script>
       <script>scripts\scr_cascade.gml</script>
       <script>scripts\scr_spawn_orb.gml</script>
       <script>scripts\scr_attack_begin.gml</script>
@@ -120,7 +147,9 @@
     <script>scripts\f.gml</script>
     <script>scripts\print.gml</script>
     <script>scripts\array.gml</script>
+    <script>scripts\g.gml</script>
   </scripts>
+  <shaders name="shaders"/>
   <fonts name="fonts">
     <font>fonts\f_10</font>
     <font>fonts\f_12</font>
@@ -143,7 +172,7 @@
   <rooms name="rooms">
     <room>rooms\rm_puzzle</room>
   </rooms>
-  <constants number="24">
+  <constants number="26">
     <constant name="T_BROWN">0</constant>
     <constant name="T_BLUE">1</constant>
     <constant name="T_GREEN">2</constant>
@@ -159,6 +188,7 @@
     <constant name="M_ATK_HIT">7</constant>
     <constant name="M_MATK">8</constant>
     <constant name="M_MSPELL">9</constant>
+    <constant name="M_PREMOVE">10</constant>
     <constant name="GM_BATTLE">1</constant>
     <constant name="GM_CHARSEL_INIT">2</constant>
     <constant name="GM_OVERWORLD">3</constant>
@@ -168,6 +198,7 @@
     <constant name="C_QUEEN">3</constant>
     <constant name="C_SASSY">4</constant>
     <constant name="C_BRYAN">5</constant>
+    <constant name="C_KAZZAM">6</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

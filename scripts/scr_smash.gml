@@ -10,6 +10,7 @@ for (y_=0;y_<PUZ_WIDTH;y_++) {
         if (smash_found)
             break;
         type = board[x_,y_];
+        n_adjacent = 0;
         if (x_<=PUZ_WIDTH-streak && !smashed_h[x_,y_])
             if (board[x_+1,y_]==type && board[x_+2,y_]==type) {
                 smash_found = true;
@@ -19,30 +20,33 @@ for (y_=0;y_<PUZ_WIDTH;y_++) {
                         break;
                     clear[x_smash,y_] = true;
                     clear_timer[x_smash,y_] = SMASH_ANIM_MAX_T;
+                    if (!smashed_h[x_smash,y_] && !smashed_v[x_smash,y_])
+                        scr_smash_orb(array(type,gem[x_smash,y_]));
                     smashed_h[x_smash,y_] = true;
                     smashes++;
                     n_adjacent++;
-                    scr_smash_orb_col(type);
                 }
-                combo += n_adjacent-2;
+                combo += 1;
             }
-        if (y_<=PUZ_HEIGHT-streak && !smashed_v[x_,y_])
+        n_adjacent = 0;
+        if (y_<=PUZ_HEIGHT-streak && !smashed_v[x_,y_]) {
             if (board[x_,y_+1]==type && board[x_,y_+2]==type) {
                 smash_found = true;
-                combo++;
                 n_adjacent=0;
                 for (y_smash = y_; y_smash < PUZ_HEIGHT; y_smash++) {
                     if (board[x_,y_smash]!=type)
                         break;
                     clear[x_,y_smash] = true;
+                    if (!smashed_h[x_,y_smash] && !smashed_v[x_,y_smash])
+                        scr_smash_orb(array(type,gem[x_,y_smash]));
                     smashed_v[x_,y_smash] = true;
                     smashes++;
                     clear_timer[x_,y_smash] = SMASH_ANIM_MAX_T;
                     n_adjacent++;
-                    scr_smash_orb_col(type);
-                }                  
-                combo += n_adjacent-2;
+                }               
+                combo += 1;
             }
+        }
     }
 }
 
