@@ -83,6 +83,11 @@
       <script>scripts\scr_card_attack.gml</script>
       <script>scripts\scr_card_updef.gml</script>
       <script>scripts\scr_card_heal.gml</script>
+      <script>scripts\scr_card_xd.gml</script>
+      <script>scripts\scr_card_dominate.gml</script>
+      <script>scripts\scr_card_cadenza.gml</script>
+      <script>scripts\scr_card_gossip.gml</script>
+      <script>scripts\scr_card_senpai.gml</script>
     </scripts>
     <scripts name="tutorial">
       <script>scripts\scr_tutorial_begin.gml</script>
@@ -144,6 +149,9 @@
     <script>scripts\scr_set_monster.gml</script>
     <script>scripts\scr_set_mode.gml</script>
     <script>scripts\scr_draw_fancy_text.gml</script>
+    <script>scripts\scr_uncorrupt.gml</script>
+    <script>scripts\scr_corrupt.gml</script>
+    <script>scripts\scr_minion_count.gml</script>
     <script>scripts\scr_draw_fancy_text_ext.gml</script>
     <script>scripts\f.gml</script>
     <script>scripts\print.gml</script>
@@ -170,6 +178,7 @@
   <objects name="objects">
     <object>objects\input</object>
     <object>objects\state</object>
+    <object>objects\display</object>
     <object>objects\obj_puzzle</object>
   </objects>
   <rooms name="rooms">

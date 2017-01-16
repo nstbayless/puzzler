@@ -9,6 +9,7 @@ mon_atk = a_mon_atk[m];
 mon_card_scr = a_mon_card_scr[m];
 
 mon_hp = mon_hpmax;
+mon_hp_prev = mon_hp
 mon_hp_residue = mon_hp;
 
 mon_id = m;

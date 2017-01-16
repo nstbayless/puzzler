@@ -32,7 +32,7 @@ PUZ_HEIGHT = 5;
 PUZ_TYPE_N = 6;
 
 PUZ_C[T_BROWN] = make_colour_hsv(10,240,160);
-S_BROWN = "brown"
+PUZ_S[T_BROWN] = "brown"
 
 PUZ_C[T_BLUE] = c_blue;
 PUZ_S[T_BLUE] = "blue";
@@ -262,9 +262,42 @@ SC_WATERMELON=C;
 
 a_card_name[C] = "Summon Watermelon"
 a_card_script[C] = scr_power_watermelon
-a_card_description[C] = "Turns one orb randomly into a watermelon"
+a_card_description[C] = "Turns one orb randomly into a green orb"
 
 C++;
+SC_XD=C;
+
+a_card_name[C] = "XD XD XD!!!"
+a_card_script[C] = scr_card_xd
+a_card_description[C] = "All orbs on either diagonal become minions"
+
+C++;
+SC_SENPAI=C;
+
+a_card_name[C] = "Sorry Senpai!"
+a_card_script[C] = scr_card_senpai
+a_card_description[C] = "One orb randomly stops being a minion"
+
+C++;
+SC_CADENZA = C;
+
+a_card_name[C] = "You Messed Up#The Cadenza!"
+a_card_script[C] = scr_card_cadenza
+a_card_description[C] = "##The damage inflicted last turn is undone.##You better do it right this time."
+
+C++;
+SC_GOSSIP = C;
+
+a_card_name[C] = "Impish Gossip"
+a_card_script[C] = scr_card_gossip
+a_card_description[C] = "Player colours are randomized"
+
+C++;
+SC_DOMINATION = C;
+
+a_card_name[C] = "World Domination";
+a_card_script[C] = scr_card_dominate;
+a_card_description[C] = "All orbs become minions."
 </string>
           </argument>
         </arguments>
@@ -544,29 +577,30 @@ M = 18;
 
 a_mon_name[M] = "Sassy Chae-Chae HUH!!"
 a_mon_sprite[M] = spr_mon_sassy;
-a_mon_hpmax[M] = 500;
+a_mon_hpmax[M] = 2500;
 a_mon_def[M] = 0;
 a_mon_type[M] = T_GREEN;
 a_mon_atk[M] = 30;
 a_mon_card_scr[M] = scr_mon_read_extra;
-a_mon_card_n[M] = 3;
+a_mon_card_n[M] = 4;
 a_mon_card[M,0] = array(SC_WATERMELON,1);
-a_mon_card[M,1] = array(3,1);
+a_mon_card[M,1] = array(SC_XD,3);
+a_mon_card[M,3] = array(SC_SENPAI,1);
 a_mon_card[M,2] = array(SC_WATERMELON,1);
 
 M = 19;
 
 a_mon_name[M] = "The Queen"
 a_mon_sprite[M] = spr_mon_queen;
-a_mon_hpmax[M] = 300;
+a_mon_hpmax[M] = 800;
 a_mon_def[M] = 80;
 a_mon_type[M] = T_GREEN;
-a_mon_atk[M] = 30;
+a_mon_atk[M] = 5;
 a_mon_card_scr[M] = scr_mon_read_extra;
 a_mon_card_n[M] = 3;
-a_mon_card[M,0] = array(3,1);
-a_mon_card[M,1] = array(3,1);
-a_mon_card[M,2] = array(0,1);
+a_mon_card[M,0] = array(SC_CADENZA,1);
+a_mon_card[M,1] = array(SC_DOMINATION,1);
+a_mon_card[M,2] = array(SC_GOSSIP,5);
 
 M = 34;
 
@@ -649,7 +683,7 @@ a_mon_card[M,1] = array(0,1);
             <kind>1</kind>
             <string>a_power_name[0] = "Shapeshift"
 a_power_cost[0] = 2
-a_power_description[0] = "All " + PUZ_S[T_BLUE] + " orbs become" + PUZ_S[T_YELLOW]
+a_power_description[0] = "All " + PUZ_S[T_BLUE] + " orbs become " + PUZ_S[T_YELLOW]
 a_power_script[0] = scr_power_shapeshift
 a_power_passive[0] = false
 
@@ -659,7 +693,7 @@ a_power_script[1] = scr_power_windfall
 a_power_passive[1] = true
 
 a_power_name[2] = "Divide by Zero"
-a_power_cost[2] = 6
+a_power_cost[2] = 11
 a_power_description[2] = "Clears board and deals 50% of enemy HP in damage."
 a_power_script[2] = scr_power_divide
 a_power_passive[2] = false
@@ -1115,12 +1149,12 @@ state.start_char = 1;
 if (START_COND == 1) {
     // set up conditions on game load
     
-    party_pc[0] = C_KAZZAM;
-    party_pc[1] = C_SASSY;
-    party_pc[2] = C_QUEEN;
+    party_pc[0] = C_NaOH;
+    party_pc[1] = C_IRISH;
+    party_pc[2] = C_GUY3;
     party_pc[3] = C_BRYAN;
-    //god_mode = true;
-    party_size = 2;
+    god_mode = true;
+    party_size = 4;
     state.start_char = party_pc[0];
     scr_overworld_begin();
 }
